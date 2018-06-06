@@ -1,0 +1,15 @@
+title: 玲珑少年
+# theme: jekyll-theme-tactile
+
+# Build settings
+markdown: kramdown
+plugins_dir:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-lunr-js-search
+
+github_username: auaa
+
+plugins: [jekyll-paginate]
+paginate: 10
+paginate_path: "page:num"

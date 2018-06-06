@@ -1,0 +1,71 @@
+---
+layout: default
+---
+
+<div class="navpost-part">
+  <div id="NextPrevPosts">
+    {% if page.previous %}
+<div class="prev" data-aos="slide-right" data-aos-delay="1.5s">
+<div class="arrow">
+  <svg class="icon" aria-hidden="true">
+	  <use xlink:href="#icon-fanhuijiantou"></use>
+	</svg>
+  <div class="preview">
+    <a class="pull-left preview-content bold" href="{{ BASE_PATH }}{{ page.previous.url }}">
+      <span>{{ page.previous.title }}</span>
+    </a>
+  </div>
+</div>
+</div>
+{% endif %}
+
+{% if page.next %}
+<div class="next" data-aos="slide-left" data-aos-delay="1.5s">
+  <div class="arrow">
+    <svg class="icon" aria-hidden="true">
+  	  <use xlink:href="#icon-jinrujiantou"></use>
+  	</svg>
+    <div class="preview">
+      <a class="pull-right preview-content bold" href="{{ BASE_PATH }}{{ page.next.url }}">
+        <span>{{ page.next.title }}</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endif %}
+</div>
+</div>
+
+<div id="main" class="content">
+<div class="container">
+<article id="post-1202" class="js-gallery post-1202 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+<section class="post_content">
+<header class="post_header">
+<h1 class="post_title" >{{ page.title | escape }}</h1>
+</header>
+<div class="meta split split--responsive cf">
+  <div class="split__title">
+    {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
+    <time datetime="{{ page.date | date: date_format }}">{{ page.date | date: date_format }}</time>
+    <span class="">
+      <a href="" rel="tag">{{page.category}}</a>
+    </span>
+  </div>
+  <div id="social-share">
+    <span class="entypo-share">
+      <svg class="icon" aria-hidden="true" style="font-size:20px;">
+        <use xlink:href="#icon-fenxiang"></use>
+      </svg> 分享
+    </span>
+  </div>
+</div>
+
+<div class="post-body js-gallery">
+{{ content }}
+
+<p class="alert alert--success">版权声明：本文为博主原创文章，转载需注明出处。</p>
+</div>
+</section>
+</article>
+</div>
+</div>
