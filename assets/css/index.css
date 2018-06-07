@@ -5723,7 +5723,6 @@ img.mfp-img {
 
 /* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
 html {
-  color: #333;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-rendering: optimizelegibility;
@@ -5856,7 +5855,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "PingFang SC", "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
   -webkit-font-smoothing: initial;
   font-weight: 100;
-  color: var(--text-color);
   line-height: 1.35;
   font-variant-numeric: lining-nums;
   margin-bottom: 1em;
