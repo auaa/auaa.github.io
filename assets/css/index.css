@@ -2616,9 +2616,6 @@ nav#comments-navi {
 		margin-bottom: 12px;
 		float: none;
 	}
-	#social-share{
-		display: none;
-	}
 }
 
 .comment-awaiting-moderation {
@@ -3603,6 +3600,9 @@ nav#comments-navi {
 	#primary-menu {
 		display: block;
 		float: none
+	}
+	#social-share{
+		display: none;
 	}
 	.navi {
 		position: fixed;
