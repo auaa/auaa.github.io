@@ -35,6 +35,10 @@ layout: default
 {% endif %}
 </div>
 </div>
+<div id="social-share">
+  <span class="entypo-share">
+  </span>
+</div>
 
 <div id="main" class="content">
 <div class="container">
@@ -49,13 +53,6 @@ layout: default
     <time datetime="{{ page.date | date: date_format }}">{{ page.date | date: date_format }}</time>
     <span class="">
       <a href="" rel="tag">{{page.category}}</a>
-    </span>
-  </div>
-  <div id="social-share">
-    <span class="entypo-share">
-      <svg class="icon" aria-hidden="true" style="font-size:20px;">
-        <use xlink:href="#icon-fenxiang"></use>
-      </svg> 分享
     </span>
   </div>
 </div>
