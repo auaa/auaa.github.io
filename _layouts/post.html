@@ -1,39 +1,6 @@
 ---
 layout: default
 ---
-<div class="navpost-part">
-  <div id="NextPrevPosts">
-    {% if page.previous %}
-<div class="prev" data-aos="slide-right" data-aos-delay="1.5s">
-<div class="arrow">
-  <svg class="icon" aria-hidden="true">
-	  <use xlink:href="#icon-fanhuijiantou"></use>
-	</svg>
-  <div class="preview">
-    <a class="pull-left preview-content bold" href="{{ BASE_PATH }}{{ page.previous.url }}">
-      <span>{{ page.previous.title }}</span>
-    </a>
-  </div>
-</div>
-</div>
-{% endif %}
-
-{% if page.next %}
-<div class="next" data-aos="slide-left" data-aos-delay="1.5s">
-  <div class="arrow">
-    <svg class="icon" aria-hidden="true">
-  	  <use xlink:href="#icon-jinrujiantou"></use>
-  	</svg>
-    <div class="preview">
-      <a class="pull-right preview-content bold" href="{{ BASE_PATH }}{{ page.next.url }}">
-        <span>{{ page.next.title }}</span>
-      </a>
-    </div>
-  </div>
-</div>
-{% endif %}
-</div>
-</div>
 <div id="social-share">
   <span class="entypo-share">
   </span>
@@ -61,6 +28,18 @@ layout: default
 
 <p class="alert alert--success">版权声明：本文为博主原创文章，转载需注明出处。</p>
 </div>
+
+<div class="pagination js-pagination">
+<div class="js-next posts_pagination">
+{% if page.previous %}
+  <a class="pagination-previous gaz-btn normal" href="{{ BASE_PATH }}{{ page.previous.url }}">上一页</a>
+{% endif %}
+{% if page.next %}
+  <a class="pagination-next gaz-btn normal" href="{{ BASE_PATH }}{{ page.next.url }}">下一页</a>
+{% endif %}
+</div>
+</div>
+
 </section>
 </article>
 </div>

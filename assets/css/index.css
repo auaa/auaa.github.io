@@ -1103,7 +1103,6 @@ input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit
 	background: #01AAED;
 	font-size: 1em;
 }
-
 .gaz-btn {
 	font-size: .8em;
 	font-weight: 700;
@@ -1114,7 +1113,7 @@ input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit
 	border: none;
 	-webkit-transition: all .2s;
 	transition: all .2s;
-	display: inline-block
+	display: inline-block;
 }
 
 .pull-right {
@@ -6207,4 +6206,11 @@ a.md-toc-inner {
 ::-webkit-scrollbar-corner {
   display: none;
   background: transparent;
+}
+.posts_pagination{
+	margin-top: 20px;
+}
+
+.posts_pagination a{
+	text-decoration: none;
 }
