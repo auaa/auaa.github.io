@@ -8,7 +8,7 @@ pageid: 'index'
     <div class="posts eleven columns">
       {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
       {% for post in paginator.posts %}
-			<article class="post">
+			<article class="post animated pulse">
 				<div class="entry-title">
 					<a href="{{ post.url | relative_url }}">
 						<h3>{{ post.title | escape }}</h3>
