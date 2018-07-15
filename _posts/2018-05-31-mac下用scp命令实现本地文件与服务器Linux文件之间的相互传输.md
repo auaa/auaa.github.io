@@ -11,10 +11,6 @@ published: true
 excerpt: 'mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输'
 ---
 
-# mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输
-
-
-
 ### scp的复制
 
 查看scp帮助：sup -h      

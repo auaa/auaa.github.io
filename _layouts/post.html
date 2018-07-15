@@ -1,7 +1,57 @@
 ---
 layout: default
 ---
-<div id="social-share">
+
+<section class="article">
+		<!-- container -->
+		<div class="container">
+
+				<!-- article -->
+				<article class="post">
+
+					<div class="entry-meta sixteen columns left" s>
+						<h1>{{ page.title | escape }}</h1>
+
+            {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
+						<span class="date">{{ page.date | date: date_format }}</span>
+            <span class="author">{{page.category}}</span>
+					</div>
+
+					<!-- .entry-content -->
+					<div class="entry-content columns alignleft">
+            {{ content }}
+					</div>
+					<hr>
+					<!-- .entry-content -->
+				</article>
+				<!-- article -->
+		</div>
+		<!-- container -->
+	</div>
+</section>
+
+<div class="navigate black" >
+	<div class="info container">
+
+		<div class="eight columns alignleft pagination">
+			{% if page.previous %}
+			<a href='{{ BASE_PATH }}{{ page.previous.url }}' title="{{ page.previous.title }}">Prev:{{ page.previous.title }}</a>
+			{% else %}
+			<span>已经是第一篇了</span>
+			{% endif %}
+		</div>
+
+		<div class="eight columns alignright pagination">
+				{% if page.next %}
+				<a href='{{ BASE_PATH }}{{ page.next.url }}' title="{{ page.next.title }}">Next:{{ page.next.title }}</a
+				{% else %}
+				<span>已经是最后一篇了</span>
+				{% endif %}
+		</div>
+	</div>
+</div>
+
+<!-- <div id="social-share">
   <span class="entypo-share">
   </span>
 </div>
@@ -43,4 +93,4 @@ layout: default
 </section>
 </article>
 </div>
-</div>
+</div> -->

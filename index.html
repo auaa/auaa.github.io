@@ -2,78 +2,28 @@
 layout: default
 pageid: 'index'
 ---
-<div id="main" class="content">
-<div class="container">
-<article>
-<div class="posts-list js-posts">
-  <div class="post post-layout-list" data-aos="fade-up">
-    <div class="quote_box">
-      <div class="quote_ttl">
-        <span>山丘</a>
-      </div>
-      <div class="quote_center">
-        <p>越过山丘 虽然已白了头<br/>喋喋不休 时不我予的哀愁<br/>
-          还未如愿见着不朽<br/>就把自己先搞丢<br/>越过山丘 才发现无人等候<br/>
-          喋喋不休 再也唤不回了温柔<br/>为何记不得上一次是谁给的拥抱<br/>
-      </p>
-      </div>
-    </div>
-  </div>
-  {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
-  {% for post in paginator.posts %}
-<div class="post post-layout-list" data-aos="fade-up">
-	<div class="postnormal review ">
-		<div class="post-container review-item">
-			<div class="row review-item-wrapper">
-				<div class="col-sm-3">
-					<a rel="nofollow" href="{{ post.url | relative_url }}">
-						<div class="review-item-img"
-						style="background-image: url({{"/assets/images/tu.jpg" | relative_url}});"></div>
+
+<section class="blog">
+  <div class="container">
+    <div class="posts eleven columns">
+      {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
+      {% for post in paginator.posts %}
+			<article class="post">
+				<div class="entry-title">
+					<a href="{{ post.url | relative_url }}">
+						<h3>{{ post.title | escape }}</h3>
 					</a>
 				</div>
-				<div class="col-sm-9 flex-xs-middle">
-					<div class="review-item-title">
-            <a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title | escape }}</a>
-          </div>
-					<div class="review-item-creator"><b>发布日期：</b>{{ post.date | date: date_format }}</div>
-					<span class="review-item-info"><b>标签：</b>{{post.category}}</span>
+        <!-- <div class="entry-content">
+          <p>{{ post.excerpt }}</p>
+          <button href="#" class="more">更多</button>
+        </div> -->
+				<div class="entry-meta">
+					<span class="date">{{ post.date | date: date_format }}</span>
+					<span class="author">{{post.category}}</span>
 				</div>
-			</div>
-			<div class="review-bg-wrapper">
-				<div class="bg-blur" style="background-image: url({{"/assets/images/item.jpg" | relative_url}});"></div>
-			</div>
-		</div>
-		<div class="post-container">
-			<div class="entry-content">{{ post.excerpt }}</div>
-			<div class="post-footer">
-				<a class="gaz-btn primary pull-right" href="{{ post.url | relative_url }}">READ MORE</a>
-			</div>
-		</div>
-	</div>
-</div>
-  {% endfor %}
-</div>
-<!-- post-formats end Infinite Scroll star -->
-</article>
-<!-- post-formats -->
-<div class="pagination js-pagination">
-<div class="js-next pagination__load">
-  {% if paginator.previous_page %}
-    <a class="pagination-previous gaz-btn normal" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">
-      <svg class="icon" aria-hidden="true" style="font-size:1em;color:#FFF;">
-        <use xlink:href="#icon-fanhuijiantou"></use>
-      </svg>上一页
-    </a>
-  {% endif %}
-  {% if paginator.next_page %}
-    <a class="pagination-next gaz-btn normal" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">
-      下一页<svg class="icon" aria-hidden="true" style="font-size:1em;color:#FFF;">
-        <use xlink:href="#icon-jinrujiantou"></use>
-      </svg>
-    </a>
-  {% endif %}
-</div>
-</div>
-<!-- -pagination  -->
-    </div>
-</div>
+			</article>
+      {% endfor %}
+     </div>
+  </div>
+</section>
