@@ -31,9 +31,9 @@ layout: default
 </section>
 
 <div class="navigate black" >
-	<div class="info container">
+	<div class="info container row">
 
-		<div class="eight columns alignleft pagination">
+		<div class="one-half column alignleft pagination">
 			{% if page.previous %}
 			<a href='{{ BASE_PATH }}{{ page.previous.url }}' title="{{ page.previous.title }}">Prev:{{ page.previous.title }}</a>
 			{% else %}
@@ -41,7 +41,7 @@ layout: default
 			{% endif %}
 		</div>
 
-		<div class="eight columns alignright pagination">
+		<div class="one-half column alignright pagination">
 				{% if page.next %}
 				<a href='{{ BASE_PATH }}{{ page.next.url }}' title="{{ page.next.title }}">Next:{{ page.next.title }}</a
 				{% else %}
@@ -50,47 +50,3 @@ layout: default
 		</div>
 	</div>
 </div>
-
-<!-- <div id="social-share">
-  <span class="entypo-share">
-  </span>
-</div>
-
-<div id="main" class="content">
-<div class="container">
-<article id="post-1202" class="js-gallery post-1202 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
-<section class="post_content">
-<header class="post_header">
-<h1 class="post_title" >{{ page.title | escape }}</h1>
-</header>
-<div class="meta split split--responsive cf">
-  <div class="split__title">
-    {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
-    <time datetime="{{ page.date | date: date_format }}">{{ page.date | date: date_format }}</time>
-    <span class="">
-      <a href="" rel="tag">{{page.category}}</a>
-    </span>
-  </div>
-</div>
-
-<div class="post-body js-gallery">
-{{ content }}
-
-<p class="alert alert--success">版权声明：本文为博主原创文章，转载需注明出处。</p>
-</div>
-
-<div class="pagination js-pagination">
-<div class="js-next posts_pagination">
-{% if page.previous %}
-  <a class="pagination-previous gaz-btn normal" href="{{ BASE_PATH }}{{ page.previous.url }}">上一页</a>
-{% endif %}
-{% if page.next %}
-  <a class="pagination-next gaz-btn normal" href="{{ BASE_PATH }}{{ page.next.url }}">下一页</a>
-{% endif %}
-</div>
-</div>
-
-</section>
-</article>
-</div>
-</div> -->
