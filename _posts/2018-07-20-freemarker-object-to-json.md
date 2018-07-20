@@ -88,9 +88,9 @@ ${objectToJsonFunction(x)}
 
 以下是图解获取request对象的属性值：直接拷贝上面的代码使用即可。
 
-![使用代码](./assets/20180720113459.png)
+![使用代码](/assets/img/20180720113459.png)
 
-![使用代码](./assets/20180720113548.png)
+![使用代码](/assets/img/20180720113548.png)
 
 最终获得request的对应属性值分别如下：
 
