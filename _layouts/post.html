@@ -2,51 +2,67 @@
 layout: default
 ---
 
-<section class="article">
-		<!-- container -->
-		<div class="container">
+<header class="app-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="branding-wrap ">
+                    <!--brand start-->
+                    <div class="navbar-brand">
+                        <a class="" href="/">
+                            <img src="/assets/images/logo.png" srcset="/assets/images/logo@2x.jpg 2x" alt="玲珑少年">
+                        </a>
+                    </div>
+                    <!--brand end-->
+                </div>
+                <!--<ul class="header-links hide-arrow navbar">
+                    <li class="nav-item search-bar">
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#searchModal">
+                            BUTTON
+                        </button>
+                    </li>
+                </ul>-->
+            </div>
+        </div>
+    </div>
+</header>
 
-				<!-- article -->
-				<article class="post animated slideInUp">
-
-					<div class="entry-meta sixteen columns left" s>
-						<h1>{{ page.title | escape }}</h1>
-
-            {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
-						<span class="date">{{ page.date | date: date_format }}</span>
-            <span class="author">{{page.category}}</span>
-					</div>
-
-					<!-- .entry-content -->
-					<div class="entry-content columns alignleft">
-            {{ content }}
-					</div>
-					<hr>
-					<!-- .entry-content -->
-				</article>
-				<!-- article -->
-		</div>
-		<!-- container -->
-	</div>
-</section>
-
-<div class="navigate black" >
-	<div class="info container row">
-
-		<div class="one-half column alignleft pagination">
-			{% if page.previous %}
-			<a href='{{ BASE_PATH }}{{ page.previous.url }}' title="{{ page.previous.title }}">Prev:{{ page.previous.title }}</a>
-			{% else %}
-			<span>已经是第一篇了</span>
-			{% endif %}
-		</div>
-
-		<div class="one-half column alignright pagination">
-				{% if page.next %}
-				<a href='{{ BASE_PATH }}{{ page.next.url }}' title="{{ page.next.title }}">Next:{{ page.next.title }}</a
-				{% else %}
-				<span>已经是最后一篇了</span>
-				{% endif %}
-		</div>
-	</div>
+<div class="content-wrapper">
+    <div class="container">
+    <div class="container-fluid">
+        <div class="card card-shadow">
+            <div class="card-header border-0">
+                <div class="custom-title-wrap bar-primary">
+                    <div class="custom-title">{{ page.title | escape }}</div>
+                    {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
+                    <div class="custom-post-title">
+                        <span class="date">{{ page.date | date: date_format }}</span>
+                        <a class="btn-link" href="#">{{page.category}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {{ content }}
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if page.previous %}
+                        上一篇:<a href='{{ BASE_PATH }}{{ page.previous.url }}' title="{{ page.previous.title }}">{{ page.previous.title }}</a>
+                        {% else %}
+                        <span>已经是第一篇了</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        {% if page.next %}
+                        下一篇:<a href='{{ BASE_PATH }}{{ page.next.url }}' title="{{ page.next.title }}">{{ page.next.title }}</a
+                                {% else %}
+                        <span>已经是最后一篇了</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
