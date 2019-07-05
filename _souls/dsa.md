@@ -1,8 +1,6 @@
 ---
 layout: post
 title: dsa
-feature_text: '#fdsfdsafdsaf'
-excerpt: fdsa
 ---
 ## fadsfdsagfdsgsd
 # fsadfdasfasdfasd
@@ -15,7 +13,7 @@ fdsafsadfsdafadsfdsafdas
 fsadfdsa
 fasdg
 dfs
-g
+gfdasfdas
 sfg
 sdf
 g
