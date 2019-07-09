@@ -1,17 +1,11 @@
 ---
 layout: post
 title:  docker安装mysql
-author: 玲珑少年
-comments: true
 date:   2019-06-29 10:49:27 +0800
-category: "docker"
-published: true
+category: docker
+location: 上海 二联家园
 excerpt: 基于centos/mysql-57-centos7镜像安装Mysql
 ---
-
-# docker安装Mysql
-
-
 
 1. 从Docker Hub查找镜像
 
@@ -154,12 +148,3 @@ excerpt: 基于centos/mysql-57-centos7镜像安装Mysql
    ```bash
    $ docker rmi -f centos/mysql-57-centos7 # 强制删除镜像
    ```
-
-   
-
-
-
-
-
-<p align="right">上海·二联家园</p>
-<p align="right">2019年6月</p>

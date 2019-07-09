@@ -1,5 +1,12 @@
 title: 玲珑少年
-# theme: jekyll-theme-tactile
+
+author:
+  location: 上海
+  motto:
+    - Away from home,
+    - away from home,
+    - Lord,
+    - I'm 500 miles away from home.
 
 # Build settings
 markdown: kramdown
@@ -11,5 +18,5 @@ plugins_dir:
 github_username: auaa
 
 plugins: [jekyll-paginate]
-paginate: 50
+paginate: 10
 paginate_path: "page:num"

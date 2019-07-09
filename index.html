@@ -1,77 +1,59 @@
 ---
-layout: default
-pageid: 'index'
+layout: home
 ---
 
-<!--header start-->
-<header class="header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 ">
-                    <!--branding-->
-                    <a href="#" class="brand">
-                        <img src="assets/images/logo.png" srcset="assets/images/logo@2x.png 2x" alt=""/>
-                    </a>
-                    <!--/branding-->
-                    <!--<nav class="my-2 my-md-0 mr-md-auto- ml-md-auto" id="mainNav">
-                        <a class="p-2 text-light js-scroll-trigger" href="#demos">Demos</a>
-                        <a class="p-2 text-light js-scroll-trigger" href="#features">Features</a>
-                        <a class="p-2 text-light" href="https://themeforest.net/user/vectorlab" target="_blank">Support</a>
-                    </nav>-->
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!--/header start-->
+<section class="blog single">
+    <div class="wrap">
+        {% assign date_format = site.minima.date_format | default: "%Y-%m-%d" %}
+        {% for post in paginator.posts %}
+        <article class="blog-post">
+            <div class="blog-post__header">
+                <h2 class="blog-post__title"><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
+                <p class="blog-post__subtitle">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-iconfont25"></use>
+                    </svg>
+                    <span>{{ post.date | date: date_format }}</span>
 
-<!--hero section-->
-<section class="hero-section d-flex align-items-center text-center" style="background-image: url('assets/images/bg.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-light mb-4">心不换物物不至</h1>
-                <h3 class="text-light mb-5 font-weight-normal">&nbsp;</h3>
-                <a href="https://github.com/auaa/auaa.github.io.git" target="_blank" class="btn btn-pill btn-get-started mr-4">FORK ME</a>
-                <a href="https://github.com/auaa/auaa.github.io/issues" target="_blank" class="btn btn-pill btn-buy ">提问题</a>
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-location"></use>
+                    </svg>
+                    <span>{{ post.location | split: " " | join: " · " }}</span>
+                </p>
             </div>
-        </div>
+
+            <div class="blog-post__content">
+                <p>{{ post.excerpt }}</p>
+
+                <p><a href="{{ post.url | relative_url }}" class="button">MORE</a>
+                </p>
+            </div>
+
+        </article>
+        {% endfor %}
     </div>
 </section>
-<!--/hero section-->
 
-
-<div class="content-wrapper">
-    <div class="container">
-        <div class="container-fluid">
-            <div class="card card-shadow">
-                <div class="card-header border-0">
-                    <div class="custom-title-wrap bar-success">
-                        <h3 class="custom-title">最新博客</h3>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled mb-0 list-widget">
-                        {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
-                        {% for post in paginator.posts %}
-                        <li>
-                            <div class="media mb-4">
-                                <div class="media-body list-widget-border">
-                                    <div class="float-left">
-                                        <h4 class="text-uppercase mb-0"><a class="btn-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a> <span class="badge badge-warning text-light form-pill px-3 py-1 ml-2">{{post.category}}</span></h4>
-                                        <span class="text-muted">{{ post.excerpt }}</span>
-                                    </div>
-                                    <div class=" float-right">
-                                        <small class="text-muted">{{ post.date | date: date_format }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
+<section class="pagination">
+    {% if paginator.previous_page %}
+    <div class="pagination__prev">
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="button button--large">
+            <svg class="icon-1-5x" aria-hidden="true">
+                <use xlink:href="#icon-arrow-ios-back-outline"></use>
+            </svg>
+            <span>PREV</span>
+        </a>
     </div>
-</div>
+    {% endif %}
+
+    {% if paginator.next_page %}
+    <div class="pagination__next">
+        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="button button--large">
+            <span>NEXT</span>
+            <svg class="icon-1-5x" aria-hidden="true">
+                <use xlink:href="#icon-arrow-ios-forward-outline"></use>
+            </svg>
+        </a>
+    </div>
+    {% endif %}
+</section>

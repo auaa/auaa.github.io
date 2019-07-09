@@ -1,0 +1,46 @@
+<header class="header">
+
+    <div class="header-image header-image--on" style="background-image: url(/assets/images/tu.jpg);"></div>
+    <div class="header-image"></div>
+
+    <div class="header-overlay"></div>
+
+    <div class="header__content">
+        <a href="{{site.url}}" class="header__title active-link">{{site.title}}</a>
+        <p class="header__tagline">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-location"></use>
+            </svg>
+            <span>{{site.author.location}}</span>
+        </p>
+
+        {% for m in site.author.motto %}
+        <p class="header__tagline">{{m}}</p>
+        {% endfor %}
+
+        <div class="menu">
+            <div class="menu__toggle js-menu-toggle">
+                <div class="menu__toggle__icon"><span></span></div>
+            </div>
+            <div class="menu__wrap">
+                <ul class="menu__list">
+                    <li class="menu__list__item">
+                        <a href="/" class="menu__list__item__link">Latest</a>
+                    </li>
+
+                    <li class="menu__list__item">
+                        <a href="/about.html" class="menu__list__item__link">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+<div class="loader">
+    <svg width="120" height="30" viewbox="0 0 120 30" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="15" r="15" /><animate attributename="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcmode="linear" repeatcount="indefinite"><animate attributename="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcmode="linear" repeatcount="indefinite"><circle cx="60" cy="15" r="9" fill-opacity="0.3" /><animate attributename="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcmode="linear" repeatcount="indefinite"><animate attributename="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcmode="linear" repeatcount="indefinite"><circle cx="105" cy="15" r="15" /><animate attributename="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcmode="linear" repeatcount="indefinite"><animate attributename="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcmode="linear" repeatcount="indefinite"></animate></animate></animate></animate></animate></animate></svg>
+</div>
+
+<div class="page-loader"></div>

@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
 {% include head.html %}
-<body>
-<!--<div class="wrapper">-->
+<body data-page-url="{{page.url}}" class="loading ajax-loading">
   {% include header.html %}
 
   {{ content }}
 
   {% include footer.html %}
 
-<!--</div>-->
 </body>
 
 </html>

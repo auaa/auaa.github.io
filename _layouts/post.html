@@ -1,68 +1,29 @@
 ---
-layout: default
+layout: home
 ---
 
-<header class="app-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="branding-wrap ">
-                    <!--brand start-->
-                    <div class="navbar-brand">
-                        <a class="" href="/">
-                            <img src="/assets/images/logo.png" srcset="/assets/images/logo@2x.jpg 2x" alt="玲珑少年">
-                        </a>
-                    </div>
-                    <!--brand end-->
-                </div>
-                <!--<ul class="header-links hide-arrow navbar">
-                    <li class="nav-item search-bar">
-                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#searchModal">
-                            BUTTON
-                        </button>
-                    </li>
-                </ul>-->
-            </div>
+<div class="page__content" data-image="/images/demo/about.jpg">
+    <section class="intro">
+        <div class="wrap">
+            <h1>{{ page.title | escape }}</h1>
+            {% assign date_format = site.minima.date_format | default: "%Y-%m-%d" %}
+            <p>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-iconfont25"></use>
+                </svg>
+                <span>{{ page.date | date: date_format }}</span>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-location"></use>
+                </svg>
+                <span>{{ page.location | split: " " | join: " · " }}</span>
+            </p>
         </div>
-    </div>
-</header>
+    </section>
 
-<div class="content-wrapper">
-    <div class="container">
-    <div class="container-fluid">
-        <div class="card card-shadow">
-            <div class="card-header border-0">
-                <div class="custom-title-wrap bar-primary">
-                    <div class="custom-title">{{ page.title | escape }}</div>
-                    {% assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" %}
-                    <div class="custom-post-title">
-                        <span class="date">{{ page.date | date: date_format }}</span>
-                        <a class="btn-link" href="#">{{page.category}}</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                {{ content }}
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-6">
-                        {% if page.previous %}
-                        上一篇:<a href='{{ BASE_PATH }}{{ page.previous.url }}' title="{{ page.previous.title }}">{{ page.previous.title }}</a>
-                        {% else %}
-                        <span>已经是第一篇了</span>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-6">
-                        {% if page.next %}
-                        下一篇:<a href='{{ BASE_PATH }}{{ page.next.url }}' title="{{ page.next.title }}">{{ page.next.title }}</a
-                                {% else %}
-                        <span>已经是最后一篇了</span>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+    <section class="single">
+        <div class="wrap">
+            {{content}}
         </div>
-    </div>
-    </div>
+    </section>
 </div>
+

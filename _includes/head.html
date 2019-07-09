@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+
+    <link rel="icon" type="image/png" href='{{ "/assets/images/logo.png" | relative_url }}'/>
+
     <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
-    <link rel="shortcut icon" href="{{ "/assets/images/favicon.ico" | relative_url }}"/>
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400|Muli:400,400i,600" rel="stylesheet" />
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ "/assets/css/bootstrap.css" | relative_url }}">
-    <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
-    <link rel="stylesheet" href="{{ "/assets/css/github.css" | relative_url }}">
+    <!-- Styles -->
+    <link rel="stylesheet" href='{{ "/assets/css/style.css" | relative_url }}' />
+
+    <!-- Icons -->
+    <script type="text/javascript" src='{{ "/assets/js/iconfont.js" | relative_url }}'></script>
+
 </head>

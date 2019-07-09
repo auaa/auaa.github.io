@@ -1,14 +1,11 @@
 ---
 layout: post
-title:  "mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输"
-author: "玲珑少年"
-comments: true
+title:  mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输
 date:   2018-05-31 17:32:18 +0800
-subject: 'Mac'
-category: 'tech'
-type: 1
-published: true
-excerpt: 'mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输'
+subject: Mac
+category: tech
+location: 武汉 洪山广场
+excerpt: mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输
 ---
 
 ### scp的复制
