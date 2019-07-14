@@ -1,10 +1,12 @@
 ---
 layout: post
-title:  "ORACLE中exit与return区别"
-date:   2018-07-17 17:16:27 +0800
-category: Oracle
-location: 武汉 洪山广场
-excerpt: ORACLE中exit与return区别
+title: 'ORACLE中exit与return区别'
+date: 2018-07-17 17:16:27
+tags: []
+published: true
+location: 
+hideInList: false
+feature: 
 ---
 
 ### 简单说明

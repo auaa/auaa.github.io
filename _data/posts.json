@@ -1,0 +1,138 @@
+{
+  "posts": [
+    {
+      "content": "\n1. 从Docker Hub查找镜像\n\n   ```bash\n   $ docker search mysql # 查找mysql相关的镜像\n   ```\n\n   查询的结果大致如下：\n\n   | NAME                    | DESCRIPTION                                   | STARS | OFFICIAL | AUTOMATED |\n   | ----------------------- | --------------------------------------------- | ----- | -------- | --------- |\n   | mysql                   | MySQL is a widely used, open-source relation… | 8328  | [OK]     |           |\n   | ...                     |                                               |       |          |           |\n   | centos/mysql-57-centos7 | MySQL 5.7 SQL database server                 | 56    |          |           |\n\n   ``我这里选择的是 centos/mysql-57-centos7，如果你也需要安装的是centos/mysql-57-centos7，此步骤可忽略``\n\n   \n\n2. 拉取仓库镜像\n\n   ```bash\n   $ docker pull centos/mysql-57-centos7 # 拉取centos/mysql-57-centos7镜像\n   ```\n\n   ``如果你也需要安装的是centos/mysql-57-centos7,此步骤可以忽略``\n\n3. 拉取完镜像后，只需要创建容器即可\n\n   ```bash\n   $ docker run --name=mysql --restart=always -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_LOWER_CASE_TABLE_NAMES=1 -p 3306:3306 -v ~/docker/mysql:/var/lib/mysql -d centos/mysql-57-centos7\n   ```\n\n   ``先运行以上命令可以直接安装成功，后面会针对此命令做详细说明。``\n\n   *以上三步，如果你确认安装的是centos/mysql-57-centos7,可直接执行第三步骤的命令即可。docker在创建容器的时候，会检测是否安装镜像，如果未安装的镜像，会拉取对应的镜像。*\n\n   \n\n   步骤三的命令详解：\n\n   **docker run ：**创建一个新的容器并运行一个命令\n\n   docker命令语法规则：\n\n   ```bash\n   $ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]\n   ```\n\n   [XXX] 中的参数非必填。\n\n   OPTIONS说明：\n\n   `--name mysql` ： 为容器指定一个名称<u>mysql</u>\n\n   `--restart=always`: 容器跟随docker容器启动而启动\n\n   `-e MYSQL_ROOT_PASSWORD=123456`: 为容器设置环境变量，此行命令，为mysql的root用户设置密码为123456\n\n   `-p 3307:3306`: 指定端口映射，此处是将容器内的3306端口映射到宿主机器的3307端口，因此访问使用localhost:3307即可访问数据库\n\n   `-v ~/docker/mysql:/var/lib/mysql`: 指定磁盘映射，可以不要此参数，此处目的是将mysql的数据文件存放在宿主机器上，不至于删除容器后，数据跟着丢失，即便删除容器后，下次创建时，做好磁盘映射，数据不会丢失。\n\n   `-d`: 后台运行容器，并返回容器的id\n\n   \n\n   再说明一下容器环境变量：(可参考[官网介绍](https://hub.docker.com/r/centos/mysql-57-centos7))\n\n   在初始化容器时，可通过传递`-e VAR=VALUE` 给容器传递以下环境变量。\n\n   | 参数名称                | 描述                      |\n   | ----------------------- | ------------------------- |\n   | **MYSQL_USER**          | 要创建的MySQL帐户的用户名 |\n   | **MYSQL_PASSWORD**      | 用户帐户的密码            |\n   | **MYSQL_DATABASE**      | 数据库名称                |\n   | **MYSQL_ROOT_PASSWORD** | root用户的密码            |\n\n   以下环境变量会影响mysql配置文件，都是可选的。\n\n   | 参数名称                         | 描述                                                |\n   | -------------------------------- | --------------------------------------------------- |\n   | **MYSQL_LOWER_CASE_TABLE_NAMES** | 设置表名的存储和比较方式，默认为0                   |\n   | **MYSQL_MAX_CONNECTIONS**        | 允许的最大同时客户端连接数，默认为151               |\n   | **MYSQL_MAX_ALLOWED_PACKET**     | 一个数据包或任何生成/中间字符串的最大大小，默认200M |\n   | **MYSQL_FT_MIN_WORD_LEN**        | 要包含在FULLTEXT索引中的单词的最小长度，默认4       |\n   | **MYSQL_FT_MAX_WORD_LEN**        | 要包含在FULLTEXT索引中的单词的最大长度，默认20      |\n\n   … 等等，不一一赘述。\n\n   \n\n4. 通过terminal访问容器中的mysql命令\n\n   ```bash\n   $ docker exec -it  mysql /bin/bash\n   ```\n\n   ```bash\n   runoob@runoob:~$ docker exec -i -t  mysql /bin/bash\n   bash-4.2:$ \n   ```\n\n   如果命令提示符中出现上述，在$后面直接输入mysql命令即可。\n\n5. 常用命令\n\n   ```bash\n   $ docker start mysql # 启动mysql容器，这里mysql是上面定义的容器名\n   ```\n\n   ```bash\n   $ docker stop mysql # 停止运行中的mysql容器，这里mysql是上面定义的容器名\n   ```\n\n   ```bash\n   $ docker restart mysql # 重启mysql容器，这里mysql是上面定义的容器名\n   ```\n\n6. 删除容器命令\n\n   ```bash\n   $ docker rm mysql #mysql 是上面定义的容器名\n   ```\n\n   ```bash\n   $ docker rm -f mysql #\t强制删除运行中的容器\n   ```\n\n   ```bash\n   $ docker rm -v mysql # 删除容器的同时，删除容器挂载的数据卷，即对应的磁盘\n   ```\n\n7. 删除镜像命令\n\n   ```bash\n   $ docker rmi centos/mysql-57-centos7 # centos/mysql-57-centos7镜像名\n   ```\n\n   ```bash\n   $ docker rmi -f centos/mysql-57-centos7 # 强制删除镜像\n   ```",
+      "data": {
+        "layout": "post",
+        "title": "docker安装mysql",
+        "date": "2019-06-29 10:49:27",
+        "tags": [],
+        "published": true,
+        "location": null,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2019-06-29-docker-install-mysql",
+      "link": "/2019/06/29/docker-install-mysql/"
+    },
+    {
+      "content": "\n杜弼对高欢说：“我们东魏的文武官员几乎没有不贪污腐败的，这些人应该好好管一管了。”\n\n高欢说：“你看呵，这种事也不是在今天形成的，很久以前就已经成为一种习俗。眼下我们的都督、将军们的家属大多数在西魏的关西地区，西魏的宇文黑獭经常对他们进行招抚和引诱，这些将领、都督以后是离开还是留在这里都不确定；江东梁国的皇帝萧衍，他倡导推行儒家礼乐教化，以致使得中原地区的士大夫们产生了向往江东之情，认为那里才是中华正统所在。假如我操之过急地整顿法制， 不能采取宽容态度的话，那么这些都督、将军们都会归附宇文黑獭，那些士大夫们全去投靠萧衍，人才都走了，还怎么能成为一个国家？你暂且等待一段时间，我不会忘记你的提议的。”\n\n过了一段时间，西魏大军来犯，高欢整顿兵马，准备出兵抵抗。\n\n杜弼说：“外敌来犯是因为内患所致，请先清除内患。到时候，我们就可以无往而不胜了。”\n\n高欢问他谁是内患，杜弼指着远处那些准备去打仗的将军，说：“就是那些奢华腐靡、掠夺百姓的将军。”\n\n高欢听了哈哈大笑，说：“屁咧，他们这些人哪一个不是杀人如麻？他们没有一个屁股是干净的，把他们都杀了，谁去打仗？西魏的军队还没打过来，我们自己就先玩完了。”\n\n于是，转身吩咐士兵们拉开弓，搭上箭，举起刀，握住矛，排成面对面的两行，叫杜弼从他们中间通过，杜弼吓得浑身发抖，冷汗直流。\n\n高欢缓缓地对他说：“箭虽然安在弓上但还没有发射，刀虽然举起但还没有攻击，矛虽然握在手里但还没有刺出，你就已经吓得失魂落魄，胆战心惊了。而那些立下战功的人每战身处刀箭丛中，百死一生，即使他们贪婪卑鄙，但是他们的作用很大，怎么可以象要求普通人那样要求他们呢？”\n\n杜弼听后，再看看刀阵箭林，大为惊恐，跪在地上磕着头说：“我愚痴，没有智慧，不能认识其中深刻的道理，今天承蒙开示，才明白你的圣明。”\n\n高欢是北齐的开国之宗，像曹操一样的乱世奸雄。他深知杜弼为人正直，说的也的确不错。但他更知道：当时天下纷乱，外敌虎视眈眈，而他是被人嫉恨的权臣，自己也处于创业期。乱世不得不用小人，手下那些将领更是如狼似虎，个个都不是省油的灯。这个时候，手下的人是不是忠诚比是不是好人重要，是不是有能力比是不是有道德重要。如果冒然清除内患，不仅自己的实力会大减，更是会闹得人心惶惶，内患必然成为内乱。\n\n创业不同于守成，乱世也不同于太平盛世。在乱世之中创业，不能拘泥于仁义道德，一切都是用实力说话。手下的人之所以跟随自己，都是因为有利可图，而自己又没有那么多利禄可以进行分赏，只能睁一只眼闭一只眼，任由他们胡作非为去捞取好处。（创业时期没有优厚的实力和资源，很难招揽到具有高素质的人才，如何与这些不堪的人合作、管理和驾驭他们，并发挥出最大的作用是领导者必须具备的能力和胸怀。）\n\n杜弼无疑是忠诚和正直的，但他只是以一个普通人的眼界去看待问题，而高欢站得更高，他以一个统帅的眼界去看待问题，是智慧，更是胸襟。从个人的角度，杜弼的确是在为高欢着想；从大局的角度，却又是在拆高欢的台。所以，良言未必是良药，拨乱也未必反正，可能只是自取灭亡。\n",
+      "data": {
+        "layout": "post",
+        "title": "杜弼谏除内患",
+        "date": "2019-04-19 17:16:27",
+        "tags": [],
+        "published": true,
+        "location": null,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2019-04-19-杜弼谏除内患",
+      "link": "/2019/04/19/杜弼谏除内患/"
+    },
+    {
+      "content": "\nfreemarker模板中，我们想获取一个对象的属性值，但是不知道对象的属性名，下面就是解决方案。\n\n1. 定义函数\n\n```\n<#function objectToJsonFunction object>\n    <#if object??>\n        <#if object?is_enumerable>\n            <#local json = '['>\n            <#list object as item>\n                <#if item?is_hash>\n                    <#if item_index &gt; 0 && json != \"[\" >\n                        <#local json = json +',' >\n                    </#if>\n                    <#local json = json + objectToJsonFunction(item)>\n                </#if>\n            </#list>\n            <#return json + ']'>\n        <#elseif object?is_hash>\n            <#local json = \"{\">\n            <#assign keys = object?keys>\n            <#list keys as key>\n                <#if object[key]?? && !(object[key]?is_method) && key != \"class\">\n                    <#if object[key]?is_number>\n                        <#if key_index &gt; 0 && json != \"{\" >\n                            <#local json = json +',' >\n                        </#if>\n                        <#local json = json + '\"${key}\": ${object[key]}'>\n                    <#elseif object[key]?is_string>\n                        <#if key_index &gt; 0 && json != \"{\" >\n                            <#local json = json +',' >\n                        </#if>\n                        <#local json = json + '\"${key}\": \"${object[key]?html!\"\"?js_string}\"'>\n                    <#elseif object[key]?is_boolean >\n                        <#if key_index &gt; 0 && json != \"{\" >\n                            <#local json = json +',' >\n                        </#if>\n                        <#local json = json + '\"${key}\": ${object[key]?string(\"true\", \"false\")}'>\n\n\n                    <#elseif object[key]?is_enumerable >\n                        <#if key_index &gt; 0 && json != \"{\" >\n                            <#local json = json +',' >\n                        </#if>\n                        <#local json = json + '\"${key}\":'+ objectToJsonFunction(object[key])>\n\n\n                    <#elseif object[key]?is_hash>\n                        <#if key_index &gt; 0 && json != \"{\" >\n                            <#local json = json +',' >\n                        </#if>\n                        <#local json = json + '\"${key}\":'+ objectToJsonFunction(object[key])>\n                    </#if>\n                </#if>\n            </#list>\n            <#return json +\"}\">\n        </#if>\n    <#else>\n        <#return \"{}\">\n    </#if>\n</#function>\n```\n\n``特别提示：如果项目中使用的[]代替freemarker模板的<>，需要相应的修改成[],否则不会报错，上述代码会显示在页面上。``\n\n2. 调用方法\n\n```\n${objectToJsonFunction(x)}\n```\n\n\n\n以下是图解获取request对象的属性值：直接拷贝上面的代码使用即可。\n\n![使用代码](/assets/img/20180720113459.png)\n\n![使用代码](/assets/img/20180720113548.png)\n\n最终获得request的对应属性值分别如下：\n\n```json\n{\n  \"webApplicationContext\": \"org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4331d187: startup date [Fri Jul 20 11:11:10 CST 2018]; root of context hierarchy\",\n  \"pathToServlet\": \"/\",\n  \"urlPathHelper\": \"org.springframework.web.util.UrlPathHelper@574785b0\",\n  \"locale\": \"zh_CN\",\n  \"defaultHtmlEscape\": false,\n  \"theme\": \"org.springframework.ui.context.support.SimpleTheme@30398865\",\n  \"model\": {\n    \"request\": \"org.springframework.web.servlet.support.RequestContext@2fcefa0\",\n    \"springMacroRequestContext\": \"org.springframework.web.servlet.support.RequestContext@50dfc659\"\n  },\n  \"responseEncodedHtmlEscape\": true,\n  \"contextPath\": \"/\",\n  \"messageSource\": \"org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4331d187: startup date [Fri Jul 20 11:11:10 CST 2018]; root of context hierarchy\",\n  \"requestUri\": \"/login\"\n}\n```\n\n\n\n`顺便纠正一个网上大部分都是错误的解答。freemarker中根据request获取当前页面url的方法。`\n\n下面是一个错误的博客，\n\n``http://www.tingzan123.com/article/2016/1214/477.html``\n\n\n\n正确获取方式是：\n\n```\n${request.requestUri}\n```\n\n👆👆👆👆  这是才是正确的姿势。\n\n",
+      "data": {
+        "layout": "post",
+        "title": "freemarker中Object转换成json",
+        "date": "2018-07-20 11:26:27",
+        "tags": [],
+        "published": true,
+        "location": null,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2018-07-20-freemarker-object-to-json",
+      "link": "/2018/07/20/freemarker-object-to-json/"
+    },
+    {
+      "content": "\n### 简单说明\n\n  return - 跳出整个程序，以后的代码都不再执行。\n\n  exit      - 跳出本次循环，下次继续执行。\n\n\n\n### 案例\n\n单次循环\n\n- exit\n\n```sql\nBEGIN\n  FOR I IN 1 .. 100 LOOP\n    DBMS_OUTPUT.PUT_LINE(I);\n    EXIT WHEN I = 9;\n  END LOOP;\n\n  DBMS_OUTPUT.PUT_LINE('END~');\nEND;\n```\n\n执行结果：\n\n```\n1\n2\n3\n4\n5\n6\n7\n8\n9\nEND~\n```\n\n![exit单次循环执行结果](/assets/img/20180717163812.png)\n\n- return\n\n```sql\nBEGIN\n  FOR I IN 1 .. 100 LOOP\n    DBMS_OUTPUT.PUT_LINE(I);\n    IF I = 9 THEN\n      RETURN;\n    END IF;\n  END LOOP;\n\n  DBMS_OUTPUT.PUT_LINE('END~');\nEND;\n```\n\n\n\n```\n1\n2\n3\n4\n5\n6\n7\n8\n9\n```\n\n![return单次循环执行结果](/assets/img/20180717163813.png)\n\n嵌套循环\n\n- exit\n\n```sql\nBEGIN\n  FOR I IN 1 ..5 LOOP\n    FOR J IN 1..5 LOOP\n      IF I = 2 AND J=1 THEN\n        EXIT;\n      END IF;\n      DBMS_OUTPUT.PUT_LINE(I || '~' || J);\n    END LOOP;\n  END LOOP;\n\n  DBMS_OUTPUT.PUT_LINE('END~');\nEND;\n```\n\n```\n1~1\n1~2\n1~3\n1~4\n1~5\n3~1\n3~2\n3~3\n3~4\n3~5\n4~1\n4~2\n4~3\n4~4\n4~5\n5~1\n5~2\n5~3\n5~4\n5~5\nEND~\n```\n\n![exit嵌套循环执行结果](/assets/img/20180717163814.png)\n\n- return\n\n```sql\nBEGIN\n  FOR I IN 1 ..5 LOOP\n    FOR J IN 1..5 LOOP\n      DBMS_OUTPUT.PUT_LINE(I || '~' || J);\n      IF I = 2 AND J=1 THEN\n        RETURN;\n      END IF;\n    END LOOP;\n  END LOOP;\n\n  DBMS_OUTPUT.PUT_LINE('END~');\nEND;\n```\n\n```\n1~1\n1~2\n1~3\n1~4\n1~5\n```\n\n![return嵌套循环执行结果](/assets/img/20180717163817.png)\n\n两次比较，显而易见，return是后面的什么代码都不会在执行，确切的说，应该是终止程序执行了（这一点和网上很多博客的说法不一致，这也是我亲自测试之后的结果），exit只是跳出本次循环，外层的for循环仍然会继续执行。\n\n\n\n那么，exit如何终止外面的for循环呢？\n\n```sql\nBEGIN\n  <<ILOOP>>\n  FOR I IN 1 ..5 LOOP\n    FOR J IN 1..5 LOOP\n      EXIT ILOOP WHEN I = 2 AND J=1;\n      DBMS_OUTPUT.PUT_LINE(I || '~' || J);\n    END LOOP;\n  END LOOP;\n\n  DBMS_OUTPUT.PUT_LINE('END~');\nEND;\n```\n\n输出的结果：\n\n```\n1~1\n1~2\n1~3\n1~4\n1~5\nEND~\n```\n\n![exit终止外面的for循环sql](/assets/img/20180717163815.png)\n![exit终止外面的for循环执行结果](/assets/img/20180717163816.png)\n\n\n\n\n\n\n\n<p align=\"right\">武汉·洪山广场</p>\n\n<p align=\"right\">2018年7月</p>\n",
+      "data": {
+        "layout": "post",
+        "title": "ORACLE中exit与return区别",
+        "date": "2018-07-17 17:16:27",
+        "tags": [],
+        "published": true,
+        "location": null,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2018-7-17-ORACLE-exit-return",
+      "link": "/2018/7/17/ORACLE-exit-return/"
+    },
+    {
+      "content": "\n### scp的复制\n\n查看scp帮助：sup -h      \n\n输出信息如下：\n\n```\nusage: scp [-346BCpqrv] [-c cipher] [-F ssh_config] [-i identity_file]\n           [-l limit] [-o ssh_option] [-P port] [-S program]\n           [[user@]host1:]file1 ... [[user@]host2:]file2\n```\n\n\n\n\n\nOPTIONS：\n\n-v 和大多数 linux命令中的-v意思一样，用来显示进度。可以用来查看连接、认证、或是配置错误\n\n-C 使能压缩选项\n\n-P 选择端口\n\n-r 复制目录\n\n## 从本地将文件传输到服务器(Linux)\n\nscp【本地文件的路径】【服务器用户名】@【服务器地址】：【服务器上存放文件的路径】\n\n```\nscp /Users/mac_pc/Desktop/test.png root@192.168.1.1:/root\n```\n\n\n\n\n\n## 从本地将文件夹传输到服务器(Linux)\n\nscp -r【本地文件的路径】【服务器用户名】@【服务器地址】：【服务器上存放文件的路径】\n\n```\nsup -r /Users/mac_pc/Desktop/test root@192.168.1.1:/root\n```\n\n\n\n## 将服务器上的文件传输到本地(Mac)\n\nscp 【服务器用户名】@【服务器地址】：【服务器上存放文件的路径】【本地文件的路径】\n\n```\nscp root@192.168.1.1:/data/wwwroot/default/111.png /Users/mac_pc/Desktop\n```\n\n\n\n## 将服务器上的文件夹传输到本地(Mac)\n\nscp -r 【服务器用户名】@【服务器地址】：【服务器上存放文件的路径】【本地文件的路径】\n\n```\nsup -r root@192.168.1.1:/data/wwwroot/default/test /Users/mac_pc/Desktop\n```\n",
+      "data": {
+        "layout": "post",
+        "title": "mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输",
+        "date": "2018-05-31 17:32:18",
+        "tags": [],
+        "published": true,
+        "location": null,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2018-05-31-mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输",
+      "link": "/2018/05/31/mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输/"
+    },
+    {
+      "content": "\n### 说说为什么域名是 ``auaa``吧？\n\n  我发现GitHub可以自定义博客是比较晚的（2018年04月24日），原来已经注册了一个域名，发现可以写博客了，就觉得博客还是应该有一个好的域名才行。\n\n  - 就开始修改GitHub的用户名，开始计划修改成各种英文单词，发现都被占用了。\n  - Google了一个帖子说，可以先访问 github.com/`` username``，这样如果访问不存在就可以注册，就用英文字母组合来测试网址是否可以正常访问。开始是使用26个英文字母，组成两位的来访问。\n\n  程序大概是这样的：\n\n  ```java\n  public static void main(String[] args) {\n      String target = \"abcdefghijklmnopqrstuvwxyz\";\n      for (int i = 0; i < target.length(); i++) {\n          for (int j = 0; j < target.length(); j++) {\n              System.out.print(target.charAt(i));\n              url(\"\"+target.charAt(i)+target.charAt(j),i);\n          }\n      }\n  }\n\n  public static void url(String key,int i){\n      try {\n          URL url = new URL(\"https://github.com/\"+key);\n          HttpURLConnection connection = (HttpURLConnection)url.openConnection();\n          if(404 == connection.getResponseCode()){\n              System.out.println(key);\n          }\n      } catch (Exception e) {\n      }\n  }\n  ```\n\n  控制台并没有打印什么。尝试三位字母组合的吧。程序大概是这样的：\n\n  ```java\n  public static void main(String[] args) {\n      String target = \"abcdefghijklmnopqrstuvwxyz\";\n      for (int i = 18; i < target.length(); i++) {\n          final int a = i;\n          new Thread(()->{\n              for (int j = 0; j < target.length(); j++) {\n              //\n                  for (int k = 0; k < target.length(); k++) {\n                          url(\"\"+target.charAt(a) + target.charAt(j) + target.charAt(k));\n                  }\n              }\n          }).start();\n      }\n  }\n\n  public static void url(String key){\n      try {\n          URL url = new URL(\"https://github.com/\"+key);\n          HttpURLConnection connection = (HttpURLConnection)url.openConnection();\n          if(404 == connection.getResponseCode()){\n              System.out.println(\"key = \" + key);\n          }\n      } catch (Exception e) {\n      }\n  }\n  ```\n\n  控制台上打印了几个，包括``see``、``uau``、``vav``等，这期间我的Mac本上的Chrome浏览器崩溃过几次，我访问了一下也确实是404，但是无法修改成这个。\n\n  - 就尝试4位组合，想想26×26×26×26，Mac本会扛不住的，就直接在最前面加了一个a，打印在控制台上的第一个组合就是 ``auaa``。\n  - 修改用户名``auaa``成功。\n\n\n\n今天先到此为止吧。\n",
+      "data": {
+        "layout": "post",
+        "title": "第一篇博客",
+        "date": "2018-04-25 22:10:25",
+        "tags": [],
+        "published": true,
+        "location": null,
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2018-04-26-helloworld",
+      "link": "/2018/04/26/helloworld/"
+    }
+  ],
+  "tags": [
+    {
+      "index": -1,
+      "name": "jekyll",
+      "slug": "tQ3tX3y36",
+      "used": false
+    },
+    {
+      "index": -1,
+      "name": "bootstrap",
+      "slug": "ikvAMPtGN",
+      "used": false
+    }
+  ],
+  "menus": [
+    {
+      "link": "/",
+      "name": "首页",
+      "openType": "Internal"
+    },
+    {
+      "link": "/about-page",
+      "name": "关于",
+      "openType": "Internal"
+    }
+  ]
+}

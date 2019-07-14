@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  第一篇博客
-date:   2018-04-25 22:10:25 +0800
-excerpt: helloworld
-location: 武汉 洪山广场
+title: '第一篇博客'
+date: 2018-04-25 22:10:25
+tags: []
+published: true
+location: 
+hideInList: false
+feature: 
 ---
 
 ### 说说为什么域名是 ``auaa``吧？

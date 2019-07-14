@@ -1,10 +1,12 @@
 ---
 layout: post
-title:  docker安装mysql
-date:   2019-06-29 10:49:27 +0800
-category: docker
-location: 上海 二联家园
-excerpt: 基于centos/mysql-57-centos7镜像安装Mysql
+title: 'docker安装mysql'
+date: 2019-06-29 10:49:27
+tags: []
+published: true
+location: 
+hideInList: false
+feature: 
 ---
 
 1. 从Docker Hub查找镜像

@@ -1,10 +1,12 @@
 ---
 layout: post
-title:  freemarker中Object转换成json
-date:   2018-07-20 11:26:27 +0800
-location: 武汉 洪山广场
-category: java
-excerpt: 很多情况下，我们想在freemarker模板中获取对象的所有属性值，却苦于无法找到对应的属性名。这篇博客中的第一个函数可以帮您解决此问题。
+title: 'freemarker中Object转换成json'
+date: 2018-07-20 11:26:27
+tags: []
+published: true
+location: 
+hideInList: false
+feature: 
 ---
 
 freemarker模板中，我们想获取一个对象的属性值，但是不知道对象的属性名，下面就是解决方案。
