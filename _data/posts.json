@@ -1,6 +1,26 @@
 {
   "posts": [
     {
+      "content": "Jekyll CMS开发计划\n[ ] 文章不保存在本地文件夹\n[ ] 更换文章编辑器\n[ ] 修复图片存储路径\n[ ] 系统相关配置存放在本地文件夹\n[ ] 去掉文章编辑的 在列表中隐藏",
+      "data": {
+        "layout": "post",
+        "title": "Jekyll CMS开发计划",
+        "date": "2019-07-14 21:49:35",
+        "tags": [
+          "jekyll"
+        ],
+        "published": true,
+        "location": "上海 二联家园",
+        "hideInList": false,
+        "feature": null
+      },
+      "isEmpty": false,
+      "excerpt": "",
+      "abstract": "",
+      "fileName": "2019-07-14-jekyll-cms-kai-fa-ji-hua",
+      "link": "/2019/07/14/jekyll-cms-kai-fa-ji-hua/"
+    },
+    {
       "content": "\n1. 从Docker Hub查找镜像\n\n   ```bash\n   $ docker search mysql # 查找mysql相关的镜像\n   ```\n\n   查询的结果大致如下：\n\n   | NAME                    | DESCRIPTION                                   | STARS | OFFICIAL | AUTOMATED |\n   | ----------------------- | --------------------------------------------- | ----- | -------- | --------- |\n   | mysql                   | MySQL is a widely used, open-source relation… | 8328  | [OK]     |           |\n   | ...                     |                                               |       |          |           |\n   | centos/mysql-57-centos7 | MySQL 5.7 SQL database server                 | 56    |          |           |\n\n   ``我这里选择的是 centos/mysql-57-centos7，如果你也需要安装的是centos/mysql-57-centos7，此步骤可忽略``\n\n   \n\n2. 拉取仓库镜像\n\n   ```bash\n   $ docker pull centos/mysql-57-centos7 # 拉取centos/mysql-57-centos7镜像\n   ```\n\n   ``如果你也需要安装的是centos/mysql-57-centos7,此步骤可以忽略``\n\n3. 拉取完镜像后，只需要创建容器即可\n\n   ```bash\n   $ docker run --name=mysql --restart=always -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_LOWER_CASE_TABLE_NAMES=1 -p 3306:3306 -v ~/docker/mysql:/var/lib/mysql -d centos/mysql-57-centos7\n   ```\n\n   ``先运行以上命令可以直接安装成功，后面会针对此命令做详细说明。``\n\n   *以上三步，如果你确认安装的是centos/mysql-57-centos7,可直接执行第三步骤的命令即可。docker在创建容器的时候，会检测是否安装镜像，如果未安装的镜像，会拉取对应的镜像。*\n\n   \n\n   步骤三的命令详解：\n\n   **docker run ：**创建一个新的容器并运行一个命令\n\n   docker命令语法规则：\n\n   ```bash\n   $ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]\n   ```\n\n   [XXX] 中的参数非必填。\n\n   OPTIONS说明：\n\n   `--name mysql` ： 为容器指定一个名称<u>mysql</u>\n\n   `--restart=always`: 容器跟随docker容器启动而启动\n\n   `-e MYSQL_ROOT_PASSWORD=123456`: 为容器设置环境变量，此行命令，为mysql的root用户设置密码为123456\n\n   `-p 3307:3306`: 指定端口映射，此处是将容器内的3306端口映射到宿主机器的3307端口，因此访问使用localhost:3307即可访问数据库\n\n   `-v ~/docker/mysql:/var/lib/mysql`: 指定磁盘映射，可以不要此参数，此处目的是将mysql的数据文件存放在宿主机器上，不至于删除容器后，数据跟着丢失，即便删除容器后，下次创建时，做好磁盘映射，数据不会丢失。\n\n   `-d`: 后台运行容器，并返回容器的id\n\n   \n\n   再说明一下容器环境变量：(可参考[官网介绍](https://hub.docker.com/r/centos/mysql-57-centos7))\n\n   在初始化容器时，可通过传递`-e VAR=VALUE` 给容器传递以下环境变量。\n\n   | 参数名称                | 描述                      |\n   | ----------------------- | ------------------------- |\n   | **MYSQL_USER**          | 要创建的MySQL帐户的用户名 |\n   | **MYSQL_PASSWORD**      | 用户帐户的密码            |\n   | **MYSQL_DATABASE**      | 数据库名称                |\n   | **MYSQL_ROOT_PASSWORD** | root用户的密码            |\n\n   以下环境变量会影响mysql配置文件，都是可选的。\n\n   | 参数名称                         | 描述                                                |\n   | -------------------------------- | --------------------------------------------------- |\n   | **MYSQL_LOWER_CASE_TABLE_NAMES** | 设置表名的存储和比较方式，默认为0                   |\n   | **MYSQL_MAX_CONNECTIONS**        | 允许的最大同时客户端连接数，默认为151               |\n   | **MYSQL_MAX_ALLOWED_PACKET**     | 一个数据包或任何生成/中间字符串的最大大小，默认200M |\n   | **MYSQL_FT_MIN_WORD_LEN**        | 要包含在FULLTEXT索引中的单词的最小长度，默认4       |\n   | **MYSQL_FT_MAX_WORD_LEN**        | 要包含在FULLTEXT索引中的单词的最大长度，默认20      |\n\n   … 等等，不一一赘述。\n\n   \n\n4. 通过terminal访问容器中的mysql命令\n\n   ```bash\n   $ docker exec -it  mysql /bin/bash\n   ```\n\n   ```bash\n   runoob@runoob:~$ docker exec -i -t  mysql /bin/bash\n   bash-4.2:$ \n   ```\n\n   如果命令提示符中出现上述，在$后面直接输入mysql命令即可。\n\n5. 常用命令\n\n   ```bash\n   $ docker start mysql # 启动mysql容器，这里mysql是上面定义的容器名\n   ```\n\n   ```bash\n   $ docker stop mysql # 停止运行中的mysql容器，这里mysql是上面定义的容器名\n   ```\n\n   ```bash\n   $ docker restart mysql # 重启mysql容器，这里mysql是上面定义的容器名\n   ```\n\n6. 删除容器命令\n\n   ```bash\n   $ docker rm mysql #mysql 是上面定义的容器名\n   ```\n\n   ```bash\n   $ docker rm -f mysql #\t强制删除运行中的容器\n   ```\n\n   ```bash\n   $ docker rm -v mysql # 删除容器的同时，删除容器挂载的数据卷，即对应的磁盘\n   ```\n\n7. 删除镜像命令\n\n   ```bash\n   $ docker rmi centos/mysql-57-centos7 # centos/mysql-57-centos7镜像名\n   ```\n\n   ```bash\n   $ docker rmi -f centos/mysql-57-centos7 # 强制删除镜像\n   ```",
       "data": {
         "layout": "post",
@@ -114,7 +134,7 @@
       "index": -1,
       "name": "jekyll",
       "slug": "tQ3tX3y36",
-      "used": false
+      "used": true
     },
     {
       "index": -1,
