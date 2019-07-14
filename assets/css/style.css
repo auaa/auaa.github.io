@@ -1591,7 +1591,11 @@ section {
 
 .single .highlighter-rouge,.single table {
     margin: 20px auto;
-    width: 100%
+    width: 100%;
+    background: #e8e8e8;
+    border-radius: 5px;
+    padding: 5px;
+    color: #13C0A2;
 }
 
 .single .highlight {
