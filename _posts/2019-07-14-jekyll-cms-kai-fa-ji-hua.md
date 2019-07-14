@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Jekyll CMS开发计划'
-date: 2019-07-14 21:49:35
+date: 2019-07-13 21:49:35
 tags: [jekyll]
 published: true
 location: 上海 二联家园
@@ -20,6 +20,7 @@ feature:
 - [ ] 移除客户端中无用的代码
 - [ ] 修改博客前端样式
 - [ ] 自定义参数
+- [ ] 增加自定义添加Page功能
 
 ## V0.1.0 更新功能
 - [x] 自定义标签
