@@ -4,7 +4,7 @@ title: '第一篇博客'
 date: 2018-04-25 22:10:25
 tags: []
 published: true
-location: 
+location: 上海 二联家园
 hideInList: false
 feature: 
 ---
