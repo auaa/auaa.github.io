@@ -100,9 +100,9 @@ embed,img,object {
     height: auto
 }
 
-input {
+/*input {
     -webkit-appearance: none
-}
+}*/
 
 footer,header,section {
     position: relative;
