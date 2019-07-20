@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_data/posts.json" beforeDir="false" afterPath="$PROJECT_DIR$/_data/posts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" afterDir="false" />
-    </list>
+    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +258,7 @@
       <workItem from="1562675149327" duration="3830000" />
       <workItem from="1562765019961" duration="609000" />
       <workItem from="1563096873053" duration="5041000" />
-      <workItem from="1563602747957" duration="1531000" />
+      <workItem from="1563602747957" duration="1732000" />
     </task>
     <task id="LOCAL-00001" summary="调整样式">
       <created>1547199432187</created>
@@ -324,7 +320,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40857000" />
+    <option name="totallyTimeSpent" value="41058000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
