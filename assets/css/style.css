@@ -625,41 +625,13 @@ ol:first-child,p:first-child,ul:first-child {
 blockquote {
     margin-top: 15px;
     font-family: Merriweather,sans-serif;
-    font-size: 25px;
+    font-size: 1em;
     font-weight: 400;
     letter-spacing: -.02em;
-    line-height: 1.6
-}
-
-@media only screen and (min-width:768px) {
-    blockquote {
-        font-size: 35px
-    }
-}
-
-@media only screen and (min-width:1220px) {
-    blockquote {
-        font-size: 45px
-    }
-}
-
-blockquote p {
-    font-size: 25px;
-    font-weight: 400;
-    letter-spacing: -.02em;
-    line-height: 1.6
-}
-
-@media only screen and (min-width:768px) {
-    blockquote p {
-        font-size: 35px
-    }
-}
-
-@media only screen and (min-width:1220px) {
-    blockquote p {
-        font-size: 45px
-    }
+    line-height: 1.6;
+    background: #f0f0f0;
+    border-left: .1em solid #13C0A2;
+    padding: .5em;
 }
 
 a {
