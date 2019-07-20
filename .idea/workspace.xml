@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="" />
+    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/_data/posts.json" beforeDir="false" afterPath="$PROJECT_DIR$/_data/posts.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_data/setting.json" beforeDir="false" afterPath="$PROJECT_DIR$/_data/setting.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,11 +26,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_data/posts.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+            <state relative-caret-position="240">
+              <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_data/setting.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -146,6 +159,7 @@
         <option value="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" />
         <option value="$PROJECT_DIR$/assets/css/style.css" />
         <option value="$PROJECT_DIR$/_data/posts.json" />
+        <option value="$PROJECT_DIR$/_data/setting.json" />
       </list>
     </option>
   </component>
@@ -258,7 +272,7 @@
       <workItem from="1562675149327" duration="3830000" />
       <workItem from="1562765019961" duration="609000" />
       <workItem from="1563096873053" duration="5041000" />
-      <workItem from="1563602747957" duration="1732000" />
+      <workItem from="1563602747957" duration="2430000" />
     </task>
     <task id="LOCAL-00001" summary="调整样式">
       <created>1547199432187</created>
@@ -320,7 +334,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41058000" />
+    <option name="totallyTimeSpent" value="41756000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -410,7 +424,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="调整permalink为pretty" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/_posts/assets/image-20190104155518385.png" />
     <entry file="file://$PROJECT_DIR$/_posts/assets/image-20190110112359094.png" />
     <entry file="file://$PROJECT_DIR$/_posts/2018-06-07-8Express 研究.md" />
     <entry file="file://$PROJECT_DIR$/_posts/2018-06-28-oracle.md" />
@@ -654,8 +667,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/_data/posts.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+        <state relative-caret-position="240">
+          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_data/setting.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
         </state>
       </provider>
     </entry>
