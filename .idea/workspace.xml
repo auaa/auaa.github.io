@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/_data/posts.json" beforeDir="false" afterPath="$PROJECT_DIR$/_data/posts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_data/setting.json" beforeDir="false" afterPath="$PROJECT_DIR$/_data/setting.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" afterDir="false" />
-    </list>
+    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +26,7 @@
         <entry file="file://$PROJECT_DIR$/_data/posts.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
-              <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -38,8 +34,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_data/setting.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+            <state relative-caret-position="225">
+              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -81,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/assets/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="336">
-              <caret line="1594" column="23" lean-forward="true" selection-start-line="1594" selection-start-column="23" selection-end-line="1594" selection-end-column="23" />
+              <caret line="1594" column="23" selection-start-line="1594" selection-start-column="23" selection-end-line="1594" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -204,7 +200,13 @@
             <path>
               <item name="auaa.github.io" type="b2602c69:ProjectViewProjectNode" />
               <item name="auaa.github.io" type="462c0819:PsiDirectoryNode" />
-              <item name="_posts" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auaa.github.io" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auaa.github.io" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -272,7 +274,7 @@
       <workItem from="1562675149327" duration="3830000" />
       <workItem from="1562765019961" duration="609000" />
       <workItem from="1563096873053" duration="5041000" />
-      <workItem from="1563602747957" duration="2430000" />
+      <workItem from="1563602747957" duration="3682000" />
     </task>
     <task id="LOCAL-00001" summary="调整样式">
       <created>1547199432187</created>
@@ -334,7 +336,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41756000" />
+    <option name="totallyTimeSpent" value="43008000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -550,9 +552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/images/avatar.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/images/tu.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -654,7 +653,7 @@
     <entry file="file://$PROJECT_DIR$/assets/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
-          <caret line="1594" column="23" lean-forward="true" selection-start-line="1594" selection-start-column="23" selection-end-line="1594" selection-end-column="23" />
+          <caret line="1594" column="23" selection-start-line="1594" selection-start-column="23" selection-end-line="1594" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -668,14 +667,17 @@
     <entry file="file://$PROJECT_DIR$/_data/posts.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/images/avatar.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/_data/setting.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+        <state relative-caret-position="225">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
         </state>
       </provider>
     </entry>
