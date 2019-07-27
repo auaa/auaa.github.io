@@ -4,8 +4,7 @@ title: 'mac下用scp命令实现本地文件与服务器Linux文件之间的相�
 date: 2018-05-31 17:32:18 +0800
 tags: []
 published: true
-location: 上海 二联家园
-hideInList: false
+location: 武汉 洪山广场
 feature: 
 ---
 

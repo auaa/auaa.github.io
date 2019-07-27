@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="调整permalink为pretty">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_data/posts.json" beforeDir="false" afterPath="$PROJECT_DIR$/_data/posts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2018-04-26-helloworld.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2018-04-26-helloworld.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2018-05-31-mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2018-05-31-mac下用scp命令实现本地文件与服务器Linux文件之间的相互传输.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2018-07-20-freemarker-object-to-json.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2018-07-20-freemarker-object-to-json.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2018-7-17-ORACLE-exit-return.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2018-7-17-ORACLE-exit-return.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-04-19-杜弼谏除内患.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-04-19-杜弼谏除内患.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-06-29-docker-install-mysql.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-06-29-docker-install-mysql.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-07-14-jekyll-cms-kai-fa-ji-hua.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-07-20-xie-xie-ni.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-07-20-xie-xie-ni.md" afterDir="false" />
-    </list>
+    <list default="true" id="b6873f0c-7693-4a03-be56-3b16c5edb656" name="Default Changelist" comment="调整permalink为pretty" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,18 +61,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/_posts/2019-07-20-xie-xie-ni.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="45">
-                <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/_posts/2019-06-29-docker-install-mysql.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
@@ -102,6 +78,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="249">
               <caret line="631" column="24" selection-start-line="631" selection-start-column="24" selection-end-line="631" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/_posts/2019-07-20-xie-xie-ni.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="150">
+                <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -325,7 +313,7 @@
       <workItem from="1562765019961" duration="609000" />
       <workItem from="1563096873053" duration="5041000" />
       <workItem from="1563602747957" duration="4473000" />
-      <workItem from="1563616568747" duration="2277000" />
+      <workItem from="1563616568747" duration="2767000" />
     </task>
     <task id="LOCAL-00001" summary="调整样式">
       <created>1547199432187</created>
@@ -387,11 +375,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46076000" />
+    <option name="totallyTimeSpent" value="46566000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28898427" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -477,7 +464,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="调整permalink为pretty" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/_posts/2018-06-07-8Express 研究.md" />
     <entry file="file://$PROJECT_DIR$/_posts/2018-06-28-oracle.md" />
     <entry file="file://$PROJECT_DIR$/assets/css/bootstrap.css" />
     <entry file="file://$PROJECT_DIR$/assets/css/victoria.css" />
@@ -637,16 +623,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_includes/header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#header#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="249">
@@ -731,11 +707,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/_includes/header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#header#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_posts/2019-07-20-shi-qu.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="165">
+            <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/_posts/2019-07-20-xie-xie-ni.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="45">
-            <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <first_editor relative-caret-position="150">
+            <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
           </first_editor>
           <second_editor />
         </state>

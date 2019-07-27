@@ -4,8 +4,7 @@ title: '第一篇博客'
 date: 2018-04-25 22:10:25 +0800
 tags: []
 published: true
-location: 上海 二联家园
-hideInList: false
+location: 武汉 洪山广场
 feature: 
 ---
 
