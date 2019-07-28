@@ -1,13 +1,4 @@
 {
-  "config": {
-    "branch": "master",
-    "domain": "https://auaa.github.io",
-    "email": "qiuyg_yc@163.com",
-    "platform": "github",
-    "repository": "auaa.github.io",
-    "token": "qyg19893956121",
-    "username": "auaa"
-  },
   "author": {
     "location": "中国 上海",
     "motto": "",
