@@ -7,13 +7,13 @@ published: true
 location: 上海 二联家园
 feature: 
 ---
-## PLSQL编程
-1. 什么是PL/SQL？
+
+#### 1. 什么是PL/SQL？
 - 全称：Procedure Language/SQL
 - 是Oracle对sql语言过程化的扩展
 - SQL命令中增加了过程处理语句
 
-2. 程序结构
+#### 2. 程序结构
 PL/SQL可以分为三部分：声明部分、可执行部分、异常处理部分。
 
 通过PL/SQL Developer工具的Test Window创建程序模板，示例如下：
@@ -31,7 +31,7 @@ end;
 
 其中，declare部分是变量申明部分，如果没有变量，可以省略。
 
-3. Hello World
+#### 3. Hello World
 ```sql
 begin
   -- 打印Hello World
@@ -47,7 +47,7 @@ dbms_output是oracle内置的工具包。
 执行结束后，未打印输出结构，是因为默认情况下，输出选项是关闭的。如需开启，
 `` set serveroutput on ``
 
-4. 变量
+#### 4. 变量
 变量类型分为两大类：
 - 普通数据类型（char,varchar2,date,number,boolean,long）
 - 特殊变量类型（引用型变量）
@@ -75,4 +75,4 @@ begin
 end;
 ```
 
-5. 流程控制
+#### 5. 流程控制
