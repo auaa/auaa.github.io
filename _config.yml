@@ -20,7 +20,6 @@ github_username: auaa
 permalink: pretty
 plugins:
   - jekyll-paginate
-  - jekyll-titles-from-headings
 
 paginate: 10
 paginate_path: "page:num"
