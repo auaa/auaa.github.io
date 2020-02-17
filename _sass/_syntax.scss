@@ -4,8 +4,9 @@
 .highlighter-rouge{
 	margin-bottom: 10px;
 }
-.language-plaintext {
-	word-break:break-all;
+.language-plaintext pre{
+	white-space: pre-wrap!important;
+	word-wrap: break-word!important;
 }
 .highlight {
 	background-color: #f4f4f4;
