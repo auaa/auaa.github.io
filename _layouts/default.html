@@ -1,13 +1,62 @@
 <!DOCTYPE html>
 <html>
-{% include head.html %}
-<body data-page-url="{{page.url}}" class="loading ajax-loading">
-  {% include header.html %}
+  <head>
+    {%- include head.html -%}
+  </head>
+  <body>
+    <main class="container">
+      <section class="about">
+        <a href="/"><img src="{{ "/assets/portfolio.png" | relative_url }}" alt="{{ site.plainwhite.name }}"></a>
+        <h2 id="title">
+          <a href="/">{{ site.plainwhite.name }}</a>
+        </h2>
+        <p class="tagline">{{ site.plainwhite.tagline }}</p>
+        <ul class="social">
+          {%- if site.plainwhite.social_links.github -%}
+            <a href="https://github.com/{{ site.plainwhite.social_links.github }}" target="_blank">
+              <li>
+                <i class="icon-github"></i>
+              </li>
+            </a>
+          {%- endif -%}
+          {%- if site.plainwhite.social_links.gitee -%}
+            <a href="https://www.gitee.com/{{ site.plainwhite.social_links.gitee }}" target="_blank">
+              <li>
+                <i class="icon-gitee"></i>
+              </li>
+            </a>
+          {%- endif -%}
+          
+        </ul>
 
-  {{ content }}
+        {%- if site.plainwhite.navigation -%}
+          <nav class="navigation">
+            <ul>
+              {% for link in site.plainwhite.navigation %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        {%- endif -%}
 
-  {% include footer.html %}
-
-</body>
-
+        <p>&copy;
+          2018～{{ "now" | date: "%Y" }}</p>
+      </section>
+      <section class="content">
+        {{ content }}
+      </section>
+    </main>
+    
+<script type="text/javascript">
+var _hmt = _hmt || [];
+(function() {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?382d2b691a4a55327695e8e81e352e93";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+  </body>
 </html>

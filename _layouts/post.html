@@ -1,29 +1,34 @@
 ---
-layout: home
+layout: default
 ---
-
-<div class="page__content" data-image="/images/demo/about.jpg">
-    <section class="intro">
-        <div class="wrap">
-            <h1>{{ page.title | escape }}</h1>
-            {% assign date_format = site.minima.date_format | default: "%Y-%m-%d" %}
-            <p>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-iconfont25"></use>
-                </svg>
-                <span>{{ page.date | date: date_format }}</span>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-location"></use>
-                </svg>
-                <span>{{ page.location | split: " " | join: " · " }}</span>
-            </p>
-        </div>
-    </section>
-
-    <section class="single">
-        <div class="wrap">
-            {{content}}
-        </div>
-    </section>
+{%- assign date_format = site.plainwhite.date_format | default: "%b %-d, %Y" -%}
+<div class="post-container">
+  <a class="post-link" href="{{ page.url | relative_url }}">
+    <h2 class="post-title">{{ page.title | escape }}</h2>
+  </a>
+  <div class="post-meta">
+    <ul class="post-categories">
+      {%- for tag in page.tags -%}
+      <li>{{ tag }}</li>
+      {%- endfor -%}
+    </ul>
+    <div class="post-date"><i class="icon-calendar"></i>{{ page.date | date: date_format }}</div>
+  </div>
+  <div class="post">
+    {{ content }}
+  </div>
+  <div class="posts-paginator">
+      <div class="post-prev">
+        {%- if page.next -%}
+        <a href="{{ page.next | relative_url }}">< 上一篇</a>
+        {%- endif -%}
+      </div>
+      
+      <div class="post-next">
+        {%- if page.previous -%}
+        <a href="{{ page.previous | relative_url }}">下一篇 ></a>
+        {%- endif -%}
+      </div>
+      
+    </div>
 </div>
-

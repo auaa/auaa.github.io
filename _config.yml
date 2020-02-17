@@ -1,27 +1,36 @@
 title: 玲珑少年
 
-author:
-  location: 上海
-  motto:
-    - Away from home,
-    - away from home,
-    - Lord,
-    - I'm 500 miles away from home.
+email: qiuyg.wh@gmail.com
 
-# Build settings
-markdown: kramdown
-plugins_dir:
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-lunr-js-search
+show_excerpts: true # set to true to show excerpts on the homepage
 
-github_username: auaa
+# Minima date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+sass:
+  sass_dir: _sass
+plainwhite:
+  name: 玲珑少年
+  tagline: Developer
+  date_format: "%b %-d, %Y"
+
+  # generate social links in footer
+  social_links:
+    gitee: auaa
+    github: auaa
+
+  navigation:
+    - title: About
+      url: "/about"
 
 permalink: pretty
+
+paginate: 5
+paginate_path: ":num"
+
+# Build settings
+# theme: plainwhite
+
 plugins:
+  - jekyll-seo-tag
   - jekyll-paginate
-
-paginate: 10
-paginate_path: "page:num"
-
-timezone: CN
+#  - jekyll-feed

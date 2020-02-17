@@ -1,22 +1,7 @@
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
-
-    <link rel="icon" type="image/png" href='{{ "/assets/images/logo.png" | relative_url }}'/>
-
-    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
-
-    <!-- Font Embed Code -->
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400|Muli:400,400i,600" rel="stylesheet" />
-
-    <!-- Styles -->
-    <link rel="stylesheet" href='{{ "/assets/css/style.css" | relative_url }}' />
-
-    <!-- Icons -->
-    <script type="text/javascript" src='{{ "/assets/js/iconfont.js" | relative_url }}'></script>
-
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+<title>{{ page.title | default: site.title }}</title>
+{% seo %}
