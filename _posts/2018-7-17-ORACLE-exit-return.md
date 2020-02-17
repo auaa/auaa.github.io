@@ -2,7 +2,7 @@
 layout: post
 title: 'ORACLE中exit与return区别'
 date: 2018-07-17 17:16:27 +0800
-tags: []
+tags: [oracle]
 published: true
 location: 武汉 洪山广场
 feature: 
