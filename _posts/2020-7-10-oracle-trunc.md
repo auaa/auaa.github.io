@@ -1,14 +1,14 @@
 ---
 layout: post
 title: ORACLE TRUNC()函数
-date: 2020-2-25 10:02:12 +0800
+date: 2020-7-10 10:02:12 +0800
 tags: [oracle]
 published: true
 location: 杭州
 feature: 
 ---
 
-####1. trunc（date，[ format]）
+#### 1. trunc（date，[ format]）
 trunc 以指定的元素截取日期类型的数据
 
 date– 日期格式的值
@@ -23,7 +23,7 @@ format–日期格式 如‘mm','yyyy'等 将date从指定日期格式截取,可
 > select trunc(sysdate ,'HH24') from dual;--2020/7/10 10:00:00，返回当前的小时
 > select trunc(sysdate ,'MI') from dual;--2020/7/10 10:25:00，返回当前的分
 
-####2. trunc（number,[decimals]）
+#### 2. trunc（number,[decimals]）
 number- 待做截取处理的数值；
 
 decimals- 指明需保留小数点后面的位数，可选项，忽略它则截去所有的小数部分。
