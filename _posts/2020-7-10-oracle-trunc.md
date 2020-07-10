@@ -16,11 +16,17 @@ date– 日期格式的值
 format–日期格式 如‘mm','yyyy'等 将date从指定日期格式截取,可选项，忽略它则按照最近的日期截取
 
 > select trunc(sysdate) from dual; --2020/7/10
+
 > select trunc(sysdate,'yy') from dual;--2020/1/1，返回今年的第一天
+
 > select trunc(sysdate,'mm') from dual;--2020/7/1，返回本月的第一天
+
 > select trunc(sysdate,'d') from dual;--2020/7/5，返回本周的第一天
+
 > select trunc(sysdate,'dd') from dual;--2020/7/10，返回今日日期
+
 > select trunc(sysdate ,'HH24') from dual;--2020/7/10 10:00:00，返回当前的小时
+
 > select trunc(sysdate ,'MI') from dual;--2020/7/10 10:25:00，返回当前的分
 
 #### 2. trunc（number,[decimals]）
