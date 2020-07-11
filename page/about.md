@@ -1,5 +1,6 @@
 ---
 layout: page
+permalink: /about/
 ---
 
 ## 关于本站
