@@ -1,0 +1,73 @@
+.timeline_wrap {
+  article {
+    fieldset {
+      border-top: 1px solid #eee;
+
+      border-left-width: 0;
+      border-right-width: 0;
+      border-bottom-width: 0;
+
+      legend {
+        text-align: center;
+        padding: 0 10px;
+      }
+
+      section {
+        padding: 0 0 17px;
+        position: relative;
+        clear: both;
+        display: flex;
+
+
+        .point-time {
+          content: "";
+          position: absolute;
+          width: 13px;
+          height: 13px;
+          top: 17px;
+          left: 2%;
+          background: #1c87bf;
+          margin-left: -4px;
+          border-radius: 50%;
+          box-shadow: 0 0 0 5px #fff;
+        }
+
+        aside {
+          flex-basis: 0;
+          flex-grow: 1;
+          flex-shrink: 1;
+          margin-top: -1rem;
+          margin-left: 6%;
+          margin-bottom: 2rem;
+
+          > p{
+            margin: 0.3rem;
+            padding: 0;
+          }
+
+          .brief {
+            background-color: rgba(10,89,176,0.6);
+            color: #ffffff;
+            border-radius: 5px;
+            padding: .4rem;
+          }
+        }
+      }
+
+
+      section:before {
+        content: "";
+        width: 5px;
+        top: 35px;
+        bottom: -11px;
+        left: 2%;
+        background: #e6e6e6;
+        position: absolute;
+      }
+
+      section:last-child:before {
+        display: none;
+      }
+    }
+  }
+}

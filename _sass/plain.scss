@@ -155,6 +155,10 @@ main {
       @media screen and (max-width: $mobileW) {
         padding: 2rem 0;
       }
+
+      &.current {
+        color: #0a59b0;
+      }
     }
   }
 }

@@ -4,10 +4,14 @@ email: qiuyg.wh@gmail.com
 
 show_excerpts: true # set to true to show excerpts on the homepage
 
+collections:
+  - memory
+
 # Minima date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
 sass:
   sass_dir: _sass
+
 plainwhite:
   name: 玲珑少年
   tagline: Developer
@@ -19,8 +23,12 @@ plainwhite:
     github: auaa
 
   navigation:
+    - title: Home
+      url: /
+    - title: Timeline
+      url: /memory/
     - title: About
-      url: "/about"
+      url: /about/
 
 permalink: pretty
 
