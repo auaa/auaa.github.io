@@ -14,7 +14,7 @@ permalink: /about/
 {%- endfor -%}
 
 
-1. 不提供评论功能，可提[issue](https://github.com/{{ site.plainwhite.social_links.github }}/{{ site.plainwhite.social_links.github }}.github.io/issues)
+1. 不提供评论功能，可提[issue](https://github.com/{{ site.plainwhite.social_links.github }}/{{ site.plainwhite.social_links.github }}.github.io/issues){:target="_blank"}
 2. 偶尔分享读书、电影心得
 3. 偶尔分享代码
 
@@ -22,7 +22,7 @@ permalink: /about/
 
 ## 友情链接
 
-[Github](https://github.com/auaa)
+[Github](https://github.com/auaa){:target="_blank"}
 
 
 
