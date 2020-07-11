@@ -7,13 +7,12 @@ permalink: /about/
 
 > 欢迎光临个人小站
 
-本站搭建于2018年4月25日，前端是基于Bootstrap。
+{% assign version_order = site.versions | sort: "date" %}
+{%- for v in version_order -%}
 
-第二次改版于2019年7月9日，前端基于jekyll主题-journal。
+{{v.content}}
+{%- endfor -%}
 
-第三次改版于2020年2月17日，前端基于jekyll主题-plainwhite。
-
-第四次调整与2020年7月11日，新增timeline。
 
 1. 不提供评论功能，可提issue
 2. 偶尔分享读书、电影心得

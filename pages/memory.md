@@ -8,7 +8,7 @@ permalink: /memory/
     <h1 id="posts-label">timeline</h1>
     {% assign memory_by_year = site.memory | group_by_exp: "item","item.date|date: '%Y'" | sort: "name" | reverse %}
 
-    {%- for year in memory_by_year -%}
+    {% for year in memory_by_year %}
     <article>
         <fieldset>
             <legend><h3>{{ year.name }}年</h3></legend>
@@ -28,5 +28,5 @@ permalink: /memory/
 
     </article>
 
-    {%- endfor -%}
+    {% endfor %}
 </div>
