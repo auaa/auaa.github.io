@@ -2,7 +2,7 @@
 layout: post
 title: npm commands
 date: 2020-2-25 10:02:12 +0800
-tags: [npm]
+tags: [npm,nodejs]
 published: true
 location: 十堰
 feature: 
