@@ -13,6 +13,7 @@ permalink: /about/
 
 第三次改版于2020年2月17日，前端基于jekyll主题-plainwhite。
 
+第四次调整与2020年7月11日，新增timeline。
 
 1. 不提供评论功能，可提issue
 2. 偶尔分享读书、电影心得
