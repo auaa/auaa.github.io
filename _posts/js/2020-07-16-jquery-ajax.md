@@ -149,4 +149,4 @@ $.getJSON('http://xxx?a=A').done(function(res){
 
 > **尾记：** 由于JavaScript是弱类型语言，在多态的支持上比较弱。
 >
-> 但是jquery还是坚持实现。
+> 但是jquery还是坚持实现。不得不说，还是给我们开拓了一些思维的。
