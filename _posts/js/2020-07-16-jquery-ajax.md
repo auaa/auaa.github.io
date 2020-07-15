@@ -2,7 +2,7 @@
 layout: post
 title: 从query ajax发送get请求来解读jquery源码
 date: 2020-7-16 10:10:12 +0800
-tags: [javascript,jquery]
+tags: [解读源码,javascript,jquery]
 published: true
 location: 杭州
 feature: 
