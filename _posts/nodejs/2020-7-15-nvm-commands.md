@@ -31,7 +31,7 @@ feature:
 | nvm unload                     | 从shell卸载`nvm`                                  |
 | nvm which [\<version\>]        | 显示特定版本的安装路径                            |
 
-
+<br>
 
 ```bash
 // 设置默认的版本为v9.11.2  
