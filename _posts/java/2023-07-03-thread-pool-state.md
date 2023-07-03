@@ -8,6 +8,8 @@ location: 义乌 西何三区
 feature: 
 ---
 
+> 线程池的5种状态。RUNNING、SHUTDOWN、STOP、TIDYING、TERMINATED。
+
 ## RUNNING
 
 线程池处于运行状态，既能接受新的任务，也能处理队列中的任务。
