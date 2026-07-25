@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
@@ -162,9 +161,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
             {saveState === 'saved' && (saveMsg || '已保存')}
             {saveState === 'error' && (saveMsg || '保存失败')}
           </span>
-          <Button size="small" onClick={() => void save()}>
-            保存
-          </Button>
         </div>
       </div>
 

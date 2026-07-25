@@ -90,7 +90,7 @@ select {
   height: 36px;
   border-radius: 6px;
   object-fit: cover;
-  background: #000;
+  background: transparent;
   display: block;
 }
 
@@ -513,16 +513,9 @@ select {
 .priority-flame {
   display: inline-flex;
   align-items: center;
-  gap: 1px;
-  line-height: 1;
+  justify-content: center;
+  line-height: 0;
   vertical-align: middle;
-  font-size: 14px;
-}
-
-.priority-flame-num {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .priority-empty {
