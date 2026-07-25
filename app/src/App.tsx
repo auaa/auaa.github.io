@@ -142,7 +142,7 @@ export default function App() {
       <header className="top">
         <div>
           <h1>Daily</h1>
-          <p className="muted">今日 {todayYmd()} · 上海时区</p>
+          <p className="muted">今日 {todayYmd()}</p>
         </div>
       </header>
       <CategoryTabs categories={categories} value={category} onChange={setCategory} />

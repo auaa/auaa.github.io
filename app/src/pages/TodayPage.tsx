@@ -132,7 +132,8 @@ export function TodayPage({ client, category }: Props) {
         <div>
           <h2>今天</h2>
           <p className="muted">
-            {ymd}（上海时区）{!exists && tasks.length ? ' · 继承未落盘' : ''}
+            {ymd}
+            {!exists && tasks.length ? ' · 继承未落盘' : ''}
           </p>
         </div>
         <div className="head-actions">
