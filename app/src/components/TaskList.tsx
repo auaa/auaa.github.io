@@ -17,9 +17,12 @@ import { CSS } from '@dnd-kit/utilities'
 import type { Task, TaskStatus } from '../types'
 import { STATUS_LABEL } from '../types'
 
+const DEFAULT_NEW_TITLE = '新任务'
+
 interface TaskItemProps {
   task: Task
   readOnly?: boolean
+  autoFocus?: boolean
   onTitleChange?: (id: string, title: string) => void
   onStatusChange?: (id: string, status: TaskStatus) => void
   onDelete?: (id: string) => void
@@ -55,7 +58,7 @@ function statusTagClass(status: TaskStatus) {
   return 'is-light'
 }
 
-function TaskFields({ task, readOnly, onTitleChange, onStatusChange, onDelete }: TaskItemProps) {
+function TaskFields({ task, readOnly, autoFocus, onTitleChange, onStatusChange, onDelete }: TaskItemProps) {
   return (
     <div className="task-body">
       <div className="task-main">
@@ -65,7 +68,11 @@ function TaskFields({ task, readOnly, onTitleChange, onStatusChange, onDelete }:
           <input
             className="input is-small"
             value={task.title}
+            autoFocus={autoFocus}
             onChange={(e) => onTitleChange?.(task.id, e.target.value)}
+            onFocus={() => {
+              if (task.title === DEFAULT_NEW_TITLE) onTitleChange?.(task.id, '')
+            }}
             placeholder="任务标题"
           />
         )}
@@ -112,6 +119,7 @@ function fmtShort(iso: string) {
 interface ListProps {
   tasks: Task[]
   readOnly?: boolean
+  focusTaskId?: string | null
   onReorder?: (tasks: Task[]) => void
   onTitleChange?: (id: string, title: string) => void
   onStatusChange?: (id: string, status: TaskStatus) => void
@@ -121,6 +129,7 @@ interface ListProps {
 export function TaskList({
   tasks,
   readOnly,
+  focusTaskId,
   onReorder,
   onTitleChange,
   onStatusChange,
@@ -164,6 +173,7 @@ export function TaskList({
             <SortableTaskRow
               key={t.id}
               task={t}
+              autoFocus={focusTaskId === t.id}
               onTitleChange={onTitleChange}
               onStatusChange={onStatusChange}
               onDelete={onDelete}
@@ -174,3 +184,5 @@ export function TaskList({
     </DndContext>
   )
 }
+
+export { DEFAULT_NEW_TITLE }

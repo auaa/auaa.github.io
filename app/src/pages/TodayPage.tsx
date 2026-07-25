@@ -5,7 +5,7 @@ import { nowShanghaiIso, todayYmd } from '../lib/date'
 import { newTaskId } from '../lib/id'
 import { applyStatusChange, inheritOpenTasks, parseMarkdown, serializeMarkdown } from '../lib/markdown'
 import { useDebouncedCallback } from '../hooks/useDebouncedCallback'
-import { TaskList } from '../components/TaskList'
+import { TaskList, DEFAULT_NEW_TITLE } from '../components/TaskList'
 import type { Task, TaskStatus } from '../types'
 
 interface Props {
@@ -24,6 +24,7 @@ export function TodayPage({ client, category }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [saveMsg, setSaveMsg] = useState('')
+  const [focusTaskId, setFocusTaskId] = useState<string | null>(null)
   const dirtyRef = useRef(false)
   const tasksRef = useRef(tasks)
   const shaRef = useRef(sha)
@@ -120,7 +121,9 @@ export function TodayPage({ client, category }: Props) {
 
   function addTask() {
     const now = nowShanghaiIso()
-    markDirty([...tasks, { id: newTaskId(), title: '新任务', status: 'planned', plannedAt: now }])
+    const id = newTaskId()
+    markDirty([...tasks, { id, title: DEFAULT_NEW_TITLE, status: 'planned', plannedAt: now }])
+    setFocusTaskId(id)
   }
 
   if (loading) return <div className="box is-size-7 py-3">加载今天…</div>
@@ -153,6 +156,7 @@ export function TodayPage({ client, category }: Props) {
       </div>
       <TaskList
         tasks={tasks}
+        focusTaskId={focusTaskId}
         onReorder={markDirty}
         onTitleChange={(id, title) => markDirty(tasks.map((t) => (t.id === id ? { ...t, title } : t)))}
         onStatusChange={(id, status: TaskStatus) =>
