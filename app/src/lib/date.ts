@@ -40,7 +40,7 @@ export function addDaysYmd(ymd: string, delta: number): string {
   return todayYmd(d)
 }
 
-/** Last 30 calendar days ending today (oldest → newest) */
+/** 过去 n 个日历日（含今天，从旧到新） */
 export function lastNDays(n: number, endYmd = todayYmd()): string[] {
   const out: string[] = []
   for (let i = n - 1; i >= 0; i--) out.push(addDaysYmd(endYmd, -i))

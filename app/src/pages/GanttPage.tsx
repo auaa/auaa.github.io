@@ -71,7 +71,9 @@ export function GanttPage({ client, category }: Props) {
       <div className="panel-head">
         <div>
           <h2>甘特</h2>
-          <p className="muted">近 30 日 · 只读 · {category}</p>
+          <p className="muted">
+            过去 30 天（{days[0]} ~ {days[days.length - 1]}）· 只读 · {category}
+          </p>
         </div>
       </div>
       {!tasks.length && <div className="empty">窗口内暂无任务</div>}
