@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { GithubClient } from '../lib/github'
-import { todayYmd, ymdToDate } from '../lib/date'
+import { todayYmd } from '../lib/date'
+import { getLayui } from '../lib/layui'
 import { parseMarkdown } from '../lib/markdown'
 import { TaskList } from '../components/TaskList'
 import type { Task } from '../types'
@@ -10,47 +11,19 @@ interface Props {
   category: string
 }
 
-function monthStart(ymd: string) {
-  return `${ymd.slice(0, 7)}-01`
-}
-
-function daysInMonth(ymd: string) {
-  const [yy, mm] = ymd.split('-').map(Number)
-  return new Date(yy, mm, 0).getDate()
-}
-
-function weekdayMon0(ymd: string) {
-  // 0=Mon … 6=Sun
-  const js = ymdToDate(ymd).getDay() // 0=Sun
-  return (js + 6) % 7
-}
-
 export function CalendarPage({ client, category }: Props) {
   const today = todayYmd()
-  const [cursorMonth, setCursorMonth] = useState(() => monthStart(today))
   const [selected, setSelected] = useState(today)
   const [fileDates, setFileDates] = useState<Set<string>>(new Set())
   const [tasks, setTasks] = useState<Task[]>([])
   const [loadingDates, setLoadingDates] = useState(true)
   const [loadingDay, setLoadingDay] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const cells = useMemo(() => {
-    const start = monthStart(cursorMonth)
-    const n = daysInMonth(start)
-    const pad = weekdayMon0(start)
-    const out: (string | null)[] = Array.from({ length: pad }, () => null)
-    for (let i = 1; i <= n; i++) {
-      out.push(`${start.slice(0, 8)}${String(i).padStart(2, '0')}`)
-    }
-    while (out.length % 7) out.push(null)
-    return out
-  }, [cursorMonth])
-
-  const monthLabel = useMemo(() => {
-    const [y, m] = cursorMonth.split('-')
-    return `${y}年${Number(m)}月`
-  }, [cursorMonth])
+  const calRef = useRef<HTMLDivElement | null>(null)
+  const selectedRef = useRef(selected)
+  const fileDatesRef = useRef(fileDates)
+  selectedRef.current = selected
+  fileDatesRef.current = fileDates
 
   useEffect(() => {
     let cancelled = false
@@ -79,9 +52,13 @@ export function CalendarPage({ client, category }: Props) {
       setError(null)
       try {
         if (!fileDates.has(selected) && !loadingDates) {
-          if (!cancelled) setTasks([])
+          if (!cancelled) {
+            setTasks([])
+            setLoadingDay(false)
+          }
           return
         }
+        if (!fileDates.has(selected)) return
         const file = await client.getFile(category, selected)
         if (cancelled) return
         setTasks(file ? parseMarkdown(file.content) : [])
@@ -96,81 +73,76 @@ export function CalendarPage({ client, category }: Props) {
     }
   }, [client, category, selected, fileDates, loadingDates])
 
-  function shiftMonth(delta: number) {
-    const [y, m] = cursorMonth.split('-').map(Number)
-    const d = new Date(y, m - 1 + delta, 1)
-    const next = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`
-    setCursorMonth(next)
-  }
+  useEffect(() => {
+    const el = calRef.current
+    if (!el || loadingDates) return
+    let cancelled = false
+
+    void getLayui().then(({ laydate }) => {
+      if (cancelled || !calRef.current) return
+      calRef.current.innerHTML = ''
+      const mark: Record<string, string> = {}
+      for (const d of fileDatesRef.current) mark[d] = ''
+
+      laydate.render({
+        elem: calRef.current,
+        position: 'static',
+        show: true,
+        value: selectedRef.current,
+        isInitValue: true,
+        theme: '#0c66e4',
+        mark,
+        ready() {
+          // keep panel open
+        },
+        change(value: string) {
+          if (value) setSelected(value)
+        },
+        done(value: string) {
+          if (value) setSelected(value)
+        },
+      })
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [loadingDates, fileDates, category])
 
   return (
     <div className="panel">
       <div className="panel-head">
         <div>
           <h2 className="panel-title">日历</h2>
-          <p className="panel-desc">点选日期查看当天任务（只读）</p>
+          <p className="panel-desc">点选日期查看当天任务（只读）；有文件的日期已标记</p>
         </div>
         <div className="panel-actions">
-          <button type="button" className="btn" onClick={() => shiftMonth(-1)}>
-            上月
-          </button>
-          <span className="hint">{monthLabel}</span>
-          <button type="button" className="btn" onClick={() => shiftMonth(1)}>
-            下月
-          </button>
           <button
             type="button"
-            className="btn"
-            onClick={() => {
-              setCursorMonth(monthStart(today))
-              setSelected(today)
-            }}
+            className="layui-btn layui-btn-primary layui-btn-sm"
+            onClick={() => setSelected(today)}
           >
-            今天
+            回到今天
           </button>
         </div>
       </div>
 
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className="layui-bg-red" style={{ padding: '8px 12px', borderRadius: 4 }}>{error}</div>}
 
-      <div className="cal-grid" role="grid" aria-label={monthLabel}>
-        {['一', '二', '三', '四', '五', '六', '日'].map((d) => (
-          <div key={d} className="cal-weekday">
-            {d}
-          </div>
-        ))}
-        {cells.map((ymd, i) =>
-          ymd ? (
-            <button
-              key={ymd}
-              type="button"
-              className={[
-                'cal-day',
-                ymd === selected ? 'is-selected' : '',
-                ymd === today ? 'is-today' : '',
-                fileDates.has(ymd) ? 'has-file' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              onClick={() => setSelected(ymd)}
-            >
-              <span className="cal-day-num">{Number(ymd.slice(8))}</span>
-            </button>
+      <div className="cal-layout">
+        <div className="cal-laydate-wrap">
+          {loadingDates ? <p className="hint">加载日历…</p> : <div ref={calRef} className="cal-laydate" />}
+        </div>
+        <div className="cal-day-panel">
+          <h3 className="day-label">{selected}</h3>
+          {loadingDay || loadingDates ? (
+            <p className="hint">加载中…</p>
+          ) : !fileDates.has(selected) ? (
+            <p className="empty-state">该日无任务文件</p>
           ) : (
-            <div key={`e-${i}`} className="cal-day is-empty" />
-          ),
-        )}
-      </div>
-
-      <div className="cal-day-panel">
-        <h3 className="day-label">{selected}</h3>
-        {loadingDay || loadingDates ? (
-          <p className="hint">加载中…</p>
-        ) : !fileDates.has(selected) ? (
-          <p className="empty-state">该日无任务文件</p>
-        ) : (
-          <TaskList tasks={tasks} readOnly />
-        )}
+            <TaskList tasks={tasks} readOnly />
+          )}
+        </div>
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import {
   DndContext,
   PointerSensor,
@@ -13,8 +14,11 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { getLayui } from '../lib/layui'
 import type { Task, TaskPriority, TaskStatus } from '../types'
 import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
+
+let formEventsBound = false
 
 interface TaskItemProps {
   task: Task
@@ -55,8 +59,6 @@ function TaskFields({
   readOnly,
   editable,
   onTitleClick,
-  onStatusChange,
-  onPriorityChange,
   onDelete,
 }: TaskItemProps) {
   const canEdit = editable && !readOnly
@@ -65,37 +67,40 @@ function TaskFields({
     <div className="task-body">
       <div className="task-main">
         {canEdit ? (
-          <select
-            className="field-select task-status-select"
-            value={task.status}
-            aria-label="进展"
-            onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
-          >
-            {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
-              <option key={s} value={s}>
-                {STATUS_LABEL[s]}
-              </option>
-            ))}
-          </select>
+          <div className="task-select task-status-select">
+            <select
+              name="status"
+              lay-filter="task-status"
+              data-task-id={task.id}
+              defaultValue={task.status}
+              aria-label="进展"
+            >
+              {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
+                <option key={s} value={s}>
+                  {STATUS_LABEL[s]}
+                </option>
+              ))}
+            </select>
+          </div>
         ) : (
           <span className={`status-tag status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
         )}
 
         {canEdit ? (
-          <select
-            className="field-select task-priority-select"
-            value={task.priority ?? ''}
-            aria-label="优先级"
-            onChange={(e) => {
-              const v = e.target.value
-              onPriorityChange?.(task.id, v ? (Number(v) as TaskPriority) : undefined)
-            }}
-          >
-            <option value="">—</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
+          <div className="task-select task-priority-select">
+            <select
+              name="priority"
+              lay-filter="task-priority"
+              data-task-id={task.id}
+              defaultValue={task.priority ?? ''}
+              aria-label="优先级"
+            >
+              <option value="">—</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
         ) : (
           <span className={`priority-tag${task.priority ? ` p${task.priority}` : ''}`}>
             {task.priority ? PRIORITY_LABEL[task.priority] : '—'}
@@ -120,8 +125,13 @@ function TaskFields({
         <span className="task-due">{fmtDue(task.dueAt)}</span>
 
         {canEdit && (
-          <button type="button" className="icon-btn" aria-label="删除" onClick={() => onDelete?.(task.id)}>
-            ×
+          <button
+            type="button"
+            className="layui-btn layui-btn-primary layui-btn-xs task-del-btn"
+            aria-label="删除"
+            onClick={() => onDelete?.(task.id)}
+          >
+            删除
           </button>
         )}
       </div>
@@ -137,7 +147,6 @@ function fmtDue(due?: string) {
 interface ListProps {
   tasks: Task[]
   readOnly?: boolean
-  /** 今日可编辑列布局 */
   editable?: boolean
   onReorder?: (tasks: Task[]) => void
   onTitleClick?: (task: Task) => void
@@ -156,7 +165,37 @@ export function TaskList({
   onPriorityChange,
   onDelete,
 }: ListProps) {
+  const formRef = useRef<HTMLDivElement | null>(null)
+  const statusCb = useRef(onStatusChange)
+  const priorityCb = useRef(onPriorityChange)
+  statusCb.current = onStatusChange
+  priorityCb.current = onPriorityChange
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
+
+  useEffect(() => {
+    if (readOnly || !editable) return
+    let cancelled = false
+    void getLayui().then(({ form }) => {
+      if (cancelled) return
+      if (!formEventsBound) {
+        formEventsBound = true
+        form.on('select(task-status)', (data) => {
+          const id = data.elem.getAttribute('data-task-id')
+          if (id) statusCb.current?.(id, data.value as TaskStatus)
+        })
+        form.on('select(task-priority)', (data) => {
+          const id = data.elem.getAttribute('data-task-id')
+          if (!id) return
+          const v = data.value
+          priorityCb.current?.(id, v ? (Number(v) as TaskPriority) : undefined)
+        })
+      }
+      form.render('select')
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [tasks, readOnly, editable])
 
   function onDragEnd(e: DragEndEvent) {
     const { active, over } = e
@@ -184,22 +223,24 @@ export function TaskList({
   }
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-      <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
-        <ul className="task-list">
-          {tasks.map((t) => (
-            <SortableTaskRow
-              key={t.id}
-              task={t}
-              editable
-              onTitleClick={onTitleClick}
-              onStatusChange={onStatusChange}
-              onPriorityChange={onPriorityChange}
-              onDelete={onDelete}
-            />
-          ))}
-        </ul>
-      </SortableContext>
-    </DndContext>
+    <div className="layui-form" ref={formRef} lay-filter="task-list">
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+        <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+          <ul className="task-list">
+            {tasks.map((t) => (
+              <SortableTaskRow
+                key={`${t.id}-${t.status}-${t.priority ?? ''}`}
+                task={t}
+                editable
+                onTitleClick={onTitleClick}
+                onStatusChange={onStatusChange}
+                onPriorityChange={onPriorityChange}
+                onDelete={onDelete}
+              />
+            ))}
+          </ul>
+        </SortableContext>
+      </DndContext>
+    </div>
   )
 }

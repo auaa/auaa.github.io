@@ -161,7 +161,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
             {saveState === 'saved' && (saveMsg || '已保存')}
             {saveState === 'error' && (saveMsg || '保存失败')}
           </span>
-          <button type="button" className="btn" onClick={() => void save()}>
+          <button type="button" className="layui-btn layui-btn-primary layui-btn-sm" onClick={() => void save()}>
             保存
           </button>
         </div>
