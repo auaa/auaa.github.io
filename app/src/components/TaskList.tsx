@@ -13,17 +13,16 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { Task, TaskStatus } from '../types'
-import { STATUS_LABEL } from '../types'
-
-const DEFAULT_NEW_TITLE = '新任务'
+import type { Task, TaskPriority, TaskStatus } from '../types'
+import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
 
 interface TaskItemProps {
   task: Task
   readOnly?: boolean
-  autoFocus?: boolean
-  onTitleChange?: (id: string, title: string) => void
+  editable?: boolean
+  onTitleClick?: (task: Task) => void
   onStatusChange?: (id: string, status: TaskStatus) => void
+  onPriorityChange?: (id: string, priority: TaskPriority | undefined) => void
   onDelete?: (id: string) => void
 }
 
@@ -51,77 +50,110 @@ function SortableTaskRow(props: TaskItemProps) {
   )
 }
 
-function TaskFields({ task, readOnly, autoFocus, onTitleChange, onStatusChange, onDelete }: TaskItemProps) {
+function TaskFields({
+  task,
+  readOnly,
+  editable,
+  onTitleClick,
+  onStatusChange,
+  onPriorityChange,
+  onDelete,
+}: TaskItemProps) {
+  const canEdit = editable && !readOnly
+
   return (
     <div className="task-body">
       <div className="task-main">
-        {readOnly ? (
-          <span className="task-title-text">{task.title}</span>
+        {canEdit ? (
+          <select
+            className="field-select task-status-select"
+            value={task.status}
+            aria-label="进展"
+            onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
+          >
+            {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
+              <option key={s} value={s}>
+                {STATUS_LABEL[s]}
+              </option>
+            ))}
+          </select>
         ) : (
-          <input
-            className="field-input task-title-input"
-            value={task.title}
-            autoFocus={autoFocus}
-            onChange={(e) => onTitleChange?.(task.id, e.target.value)}
-            onFocus={() => {
-              if (task.title === DEFAULT_NEW_TITLE) onTitleChange?.(task.id, '')
-            }}
-            placeholder="任务标题"
-          />
+          <span className={`status-tag status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
         )}
-        <div className="task-meta">
-          {readOnly ? (
-            <span className={`status-tag status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
-          ) : (
-            <select
-              className="field-select"
-              value={task.status}
-              onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
-            >
-              {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
-                <option key={s} value={s}>
-                  {STATUS_LABEL[s]}
-                </option>
-              ))}
-            </select>
-          )}
-          {!readOnly && (
-            <button type="button" className="icon-btn" aria-label="删除" onClick={() => onDelete?.(task.id)}>
-              ×
-            </button>
-          )}
-        </div>
-      </div>
-      <div className="task-dates">
-        {task.plannedAt && <span>规划 {fmtShort(task.plannedAt)}</span>}
-        {task.startedAt && <span>开始 {fmtShort(task.startedAt)}</span>}
-        {task.completedAt && <span>完成 {fmtShort(task.completedAt)}</span>}
+
+        {canEdit ? (
+          <select
+            className="field-select task-priority-select"
+            value={task.priority ?? ''}
+            aria-label="优先级"
+            onChange={(e) => {
+              const v = e.target.value
+              onPriorityChange?.(task.id, v ? (Number(v) as TaskPriority) : undefined)
+            }}
+          >
+            <option value="">—</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        ) : (
+          <span className={`priority-tag${task.priority ? ` p${task.priority}` : ''}`}>
+            {task.priority ? PRIORITY_LABEL[task.priority] : '—'}
+          </span>
+        )}
+
+        {canEdit ? (
+          <button
+            type="button"
+            className="task-title-btn"
+            onClick={() => onTitleClick?.(task)}
+            title={task.detail || undefined}
+          >
+            {task.title || '（无标题）'}
+          </button>
+        ) : (
+          <span className="task-title-text" title={task.detail || undefined}>
+            {task.title || '（无标题）'}
+          </span>
+        )}
+
+        <span className="task-due">{fmtDue(task.dueAt)}</span>
+
+        {canEdit && (
+          <button type="button" className="icon-btn" aria-label="删除" onClick={() => onDelete?.(task.id)}>
+            ×
+          </button>
+        )}
       </div>
     </div>
   )
 }
 
-function fmtShort(iso: string) {
-  return iso.replace('T', ' ').replace(/\+08:00$/, '').slice(5, 16)
+function fmtDue(due?: string) {
+  if (!due) return '—'
+  return due.replace('T', ' ').slice(0, 16)
 }
 
 interface ListProps {
   tasks: Task[]
   readOnly?: boolean
-  focusTaskId?: string | null
+  /** 今日可编辑列布局 */
+  editable?: boolean
   onReorder?: (tasks: Task[]) => void
-  onTitleChange?: (id: string, title: string) => void
+  onTitleClick?: (task: Task) => void
   onStatusChange?: (id: string, status: TaskStatus) => void
+  onPriorityChange?: (id: string, priority: TaskPriority | undefined) => void
   onDelete?: (id: string) => void
 }
 
 export function TaskList({
   tasks,
   readOnly,
-  focusTaskId,
+  editable,
   onReorder,
-  onTitleChange,
+  onTitleClick,
   onStatusChange,
+  onPriorityChange,
   onDelete,
 }: ListProps) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
@@ -139,7 +171,7 @@ export function TaskList({
     return <p className="empty-state">暂无任务</p>
   }
 
-  if (readOnly) {
+  if (readOnly || !editable) {
     return (
       <ul className="task-list">
         {tasks.map((t) => (
@@ -159,9 +191,10 @@ export function TaskList({
             <SortableTaskRow
               key={t.id}
               task={t}
-              autoFocus={focusTaskId === t.id}
-              onTitleChange={onTitleChange}
+              editable
+              onTitleClick={onTitleClick}
               onStatusChange={onStatusChange}
+              onPriorityChange={onPriorityChange}
               onDelete={onDelete}
             />
           ))}
@@ -170,5 +203,3 @@ export function TaskList({
     </DndContext>
   )
 }
-
-export { DEFAULT_NEW_TITLE }

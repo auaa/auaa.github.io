@@ -5,17 +5,32 @@ import { nowShanghaiIso, todayYmd } from '../lib/date'
 import { newTaskId } from '../lib/id'
 import { applyStatusChange, inheritOpenTasks, parseMarkdown, serializeMarkdown } from '../lib/markdown'
 import { useDebouncedCallback } from '../hooks/useDebouncedCallback'
-import { TaskList, DEFAULT_NEW_TITLE } from '../components/TaskList'
-import type { Task, TaskStatus } from '../types'
+import { TaskList } from '../components/TaskList'
+import { TaskDialog } from '../components/TaskDialog'
+import type { Task, TaskDraft, TaskPriority, TaskStatus } from '../types'
 
 interface Props {
   client: GithubClient
   category: string
+  pendingCreate?: TaskDraft | null
+  onPendingCreateHandled?: () => void
 }
 
 type SaveState = 'idle' | 'dirty' | 'saving' | 'saved' | 'error'
 
-export function TodayPage({ client, category }: Props) {
+function draftToTask(draft: TaskDraft): Task {
+  return {
+    id: newTaskId(),
+    title: draft.title.trim(),
+    status: 'planned',
+    plannedAt: nowShanghaiIso(),
+    priority: draft.priority,
+    detail: draft.detail?.trim() || undefined,
+    dueAt: draft.dueAt || undefined,
+  }
+}
+
+export function TodayPage({ client, category, pendingCreate, onPendingCreateHandled }: Props) {
   const ymd = todayYmd()
   const [tasks, setTasks] = useState<Task[]>([])
   const [sha, setSha] = useState<string | undefined>()
@@ -24,7 +39,7 @@ export function TodayPage({ client, category }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [saveMsg, setSaveMsg] = useState('')
-  const [focusTaskId, setFocusTaskId] = useState<string | null>(null)
+  const [editTask, setEditTask] = useState<Task | null>(null)
   const dirtyRef = useRef(false)
   const tasksRef = useRef(tasks)
   const shaRef = useRef(sha)
@@ -119,12 +134,12 @@ export function TodayPage({ client, category }: Props) {
     setSaveState('dirty')
   }
 
-  function addTask() {
-    const now = nowShanghaiIso()
-    const id = newTaskId()
-    markDirty([...tasks, { id, title: DEFAULT_NEW_TITLE, status: 'planned', plannedAt: now }])
-    setFocusTaskId(id)
-  }
+  useEffect(() => {
+    if (!pendingCreate || loading) return
+    markDirty([...tasksRef.current, draftToTask(pendingCreate)])
+    onPendingCreateHandled?.()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- consume once when pending arrives
+  }, [pendingCreate, loading])
 
   if (loading) return <div className="panel muted-panel">加载今天…</div>
   if (error) return <div className="alert alert-danger">{error}</div>
@@ -133,7 +148,7 @@ export function TodayPage({ client, category }: Props) {
     <div className="panel">
       <div className="panel-head">
         <div>
-          <h2 className="panel-title">今天</h2>
+          <h2 className="panel-title">今日</h2>
           <p className="panel-desc">
             {ymd}
             {!exists && tasks.length ? ' · 继承未落盘' : ''}
@@ -149,20 +164,58 @@ export function TodayPage({ client, category }: Props) {
           <button type="button" className="btn" onClick={() => void save()}>
             保存
           </button>
-          <button type="button" className="btn btn-primary" onClick={addTask}>
-            新增
-          </button>
         </div>
       </div>
+
+      <div className="task-list-head" aria-hidden>
+        <span className="col-drag" />
+        <span className="col-status">进展</span>
+        <span className="col-priority">优先级</span>
+        <span className="col-title">标题</span>
+        <span className="col-due">预期完成</span>
+        <span className="col-del" />
+      </div>
+
       <TaskList
         tasks={tasks}
-        focusTaskId={focusTaskId}
+        editable
         onReorder={markDirty}
-        onTitleChange={(id, title) => markDirty(tasks.map((t) => (t.id === id ? { ...t, title } : t)))}
+        onTitleClick={(t) => setEditTask(t)}
         onStatusChange={(id, status: TaskStatus) =>
           markDirty(tasks.map((t) => (t.id === id ? applyStatusChange(t, status, nowShanghaiIso()) : t)))
         }
+        onPriorityChange={(id, priority: TaskPriority | undefined) =>
+          markDirty(
+            tasks.map((t) => {
+              if (t.id !== id) return t
+              const next = { ...t }
+              if (priority) next.priority = priority
+              else delete next.priority
+              return next
+            }),
+          )
+        }
         onDelete={(id) => markDirty(tasks.filter((t) => t.id !== id))}
+      />
+
+      <TaskDialog
+        mode="edit"
+        open={!!editTask}
+        task={editTask}
+        onClose={() => setEditTask(null)}
+        onSubmit={({ title, detail }) => {
+          if (!editTask) return
+          const id = editTask.id
+          markDirty(
+            tasksRef.current.map((t) => {
+              if (t.id !== id) return t
+              const next = { ...t, title }
+              if (detail) next.detail = detail
+              else delete next.detail
+              return next
+            }),
+          )
+        }}
       />
     </div>
   )

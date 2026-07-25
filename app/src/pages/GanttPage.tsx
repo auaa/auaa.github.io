@@ -15,7 +15,7 @@ function useGanttColWidth(labelW: number, dayCount: number) {
   const [colW, setColW] = useState(44)
   useEffect(() => {
     const calc = () => {
-      const avail = Math.min(window.innerWidth, 1280) - labelW - 64
+      const avail = Math.min(window.innerWidth, 1680) - labelW - 240
       setColW(Math.max(36, Math.min(52, Math.floor(avail / dayCount))))
     }
     calc()

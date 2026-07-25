@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { GithubClient, loadConfig } from './lib/github'
 import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
-import { CategoryTabs } from './components/CategoryTabs'
-import { MainNav } from './components/MainNav'
+import { Sidebar } from './components/Sidebar'
 import { UnlockPanel, UNLOCK_PASSWORD_LS } from './components/UnlockPanel'
+import { TaskDialog } from './components/TaskDialog'
 import { TodayPage } from './pages/TodayPage'
 import { HistoryPage } from './pages/HistoryPage'
+import { CalendarPage } from './pages/CalendarPage'
 import { GanttPage } from './pages/GanttPage'
-import type { AppConfigFile, TabId } from './types'
+import type { AppConfigFile, TabId, TaskDraft } from './types'
 
 function initialTab(): TabId {
   const today = todayYmd()
@@ -24,27 +25,8 @@ function initialTab(): TabId {
   return 'today'
 }
 
-function Shell({
-  children,
-  wide,
-  headerRight,
-}: {
-  children: ReactNode
-  wide?: boolean
-  headerRight?: ReactNode
-}) {
-  return (
-    <div className={`app-shell${wide ? ' is-wide' : ''}`}>
-      <header className="app-header">
-        <div className="brand-block">
-          <div className="brand">Daily</div>
-          <div className="brand-sub">{todayYmd()}</div>
-        </div>
-        {headerRight}
-      </header>
-      {children}
-    </div>
-  )
+function Shell({ children }: { children: ReactNode }) {
+  return <div className="app-shell is-wide">{children}</div>
 }
 
 export default function App() {
@@ -55,6 +37,8 @@ export default function App() {
   const [categories, setCategories] = useState<string[]>([])
   const [category, setCategory] = useState('')
   const [tab, setTab] = useState<TabId>(initialTab)
+  const [createOpen, setCreateOpen] = useState(false)
+  const [pendingCreate, setPendingCreate] = useState<TaskDraft | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -114,10 +98,20 @@ export default function App() {
 
   const body = useMemo(() => {
     if (!client || !category) return null
-    if (tab === 'today') return <TodayPage client={client} category={category} />
+    if (tab === 'today') {
+      return (
+        <TodayPage
+          client={client}
+          category={category}
+          pendingCreate={pendingCreate}
+          onPendingCreateHandled={() => setPendingCreate(null)}
+        />
+      )
+    }
     if (tab === 'history') return <HistoryPage client={client} category={category} />
+    if (tab === 'calendar') return <CalendarPage client={client} category={category} />
     return <GanttPage client={client} category={category} />
-  }, [client, category, tab])
+  }, [client, category, tab, pendingCreate])
 
   if (bootError) {
     return (
@@ -151,11 +145,31 @@ export default function App() {
   }
 
   return (
-    <Shell wide={tab === 'gantt'} headerRight={<MainNav value={tab} onChange={setTab} />}>
-      <CategoryTabs categories={categories} value={category} onChange={setCategory} />
-      <main className="app-main">
-        {body ?? <div className="alert alert-warn">请先在仓库创建 data/分类名/</div>}
-      </main>
+    <Shell>
+      <div className="app-layout">
+        <Sidebar
+          tab={tab}
+          onTabChange={setTab}
+          categories={categories}
+          category={category}
+          onCategoryChange={setCategory}
+          onCreate={() => setCreateOpen(true)}
+          dateLabel={todayYmd()}
+        />
+        <main className="app-main">
+          {body ?? <div className="alert alert-warn">请先在仓库创建 data/分类名/</div>}
+        </main>
+      </div>
+
+      <TaskDialog
+        mode="create"
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        onSubmit={(draft) => {
+          setPendingCreate(draft)
+          setTab('today')
+        }}
+      />
     </Shell>
   )
 }

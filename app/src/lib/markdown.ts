@@ -1,7 +1,12 @@
-import type { Task, TaskStatus } from '../types'
+import type { Task, TaskPriority, TaskStatus } from '../types'
 
 const LINE_RE =
   /^-\s+\[([ xX])\]\s+(.*?)\s*<!--\s*(.*?)\s*-->\s*$/
+
+function parsePriority(v: string): TaskPriority | undefined {
+  if (v === '1' || v === '2' || v === '3') return Number(v) as TaskPriority
+  return undefined
+}
 
 function parseMeta(raw: string): Partial<Task> & { id?: string; status?: TaskStatus } {
   const out: Partial<Task> & { id?: string; status?: TaskStatus } = {}
@@ -15,6 +20,17 @@ function parseMeta(raw: string): Partial<Task> & { id?: string; status?: TaskSta
     else if (k === 'planned') out.plannedAt = v
     else if (k === 'started') out.startedAt = v
     else if (k === 'completed') out.completedAt = v
+    else if (k === 'priority') {
+      const p = parsePriority(v)
+      if (p) out.priority = p
+    } else if (k === 'due') out.dueAt = decodeURIComponent(v)
+    else if (k === 'detail') {
+      try {
+        out.detail = decodeURIComponent(v)
+      } catch {
+        out.detail = v
+      }
+    }
   }
   return out
 }
@@ -36,6 +52,9 @@ export function parseMarkdown(md: string): Task[] {
       plannedAt: meta.plannedAt ?? '',
       startedAt: meta.startedAt,
       completedAt: meta.completedAt,
+      priority: meta.priority,
+      detail: meta.detail,
+      dueAt: meta.dueAt,
     })
   }
   return tasks
@@ -51,6 +70,9 @@ export function serializeMarkdown(tasks: Task[], heading?: string): string {
     const parts = [`id:${t.id}`, `status:${t.status}`, `planned:${t.plannedAt}`]
     if (t.startedAt) parts.push(`started:${t.startedAt}`)
     if (t.completedAt) parts.push(`completed:${t.completedAt}`)
+    if (t.priority) parts.push(`priority:${t.priority}`)
+    if (t.dueAt) parts.push(`due:${encodeURIComponent(t.dueAt)}`)
+    if (t.detail) parts.push(`detail:${encodeURIComponent(t.detail)}`)
     lines.push(`- [${box}] ${t.title} <!-- ${parts.join(' ')} -->`)
   }
   lines.push('')

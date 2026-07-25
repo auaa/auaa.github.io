@@ -1,5 +1,7 @@
 export type TaskStatus = 'planned' | 'started' | 'completed'
 
+export type TaskPriority = 1 | 2 | 3
+
 export interface Task {
   id: string
   title: string
@@ -7,6 +9,19 @@ export interface Task {
   plannedAt: string
   startedAt?: string
   completedAt?: string
+  /** 优先级，可选 */
+  priority?: TaskPriority
+  /** 详情，可选 */
+  detail?: string
+  /** 预期完成时间 YYYY-MM-DD 或 YYYY-MM-DDTHH:mm，可选 */
+  dueAt?: string
+}
+
+export interface TaskDraft {
+  title: string
+  priority?: TaskPriority
+  detail?: string
+  dueAt?: string
 }
 
 export interface TokenVault {
@@ -37,10 +52,23 @@ export interface GithubRuntimeConfig {
   token: string
 }
 
-export type TabId = 'today' | 'history' | 'gantt'
+export type TabId = 'today' | 'history' | 'calendar' | 'gantt'
 
 export const STATUS_LABEL: Record<TaskStatus, string> = {
   planned: '规划中',
   started: '进行中',
   completed: '已完成',
+}
+
+export const PRIORITY_LABEL: Record<TaskPriority, string> = {
+  1: 'P1',
+  2: 'P2',
+  3: 'P3',
+}
+
+export const TAB_LABEL: Record<TabId, string> = {
+  today: '今日',
+  history: '历史',
+  calendar: '日历',
+  gantt: '甘特图',
 }
