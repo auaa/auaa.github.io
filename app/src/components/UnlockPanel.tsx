@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Alert, Checkbox, Form, Input, Modal } from 'antd'
+import { useRef, useState } from 'react'
+import { Alert, Checkbox, Input, Modal } from 'antd'
 import { decryptTokenWithPassword, type TokenVault } from '../lib/crypto'
 
 export const UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
@@ -14,25 +14,35 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
   const [remember, setRemember] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const unlocking = useRef(false)
 
-  async function unlock() {
-    if (!password || busy) return
+  async function unlock(code: string) {
+    if (code.length !== 4 || unlocking.current) return
+    unlocking.current = true
     setBusy(true)
     setError(null)
     try {
-      const token = await decryptTokenWithPassword(password, vault)
+      const token = await decryptTokenWithPassword(code, vault)
       try {
-        if (remember) localStorage.setItem(UNLOCK_PASSWORD_LS, password)
+        if (remember) localStorage.setItem(UNLOCK_PASSWORD_LS, code)
         else localStorage.removeItem(UNLOCK_PASSWORD_LS)
       } catch {
         /* ignore */
       }
       onUnlocked(token)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : '解锁失败')
-    } finally {
+    } catch {
+      setError('口令错误')
+      setPassword('')
+      unlocking.current = false
       setBusy(false)
     }
+  }
+
+  function onDigitsChange(raw: string) {
+    const digits = raw.replace(/\D/g, '').slice(0, 4)
+    setPassword(digits)
+    setError(null)
+    if (digits.length === 4) void unlock(digits)
   }
 
   return (
@@ -43,35 +53,26 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
       closable={false}
       maskClosable={false}
       keyboard={false}
-      okText={busy ? '解密中…' : '进入'}
-      cancelButtonProps={{ style: { display: 'none' } }}
-      okButtonProps={{ disabled: busy || !password, loading: busy }}
-      onOk={() => void unlock()}
-      destroyOnHidden={false}
-      width={420}
+      footer={null}
+      width={360}
     >
-      <p style={{ margin: '0 0 12px', color: '#626f86' }}>
-        输入口令解密 Token。可记住到本机，下次自动进入。
-      </p>
-      <Form layout="vertical" onFinish={() => void unlock()}>
-        <Form.Item label="解锁口令" style={{ marginBottom: 12 }}>
-          <Input.Password
-            autoFocus
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="解锁口令"
-            inputMode="numeric"
-            autoComplete="current-password"
-            onPressEnter={() => void unlock()}
-          />
-        </Form.Item>
-        <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)}>
-          记住口令到本机
+      <p style={{ margin: '0 0 16px', color: '#626f86' }}>输入 4 位数字口令</p>
+      <Input.OTP
+        length={4}
+        type="number"
+        value={password}
+        disabled={busy}
+        autoFocus
+        onChange={onDigitsChange}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      />
+      <div style={{ marginTop: 14 }}>
+        <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} disabled={busy}>
+          记住到本机
         </Checkbox>
-      </Form>
-      {error && (
-        <Alert type="error" showIcon message={error} style={{ marginTop: 12 }} />
-      )}
+      </div>
+      {busy && <p style={{ margin: '12px 0 0', color: '#626f86' }}>验证中…</p>}
+      {error && <Alert type="error" showIcon message={error} style={{ marginTop: 12 }} />}
     </Modal>
   )
 }
