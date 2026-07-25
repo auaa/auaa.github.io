@@ -513,13 +513,31 @@ select {
 .priority-flame {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  line-height: 0;
+  gap: 1px;
+  line-height: 1;
   vertical-align: middle;
+  font-size: 14px;
+}
+
+.priority-flame-num {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .priority-empty {
   color: var(--subtle);
+}
+
+/* 解锁 OTP：去掉 number 类型上下箭头 */
+.unlock-modal input[type='number']::-webkit-outer-spin-button,
+.unlock-modal input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.unlock-modal input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .task-list-head {

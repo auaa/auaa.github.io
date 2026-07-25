@@ -55,15 +55,17 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
       keyboard={false}
       footer={null}
       width={360}
+      className="unlock-modal"
     >
       <p style={{ margin: '0 0 16px', color: '#626f86' }}>输入 4 位数字口令</p>
       <Input.OTP
         length={4}
-        type="number"
         value={password}
         disabled={busy}
         autoFocus
+        inputMode="numeric"
         onChange={onDigitsChange}
+        formatter={(str) => str.replace(/\D/g, '')}
         style={{ display: 'flex', justifyContent: 'center' }}
       />
       <div style={{ marginTop: 14 }}>

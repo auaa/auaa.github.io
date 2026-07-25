@@ -76,8 +76,12 @@ export function TaskDialog(props: Props) {
       width={520}
     >
       <Form form={form} layout="vertical" style={{ marginTop: 12 }}>
-        <Form.Item name="title" label="标题">
-          <Input placeholder="可不填" allowClear />
+        <Form.Item
+          name="title"
+          label="标题"
+          rules={isCreate ? [{ required: true, whitespace: true, message: '请填写标题' }] : undefined}
+        >
+          <Input placeholder={isCreate ? '必填' : '标题'} allowClear autoFocus={isCreate} />
         </Form.Item>
 
         {isCreate && (
