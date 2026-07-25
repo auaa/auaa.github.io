@@ -17,9 +17,9 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { DeleteOutlined, HolderOutlined } from '@ant-design/icons'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import type { Task, TaskPriority, TaskStatus } from '../types'
+import type { Task, TaskStatus } from '../types'
 import { STATUS_LABEL } from '../types'
-import { PRIORITY_OPTIONS, PriorityFlame } from './PriorityFlame'
+import { PriorityFlame } from './PriorityFlame'
 
 interface ListProps {
   tasks: Task[]
@@ -28,7 +28,6 @@ interface ListProps {
   onReorder?: (tasks: Task[]) => void
   onTitleClick?: (task: Task) => void
   onStatusChange?: (id: string, status: TaskStatus) => void
-  onPriorityChange?: (id: string, priority: TaskPriority | undefined) => void
   onDelete?: (id: string) => void
 }
 
@@ -79,7 +78,6 @@ export function TaskList({
   onReorder,
   onTitleClick,
   onStatusChange,
-  onPriorityChange,
   onDelete,
 }: ListProps) {
   const canEdit = !!editable && !readOnly
@@ -122,24 +120,9 @@ export function TaskList({
       title: '优先级',
       dataIndex: 'priority',
       key: 'priority',
-      width: 88,
+      width: 72,
       align: 'center',
-      render: (priority: TaskPriority | undefined, row) =>
-        canEdit ? (
-          <Select
-            size="small"
-            allowClear
-            placeholder="—"
-            style={{ width: 64 }}
-            value={priority}
-            options={PRIORITY_OPTIONS}
-            optionLabelProp="label"
-            popupMatchSelectWidth={false}
-            onChange={(v) => onPriorityChange?.(row.id, v)}
-          />
-        ) : (
-          <PriorityFlame value={priority} />
-        ),
+      render: (priority?: number) => <PriorityFlame value={priority as 1 | 2 | 3 | undefined} />,
     },
     {
       title: '标题',

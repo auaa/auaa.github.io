@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { DatePicker, Form, Input, Modal, Select } from 'antd'
+import { DatePicker, Form, Input, Modal, Radio, Space } from 'antd'
 import dayjs, { type Dayjs } from 'dayjs'
 import type { Task, TaskDraft, TaskPriority } from '../types'
-import { PRIORITY_OPTIONS } from './PriorityFlame'
+import { PriorityFlame } from './PriorityFlame'
 
 export type TaskDialogMode = 'create' | 'edit'
 
@@ -18,7 +18,7 @@ interface EditProps {
   open: boolean
   task: Task | null
   onClose: () => void
-  onSubmit: (patch: { title: string; detail?: string }) => void
+  onSubmit: (patch: { title: string; detail?: string; priority: TaskPriority }) => void
 }
 
 type Props = CreateProps | EditProps
@@ -40,9 +40,11 @@ export function TaskDialog(props: Props) {
       form.setFieldsValue({
         title: props.task.title,
         detail: props.task.detail,
+        priority: props.task.priority ?? 3,
       })
     } else if (props.mode === 'create') {
       form.resetFields()
+      form.setFieldsValue({ priority: 3 })
     }
   }, [props, form])
 
@@ -51,15 +53,16 @@ export function TaskDialog(props: Props) {
     if (!values) return
     const title = (values.title ?? '').trim()
     const detail = values.detail?.trim() || undefined
+    const priority = (values.priority ?? 3) as TaskPriority
     if (props.mode === 'create') {
       props.onSubmit({
         title,
-        priority: values.priority,
+        priority,
         detail,
         dueAt: values.dueAt ? values.dueAt.format('YYYY-MM-DD') : undefined,
       })
     } else {
-      props.onSubmit({ title, detail })
+      props.onSubmit({ title, detail, priority })
     }
     props.onClose()
   }
@@ -75,7 +78,7 @@ export function TaskDialog(props: Props) {
       destroyOnHidden
       width={520}
     >
-      <Form form={form} layout="vertical" style={{ marginTop: 12 }}>
+      <Form form={form} layout="vertical" style={{ marginTop: 12 }} initialValues={{ priority: 3 }}>
         <Form.Item
           name="title"
           label="标题"
@@ -84,21 +87,22 @@ export function TaskDialog(props: Props) {
           <Input placeholder={isCreate ? '必填' : '标题'} allowClear autoFocus={isCreate} />
         </Form.Item>
 
+        <Form.Item name="priority" label="优先级">
+          <Radio.Group>
+            <Space size="middle">
+              {([1, 2, 3] as TaskPriority[]).map((p) => (
+                <Radio key={p} value={p} style={{ marginInlineEnd: 0 }}>
+                  <PriorityFlame value={p} />
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        </Form.Item>
+
         {isCreate && (
-          <>
-            <Form.Item name="priority" label="优先级">
-              <Select
-                allowClear
-                placeholder="不设置"
-                options={PRIORITY_OPTIONS}
-                optionLabelProp="label"
-                popupMatchSelectWidth={false}
-              />
-            </Form.Item>
-            <Form.Item name="dueAt" label="期望完成日期">
-              <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
-            </Form.Item>
-          </>
+          <Form.Item name="dueAt" label="期望完成日期">
+            <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+          </Form.Item>
         )}
 
         <Form.Item name="detail" label="详情">

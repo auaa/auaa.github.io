@@ -7,7 +7,7 @@ import { applyStatusChange, inheritOpenTasks, parseMarkdown, serializeMarkdown }
 import { useDebouncedCallback } from '../hooks/useDebouncedCallback'
 import { TaskList } from '../components/TaskList'
 import { TaskDialog } from '../components/TaskDialog'
-import type { Task, TaskDraft, TaskPriority, TaskStatus } from '../types'
+import type { Task, TaskDraft, TaskStatus } from '../types'
 
 interface Props {
   client: GithubClient
@@ -24,7 +24,7 @@ function draftToTask(draft: TaskDraft): Task {
     title: draft.title.trim(),
     status: 'planned',
     plannedAt: nowShanghaiIso(),
-    priority: draft.priority,
+    priority: draft.priority ?? 3,
     detail: draft.detail?.trim() || undefined,
     dueAt: draft.dueAt || undefined,
   }
@@ -172,17 +172,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
         onStatusChange={(id, status: TaskStatus) =>
           markDirty(tasks.map((t) => (t.id === id ? applyStatusChange(t, status, nowShanghaiIso()) : t)))
         }
-        onPriorityChange={(id, priority: TaskPriority | undefined) =>
-          markDirty(
-            tasks.map((t) => {
-              if (t.id !== id) return t
-              const next = { ...t }
-              if (priority) next.priority = priority
-              else delete next.priority
-              return next
-            }),
-          )
-        }
         onDelete={(id) => markDirty(tasks.filter((t) => t.id !== id))}
       />
 
@@ -191,13 +180,13 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
         open={!!editTask}
         task={editTask}
         onClose={() => setEditTask(null)}
-        onSubmit={({ title, detail }) => {
+        onSubmit={({ title, detail, priority }) => {
           if (!editTask) return
           const id = editTask.id
           markDirty(
             tasksRef.current.map((t) => {
               if (t.id !== id) return t
-              const next = { ...t, title }
+              const next = { ...t, title, priority }
               if (detail) next.detail = detail
               else delete next.detail
               return next
