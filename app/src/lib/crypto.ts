@@ -1,51 +1,74 @@
-/** RSA-OAEP (SHA-256) helpers for token unlock */
+/** PBKDF2 (SHA-256) + AES-GCM token vault */
 
-const PRIVATE_KEY_LS = 'daily.privateKey.pem'
+import type { TokenVault } from '../types'
 
-function pemToArrayBuffer(pem: string): ArrayBuffer {
-  const cleaned = pem
-    .replace(/-----BEGIN [^-]+-----/g, '')
-    .replace(/-----END [^-]+-----/g, '')
-    .replace(/\s+/g, '')
-  const bin = atob(cleaned)
-  const bytes = new Uint8Array(bin.length)
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i)
-  return bytes.buffer
+export type { TokenVault }
+
+const DEFAULT_ITERATIONS = 120_000
+
+function b64ToBytes(b64: string): Uint8Array {
+  const bin = atob(b64.replace(/\s+/g, ''))
+  const out = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i)
+  return out
 }
 
-export async function importPrivateKey(pem: string): Promise<CryptoKey> {
-  const text = pem.trim()
-  if (!text.includes('BEGIN PRIVATE KEY')) {
-    throw new Error('请使用 PKCS#8 私钥（BEGIN PRIVATE KEY），可用 node scripts/gen-keys.mjs 生成')
-  }
-  return crypto.subtle.importKey(
-    'pkcs8',
-    pemToArrayBuffer(text),
-    { name: 'RSA-OAEP', hash: 'SHA-256' },
+function bytesToB64(bytes: Uint8Array): string {
+  let bin = ''
+  bytes.forEach((b) => {
+    bin += String.fromCharCode(b)
+  })
+  return btoa(bin)
+}
+
+async function deriveKey(password: string, salt: Uint8Array, iterations: number): Promise<CryptoKey> {
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, [
+    'deriveKey',
+  ])
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: salt as BufferSource, iterations, hash: 'SHA-256' },
+    base,
+    { name: 'AES-GCM', length: 256 },
     false,
-    ['decrypt'],
+    ['encrypt', 'decrypt'],
   )
 }
 
-export async function decryptToken(privateKeyPem: string, tokenEncryptedB64: string): Promise<string> {
-  const key = await importPrivateKey(privateKeyPem)
-  const cipher = Uint8Array.from(atob(tokenEncryptedB64.replace(/\s+/g, '')), (c) => c.charCodeAt(0))
-  const plain = await crypto.subtle.decrypt({ name: 'RSA-OAEP' }, key, cipher)
-  return new TextDecoder().decode(plain)
-}
-
-export function loadStoredPrivateKey(): string | null {
+export async function decryptTokenWithPassword(password: string, vault: TokenVault): Promise<string> {
+  const salt = b64ToBytes(vault.salt)
+  const iv = b64ToBytes(vault.iv)
+  const data = b64ToBytes(vault.ciphertext)
+  const key = await deriveKey(password, salt, vault.iterations || DEFAULT_ITERATIONS)
   try {
-    return localStorage.getItem(PRIVATE_KEY_LS)
+    const plain = await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: iv as BufferSource },
+      key,
+      data as BufferSource,
+    )
+    return new TextDecoder().decode(plain)
   } catch {
-    return null
+    throw new Error('口令错误或密文损坏')
   }
 }
 
-export function storePrivateKey(pem: string) {
-  localStorage.setItem(PRIVATE_KEY_LS, pem.trim())
-}
-
-export function clearStoredPrivateKey() {
-  localStorage.removeItem(PRIVATE_KEY_LS)
+export async function encryptTokenWithPassword(
+  password: string,
+  token: string,
+  iterations = DEFAULT_ITERATIONS,
+): Promise<TokenVault> {
+  const salt = crypto.getRandomValues(new Uint8Array(16))
+  const iv = crypto.getRandomValues(new Uint8Array(12))
+  const key = await deriveKey(password, salt, iterations)
+  const cipher = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv: iv as BufferSource },
+    key,
+    new TextEncoder().encode(token),
+  )
+  return {
+    v: 1,
+    salt: bytesToB64(salt),
+    iv: bytesToB64(iv),
+    ciphertext: bytesToB64(new Uint8Array(cipher)),
+    iterations,
+  }
 }

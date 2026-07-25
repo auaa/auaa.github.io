@@ -4,6 +4,12 @@
     "repo": "auaa.github.io",
     "branch": "main",
     "dataPath": "data",
-    "tokenEncrypted": ""
+    "tokenVault": {
+      "v": 1,
+      "salt": "gBJJmp5xPhEJctoLHdDqmA==",
+      "iv": "GzC6oi8kf4gkme7H",
+      "ciphertext": "rEGo6IMaf8h4HdeFgYYOAdnzFV5yNW42jLbPvnOcVlUkay8V6I2tZaIXQFFvfEwVmTwtpWgkk5k66ZqxzKAPVlJgPiZ+yJZlCCb6BFQaci9Y/NsS/qAp7ZKv/wfTnbKgQjdnah3P7vbttgsAqQ==",
+      "iterations": 120000
+    }
   }
 }

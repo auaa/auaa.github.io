@@ -1,38 +1,40 @@
 #!/usr/bin/env node
 /**
  * Usage:
- *   node scripts/encrypt-token.mjs <github_pat_xxx>
- *   echo "$TOKEN" | node scripts/encrypt-token.mjs
+ *   node scripts/encrypt-token.mjs <token> <password>
+ *   node scripts/encrypt-token.mjs <token>   # password defaults to prompt via env UNLOCK_PASSWORD
  */
-import { publicEncrypt, constants } from 'node:crypto'
+import { pbkdf2Sync, randomBytes, createCipheriv } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const pubPath = join(root, 'keys/public.pem')
+const ITERATIONS = 120_000
 
-const arg = process.argv[2]
-let token = arg
-if (!token) {
-  token = readFileSync(0, 'utf8').trim()
-}
-token = (token || '').trim()
-if (!token) {
-  console.error('请传入 Token：node scripts/encrypt-token.mjs <token>')
+const token = (process.argv[2] || '').trim()
+const password = (process.argv[3] || process.env.UNLOCK_PASSWORD || '').trim()
+
+if (!token || !password) {
+  console.error('用法: node scripts/encrypt-token.mjs <github_pat> <password>')
   process.exit(1)
 }
 
-const publicKey = readFileSync(pubPath, 'utf8')
-const encrypted = publicEncrypt(
-  {
-    key: publicKey,
-    padding: constants.RSA_PKCS1_OAEP_PADDING,
-    oaepHash: 'sha256',
-  },
-  Buffer.from(token, 'utf8'),
-)
-const b64 = encrypted.toString('base64')
+const salt = randomBytes(16)
+const iv = randomBytes(12)
+const key = pbkdf2Sync(password, salt, ITERATIONS, 32, 'sha256')
+const cipher = createCipheriv('aes-256-gcm', key, iv)
+const enc = Buffer.concat([cipher.update(token, 'utf8'), cipher.final()])
+const tag = cipher.getAuthTag()
+const ciphertext = Buffer.concat([enc, tag])
+
+const vault = {
+  v: 1,
+  salt: salt.toString('base64'),
+  iv: iv.toString('base64'),
+  ciphertext: ciphertext.toString('base64'),
+  iterations: ITERATIONS,
+}
 
 const configs = [
   join(root, 'app/public/config.json'),
@@ -49,14 +51,20 @@ for (const path of configs) {
   }
   raw.github = raw.github || {}
   delete raw.github.token
+  delete raw.github.tokenEncrypted
   if (path.endsWith('config.example.json')) {
-    raw.github.tokenEncrypted = '<base64 RSA-OAEP ciphertext>'
+    raw.github.tokenVault = {
+      v: 1,
+      salt: '<base64>',
+      iv: '<base64>',
+      ciphertext: '<base64>',
+      iterations: ITERATIONS,
+    }
   } else {
-    raw.github.tokenEncrypted = b64
+    raw.github.tokenVault = vault
   }
   writeFileSync(path, JSON.stringify(raw, null, 2) + '\n')
   console.log('已更新', path)
 }
 
-console.log('\ntokenEncrypted 长度:', b64.length)
-console.log('请保管 keys/private.pem，浏览器首次打开需粘贴私钥解锁。')
+console.log('加密完成。解锁口令请自行牢记，不会写入仓库。')

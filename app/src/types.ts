@@ -9,6 +9,14 @@ export interface Task {
   completedAt?: string
 }
 
+export interface TokenVault {
+  v: 1
+  salt: string
+  iv: string
+  ciphertext: string
+  iterations: number
+}
+
 /** Stored in config.json (public) */
 export interface AppConfigFile {
   github: {
@@ -16,8 +24,7 @@ export interface AppConfigFile {
     repo: string
     branch: string
     dataPath: string
-    /** RSA-OAEP(SHA-256) ciphertext, base64. No plaintext token. */
-    tokenEncrypted: string
+    tokenVault: TokenVault
   }
 }
 

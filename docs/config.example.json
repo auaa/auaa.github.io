@@ -4,6 +4,12 @@
     "repo": "auaa.github.io",
     "branch": "main",
     "dataPath": "data",
-    "tokenEncrypted": "<base64 RSA-OAEP ciphertext>"
+    "tokenVault": {
+      "v": 1,
+      "salt": "<base64>",
+      "iv": "<base64>",
+      "ciphertext": "<base64>",
+      "iterations": 120000
+    }
   }
 }

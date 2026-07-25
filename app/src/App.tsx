@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { GithubClient, loadConfig } from './lib/github'
-import { decryptToken, loadStoredPrivateKey } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
 import { CategoryTabs } from './components/CategoryTabs'
 import { BottomNav } from './components/BottomNav'
@@ -38,24 +37,12 @@ export default function App() {
     ;(async () => {
       try {
         const cfg = await loadConfig()
-        if (!cfg.github?.tokenEncrypted) {
-          throw new Error('config.json 缺少 github.tokenEncrypted，请先运行 scripts/encrypt-token.mjs')
+        if (!cfg.github?.tokenVault?.ciphertext) {
+          throw new Error('config.json 缺少 github.tokenVault，请先运行 scripts/encrypt-token.mjs')
         }
         if (cancelled) return
         setFileCfg(cfg)
-
-        const stored = loadStoredPrivateKey()
-        if (stored) {
-          try {
-            const token = await decryptToken(stored, cfg.github.tokenEncrypted)
-            if (cancelled) return
-            await bootWithToken(cfg, token)
-            return
-          } catch {
-            /* fall through to unlock UI */
-          }
-        }
-        if (!cancelled) setNeedUnlock(true)
+        setNeedUnlock(true)
       } catch (e) {
         if (!cancelled) setBootError(e instanceof Error ? e.message : String(e))
       }
@@ -66,14 +53,13 @@ export default function App() {
   }, [])
 
   async function bootWithToken(cfg: AppConfigFile, token: string) {
-    const runtime = {
+    const c = new GithubClient({
       owner: cfg.github.owner,
       repo: cfg.github.repo,
       branch: cfg.github.branch,
       dataPath: cfg.github.dataPath,
       token,
-    }
-    const c = new GithubClient(runtime)
+    })
     const cats = await c.listCategories()
     setClient(c)
     setCategories(cats)
@@ -104,10 +90,10 @@ export default function App() {
       <div className="app shell">
         <header className="top">
           <h1>Daily</h1>
-          <p className="muted">RSA 私钥解锁</p>
+          <p className="muted">口令解锁</p>
         </header>
         <UnlockPanel
-          tokenEncrypted={fileCfg.github.tokenEncrypted}
+          vault={fileCfg.github.tokenVault}
           onUnlocked={(token) => {
             void bootWithToken(fileCfg, token).catch((e) =>
               setBootError(e instanceof Error ? e.message : String(e)),
