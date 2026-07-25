@@ -47,7 +47,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
 
   return (
     <Modal
-      title="解锁"
+      title="输入4位数字口令"
       open
       centered
       closable={false}
@@ -57,9 +57,9 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
       width={360}
       className="unlock-modal"
     >
-      <p style={{ margin: '0 0 16px', color: '#626f86' }}>输入 4 位数字口令</p>
       <Input.OTP
         length={4}
+        mask="•"
         value={password}
         disabled={busy}
         autoFocus
@@ -68,12 +68,12 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
         formatter={(str) => str.replace(/\D/g, '')}
         style={{ display: 'flex', justifyContent: 'center' }}
       />
-      <div style={{ marginTop: 14 }}>
+      <div className="unlock-remember-row">
         <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} disabled={busy}>
-          记住到本机
+          记住我
         </Checkbox>
+        {busy && <span className="unlock-verifying">验证中…</span>}
       </div>
-      {busy && <p style={{ margin: '12px 0 0', color: '#626f86' }}>验证中…</p>}
       {error && <Alert type="error" showIcon message={error} style={{ marginTop: 12 }} />}
     </Modal>
   )

@@ -533,6 +533,19 @@ select {
   appearance: textfield;
 }
 
+.unlock-remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  min-height: 24px;
+}
+
+.unlock-verifying {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
 .task-list-head {
   display: flex;
   gap: 8px;
