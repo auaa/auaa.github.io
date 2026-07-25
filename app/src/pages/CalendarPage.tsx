@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Badge, Button, Calendar, Spin } from 'antd'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import type { GithubClient } from '../lib/github'
 import { todayYmd } from '../lib/date'
-import { getLayui } from '../lib/layui'
 import { parseMarkdown } from '../lib/markdown'
 import { TaskList } from '../components/TaskList'
 import type { Task } from '../types'
@@ -19,11 +21,8 @@ export function CalendarPage({ client, category }: Props) {
   const [loadingDates, setLoadingDates] = useState(true)
   const [loadingDay, setLoadingDay] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const calRef = useRef<HTMLDivElement | null>(null)
-  const selectedRef = useRef(selected)
-  const fileDatesRef = useRef(fileDates)
-  selectedRef.current = selected
-  fileDatesRef.current = fileDates
+
+  const selectedDay = useMemo(() => dayjs(selected), [selected])
 
   useEffect(() => {
     let cancelled = false
@@ -51,14 +50,13 @@ export function CalendarPage({ client, category }: Props) {
       setLoadingDay(true)
       setError(null)
       try {
-        if (!fileDates.has(selected) && !loadingDates) {
+        if (!fileDates.has(selected)) {
           if (!cancelled) {
             setTasks([])
-            setLoadingDay(false)
+            if (!loadingDates) setLoadingDay(false)
           }
           return
         }
-        if (!fileDates.has(selected)) return
         const file = await client.getFile(category, selected)
         if (cancelled) return
         setTasks(file ? parseMarkdown(file.content) : [])
@@ -73,70 +71,45 @@ export function CalendarPage({ client, category }: Props) {
     }
   }, [client, category, selected, fileDates, loadingDates])
 
-  useEffect(() => {
-    const el = calRef.current
-    if (!el || loadingDates) return
-    let cancelled = false
-
-    void getLayui().then(({ laydate }) => {
-      if (cancelled || !calRef.current) return
-      calRef.current.innerHTML = ''
-      const mark: Record<string, string> = {}
-      for (const d of fileDatesRef.current) mark[d] = ''
-
-      laydate.render({
-        elem: calRef.current,
-        position: 'static',
-        show: true,
-        value: selectedRef.current,
-        isInitValue: true,
-        theme: '#0c66e4',
-        mark,
-        ready() {
-          // keep panel open
-        },
-        change(value: string) {
-          if (value) setSelected(value)
-        },
-        done(value: string) {
-          if (value) setSelected(value)
-        },
-      })
-    })
-
-    return () => {
-      cancelled = true
-    }
-  }, [loadingDates, fileDates, category])
+  function cellRender(date: Dayjs) {
+    const key = date.format('YYYY-MM-DD')
+    if (!fileDates.has(key)) return null
+    return <Badge status="processing" />
+  }
 
   return (
     <div className="panel">
       <div className="panel-head">
         <div>
           <h2 className="panel-title">日历</h2>
-          <p className="panel-desc">点选日期查看当天任务（只读）；有文件的日期已标记</p>
+          <p className="panel-desc">点选日期查看当天任务（只读）；蓝点表示有任务文件</p>
         </div>
         <div className="panel-actions">
-          <button
-            type="button"
-            className="layui-btn layui-btn-primary layui-btn-sm"
-            onClick={() => setSelected(today)}
-          >
+          <Button size="small" onClick={() => setSelected(today)}>
             回到今天
-          </button>
+          </Button>
         </div>
       </div>
 
-      {error && <div className="layui-bg-red" style={{ padding: '8px 12px', borderRadius: 4 }}>{error}</div>}
+      {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="cal-layout">
-        <div className="cal-laydate-wrap">
-          {loadingDates ? <p className="hint">加载日历…</p> : <div ref={calRef} className="cal-laydate" />}
+        <div className="cal-antd-wrap">
+          {loadingDates ? (
+            <Spin />
+          ) : (
+            <Calendar
+              fullscreen={false}
+              value={selectedDay}
+              onSelect={(d) => setSelected(d.format('YYYY-MM-DD'))}
+              cellRender={cellRender}
+            />
+          )}
         </div>
         <div className="cal-day-panel">
           <h3 className="day-label">{selected}</h3>
           {loadingDay || loadingDates ? (
-            <p className="hint">加载中…</p>
+            <Spin />
           ) : !fileDates.has(selected) ? (
             <p className="empty-state">该日无任务文件</p>
           ) : (

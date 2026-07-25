@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { Button, Select, Table, Typography } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
 import {
   DndContext,
   PointerSensor,
@@ -14,135 +15,10 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { getLayui } from '../lib/layui'
+import { DeleteOutlined, HolderOutlined } from '@ant-design/icons'
+import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 import type { Task, TaskPriority, TaskStatus } from '../types'
 import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
-
-let formEventsBound = false
-
-interface TaskItemProps {
-  task: Task
-  readOnly?: boolean
-  editable?: boolean
-  onTitleClick?: (task: Task) => void
-  onStatusChange?: (id: string, status: TaskStatus) => void
-  onPriorityChange?: (id: string, priority: TaskPriority | undefined) => void
-  onDelete?: (id: string) => void
-}
-
-function SortableTaskRow(props: TaskItemProps) {
-  const { task, readOnly } = props
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: task.id,
-    disabled: !!readOnly,
-  })
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.88 : 1,
-  }
-
-  return (
-    <li ref={setNodeRef} style={style} className="task-row">
-      {!readOnly && (
-        <button type="button" className="drag-handle" aria-label="拖拽排序" {...attributes} {...listeners}>
-          ⋮⋮
-        </button>
-      )}
-      <TaskFields {...props} />
-    </li>
-  )
-}
-
-function TaskFields({
-  task,
-  readOnly,
-  editable,
-  onTitleClick,
-  onDelete,
-}: TaskItemProps) {
-  const canEdit = editable && !readOnly
-
-  return (
-    <div className="task-body">
-      <div className="task-main">
-        {canEdit ? (
-          <div className="task-select task-status-select">
-            <select
-              name="status"
-              lay-filter="task-status"
-              data-task-id={task.id}
-              defaultValue={task.status}
-              aria-label="进展"
-            >
-              {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
-                <option key={s} value={s}>
-                  {STATUS_LABEL[s]}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : (
-          <span className={`status-tag status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
-        )}
-
-        {canEdit ? (
-          <div className="task-select task-priority-select">
-            <select
-              name="priority"
-              lay-filter="task-priority"
-              data-task-id={task.id}
-              defaultValue={task.priority ?? ''}
-              aria-label="优先级"
-            >
-              <option value="">—</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </div>
-        ) : (
-          <span className={`priority-tag${task.priority ? ` p${task.priority}` : ''}`}>
-            {task.priority ? PRIORITY_LABEL[task.priority] : '—'}
-          </span>
-        )}
-
-        {canEdit ? (
-          <button
-            type="button"
-            className="task-title-btn"
-            onClick={() => onTitleClick?.(task)}
-            title={task.detail || undefined}
-          >
-            {task.title || '（无标题）'}
-          </button>
-        ) : (
-          <span className="task-title-text" title={task.detail || undefined}>
-            {task.title || '（无标题）'}
-          </span>
-        )}
-
-        <span className="task-due">{fmtDue(task.dueAt)}</span>
-
-        {canEdit && (
-          <button
-            type="button"
-            className="layui-btn layui-btn-primary layui-btn-xs task-del-btn"
-            aria-label="删除"
-            onClick={() => onDelete?.(task.id)}
-          >
-            删除
-          </button>
-        )}
-      </div>
-    </div>
-  )
-}
-
-function fmtDue(due?: string) {
-  if (!due) return '—'
-  return due.replace('T', ' ').slice(0, 16)
-}
 
 interface ListProps {
   tasks: Task[]
@@ -155,6 +31,46 @@ interface ListProps {
   onDelete?: (id: string) => void
 }
 
+function fmtDue(due?: string) {
+  if (!due) return '—'
+  return due.replace('T', ' ').slice(0, 16)
+}
+
+function DragHandle({ id }: { id: string }) {
+  const { attributes, listeners, setNodeRef } = useSortable({ id })
+  return (
+    <Button
+      ref={setNodeRef as never}
+      type="text"
+      size="small"
+      icon={<HolderOutlined />}
+      aria-label="拖拽排序"
+      style={{ cursor: 'grab', color: '#8590a2' }}
+      {...attributes}
+      {...listeners}
+    />
+  )
+}
+
+function SortableRow({
+  id,
+  children,
+  ...rest
+}: HTMLAttributes<HTMLTableRowElement> & { id: string; children?: ReactNode }) {
+  const { setNodeRef, transform, transition, isDragging } = useSortable({ id })
+  const style: CSSProperties = {
+    ...rest.style,
+    transform: CSS.Transform.toString(transform),
+    transition,
+    ...(isDragging ? { position: 'relative', zIndex: 1, opacity: 0.88 } : null),
+  }
+  return (
+    <tr {...rest} ref={setNodeRef} style={style}>
+      {children}
+    </tr>
+  )
+}
+
 export function TaskList({
   tasks,
   readOnly,
@@ -165,37 +81,132 @@ export function TaskList({
   onPriorityChange,
   onDelete,
 }: ListProps) {
-  const formRef = useRef<HTMLDivElement | null>(null)
-  const statusCb = useRef(onStatusChange)
-  const priorityCb = useRef(onPriorityChange)
-  statusCb.current = onStatusChange
-  priorityCb.current = onPriorityChange
+  const canEdit = !!editable && !readOnly
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
-  useEffect(() => {
-    if (readOnly || !editable) return
-    let cancelled = false
-    void getLayui().then(({ form }) => {
-      if (cancelled) return
-      if (!formEventsBound) {
-        formEventsBound = true
-        form.on('select(task-status)', (data) => {
-          const id = data.elem.getAttribute('data-task-id')
-          if (id) statusCb.current?.(id, data.value as TaskStatus)
-        })
-        form.on('select(task-priority)', (data) => {
-          const id = data.elem.getAttribute('data-task-id')
-          if (!id) return
-          const v = data.value
-          priorityCb.current?.(id, v ? (Number(v) as TaskPriority) : undefined)
-        })
-      }
-      form.render('select')
+  const columns: ColumnsType<Task> = []
+
+  if (canEdit) {
+    columns.push({
+      title: '',
+      key: 'drag',
+      width: 44,
+      render: (_, row) => <DragHandle id={row.id} />,
     })
-    return () => {
-      cancelled = true
-    }
-  }, [tasks, readOnly, editable])
+  }
+
+  columns.push(
+    {
+      title: '进展',
+      dataIndex: 'status',
+      key: 'status',
+      width: 120,
+      render: (status: TaskStatus, row) =>
+        canEdit ? (
+          <Select
+            size="small"
+            style={{ width: 108 }}
+            value={status}
+            options={(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => ({
+              value: s,
+              label: STATUS_LABEL[s],
+            }))}
+            onChange={(v) => onStatusChange?.(row.id, v)}
+          />
+        ) : (
+          STATUS_LABEL[status]
+        ),
+    },
+    {
+      title: '优先级',
+      dataIndex: 'priority',
+      key: 'priority',
+      width: 88,
+      render: (priority: TaskPriority | undefined, row) =>
+        canEdit ? (
+          <Select
+            size="small"
+            allowClear
+            placeholder="—"
+            style={{ width: 72 }}
+            value={priority}
+            options={[
+              { value: 1, label: '1' },
+              { value: 2, label: '2' },
+              { value: 3, label: '3' },
+            ]}
+            onChange={(v) => onPriorityChange?.(row.id, v)}
+          />
+        ) : priority ? (
+          PRIORITY_LABEL[priority]
+        ) : (
+          '—'
+        ),
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+      key: 'title',
+      ellipsis: true,
+      render: (title: string, row) =>
+        canEdit ? (
+          <Typography.Link onClick={() => onTitleClick?.(row)} title={row.detail || undefined}>
+            {title || '（无标题）'}
+          </Typography.Link>
+        ) : (
+          <span title={row.detail || undefined}>{title || '（无标题）'}</span>
+        ),
+    },
+    {
+      title: '预期完成',
+      dataIndex: 'dueAt',
+      key: 'dueAt',
+      width: 140,
+      render: (due?: string) => fmtDue(due),
+    },
+  )
+
+  if (canEdit) {
+    columns.push({
+      title: '操作',
+      key: 'actions',
+      width: 72,
+      render: (_, row) => (
+        <Button
+          type="text"
+          danger
+          size="small"
+          icon={<DeleteOutlined />}
+          aria-label="删除"
+          onClick={() => onDelete?.(row.id)}
+        />
+      ),
+    })
+  }
+
+  const table = (
+    <Table<Task>
+      size="small"
+      rowKey="id"
+      pagination={false}
+      dataSource={tasks}
+      columns={columns}
+      locale={{ emptyText: '暂无任务' }}
+      components={
+        canEdit
+          ? {
+              body: {
+                row: (props: HTMLAttributes<HTMLTableRowElement> & { 'data-row-key'?: string }) => (
+                  <SortableRow id={String(props['data-row-key'] ?? '')} {...props} />
+                ),
+              },
+            }
+          : undefined
+      }
+    />
+  )
+
+  if (!canEdit) return table
 
   function onDragEnd(e: DragEndEvent) {
     const { active, over } = e
@@ -206,41 +217,11 @@ export function TaskList({
     onReorder(arrayMove(tasks, oldIndex, newIndex))
   }
 
-  if (!tasks.length) {
-    return <p className="empty-state">暂无任务</p>
-  }
-
-  if (readOnly || !editable) {
-    return (
-      <ul className="task-list">
-        {tasks.map((t) => (
-          <li key={t.id} className="task-row">
-            <TaskFields task={t} readOnly />
-          </li>
-        ))}
-      </ul>
-    )
-  }
-
   return (
-    <div className="layui-form" ref={formRef} lay-filter="task-list">
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-        <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
-          <ul className="task-list">
-            {tasks.map((t) => (
-              <SortableTaskRow
-                key={`${t.id}-${t.status}-${t.priority ?? ''}`}
-                task={t}
-                editable
-                onTitleClick={onTitleClick}
-                onStatusChange={onStatusChange}
-                onPriorityChange={onPriorityChange}
-                onDelete={onDelete}
-              />
-            ))}
-          </ul>
-        </SortableContext>
-      </DndContext>
-    </div>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      <SortableContext items={tasks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+        {table}
+      </SortableContext>
+    </DndContext>
   )
 }

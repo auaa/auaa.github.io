@@ -720,73 +720,33 @@ select {
   background: #22a06b;
 }
 
-.task-layer-form {
-  padding: 8px 8px 0 0;
-}
-
-.task-layer-form .layui-form-label {
-  width: 72px;
-  padding: 8px 10px;
-}
-
-.task-layer-form .layui-input-block {
-  margin-left: 102px;
-}
-
-.task-select {
-  flex: 0 0 auto;
-}
-
-.task-status-select {
-  width: 110px;
-}
-
-.task-priority-select {
-  width: 72px;
-}
-
-.task-select .layui-form-select {
-  width: 100%;
-}
-
-.task-select .layui-form-select .layui-input {
-  height: 30px;
-  line-height: 30px;
-  font-size: 0.8125rem;
-}
-
-.task-del-btn {
-  margin-left: 2px;
-}
-
 .cal-layout {
   display: flex;
   gap: 20px;
   align-items: flex-start;
 }
 
-.cal-laydate-wrap {
-  flex: 0 0 auto;
-}
-
-.cal-laydate .layui-laydate,
-.cal-laydate .layui-laydate-main {
-  box-shadow: none !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 6px;
-  overflow: hidden;
+.cal-antd-wrap {
+  flex: 0 0 320px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
 }
 
 .cal-day-panel {
   flex: 1;
   min-width: 0;
-  border-top: none;
-  padding-top: 0;
 }
 
 @media (max-width: 900px) {
   .cal-layout {
     flex-direction: column;
+  }
+
+  .cal-antd-wrap {
+    flex-basis: auto;
+    width: 100%;
   }
 }
 

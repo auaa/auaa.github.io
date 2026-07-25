@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Button } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
@@ -138,7 +139,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     if (!pendingCreate || loading) return
     markDirty([...tasksRef.current, draftToTask(pendingCreate)])
     onPendingCreateHandled?.()
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- consume once when pending arrives
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingCreate, loading])
 
   if (loading) return <div className="panel muted-panel">加载今天…</div>
@@ -161,19 +162,10 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
             {saveState === 'saved' && (saveMsg || '已保存')}
             {saveState === 'error' && (saveMsg || '保存失败')}
           </span>
-          <button type="button" className="layui-btn layui-btn-primary layui-btn-sm" onClick={() => void save()}>
+          <Button size="small" onClick={() => void save()}>
             保存
-          </button>
+          </Button>
         </div>
-      </div>
-
-      <div className="task-list-head" aria-hidden>
-        <span className="col-drag" />
-        <span className="col-status">进展</span>
-        <span className="col-priority">优先级</span>
-        <span className="col-title">标题</span>
-        <span className="col-due">预期完成</span>
-        <span className="col-del" />
       </div>
 
       <TaskList
