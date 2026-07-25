@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { decryptTokenWithPassword, type TokenVault } from '../lib/crypto'
 
+export const UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
+
 interface Props {
   vault: TokenVault
   onUnlocked: (token: string) => void
@@ -8,6 +10,7 @@ interface Props {
 
 export function UnlockPanel({ vault, onUnlocked }: Props) {
   const [password, setPassword] = useState('')
+  const [remember, setRemember] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -16,6 +19,12 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
     setError(null)
     try {
       const token = await decryptTokenWithPassword(password, vault)
+      try {
+        if (remember) localStorage.setItem(UNLOCK_PASSWORD_LS, password)
+        else localStorage.removeItem(UNLOCK_PASSWORD_LS)
+      } catch {
+        /* ignore */
+      }
       onUnlocked(token)
     } catch (e) {
       setError(e instanceof Error ? e.message : '解锁失败')
@@ -27,7 +36,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
   return (
     <div className="panel unlock">
       <h2>解锁</h2>
-      <p className="muted">Token 已加密存放在仓库中。请输入解锁口令（每次进入需输入）。</p>
+      <p className="muted">Token 已加密存放。输入口令后可选择记住到本机，下次自动解锁。</p>
       <input
         className="password-input"
         type="password"
@@ -40,6 +49,10 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
           if (e.key === 'Enter' && password) void unlock()
         }}
       />
+      <label className="check">
+        <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+        记住口令到本机（下次免输入）
+      </label>
       {error && <div className="error-inline">{error}</div>}
       <button type="button" className="btn primary" disabled={busy || !password} onClick={() => void unlock()}>
         {busy ? '解密中…' : '解锁'}

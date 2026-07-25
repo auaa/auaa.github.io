@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { GithubClient, loadConfig } from './lib/github'
+import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
 import { CategoryTabs } from './components/CategoryTabs'
 import { BottomNav } from './components/BottomNav'
-import { UnlockPanel } from './components/UnlockPanel'
+import { UnlockPanel, UNLOCK_PASSWORD_LS } from './components/UnlockPanel'
 import { TodayPage } from './pages/TodayPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { GanttPage } from './pages/GanttPage'
@@ -42,7 +43,28 @@ export default function App() {
         }
         if (cancelled) return
         setFileCfg(cfg)
-        setNeedUnlock(true)
+
+        let stored = ''
+        try {
+          stored = localStorage.getItem(UNLOCK_PASSWORD_LS) || ''
+        } catch {
+          stored = ''
+        }
+        if (stored) {
+          try {
+            const token = await decryptTokenWithPassword(stored, cfg.github.tokenVault)
+            if (cancelled) return
+            await bootWithToken(cfg, token)
+            return
+          } catch {
+            try {
+              localStorage.removeItem(UNLOCK_PASSWORD_LS)
+            } catch {
+              /* ignore */
+            }
+          }
+        }
+        if (!cancelled) setNeedUnlock(true)
       } catch (e) {
         if (!cancelled) setBootError(e instanceof Error ? e.message : String(e))
       }
