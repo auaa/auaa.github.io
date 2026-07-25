@@ -89,9 +89,7 @@ export function Sidebar({
   return (
     <aside className="app-sidebar">
       <div className="sidebar-brand">
-        <div className="sidebar-brand-icon" aria-hidden>
-          D
-        </div>
+        <img className="sidebar-brand-icon" src="/logo.png" alt="" width={36} height={36} />
         <div className="sidebar-brand-text">
           <div className="brand">Daily</div>
           <div className="brand-sub">{dateLabel}</div>
