@@ -511,11 +511,23 @@ select {
 }
 
 .priority-flame {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
   vertical-align: middle;
+}
+
+.priority-flame-num {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 .priority-empty {
