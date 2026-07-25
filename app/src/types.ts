@@ -9,14 +9,25 @@ export interface Task {
   completedAt?: string
 }
 
-export interface AppConfig {
+/** Stored in config.json (public) */
+export interface AppConfigFile {
   github: {
     owner: string
     repo: string
     branch: string
-    token: string
     dataPath: string
+    /** RSA-OAEP(SHA-256) ciphertext, base64. No plaintext token. */
+    tokenEncrypted: string
   }
+}
+
+/** In-memory after unlock */
+export interface GithubRuntimeConfig {
+  owner: string
+  repo: string
+  branch: string
+  dataPath: string
+  token: string
 }
 
 export type TabId = 'today' | 'history' | 'gantt'

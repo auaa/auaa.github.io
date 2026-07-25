@@ -1,4 +1,4 @@
-import type { AppConfig } from '../types'
+import type { AppConfigFile, GithubRuntimeConfig } from '../types'
 
 export class GithubConflictError extends Error {
   constructor(message = '远程文件已变更，请刷新后重试') {
@@ -8,9 +8,9 @@ export class GithubConflictError extends Error {
 }
 
 export class GithubClient {
-  private cfg: AppConfig['github']
+  private cfg: GithubRuntimeConfig
 
-  constructor(cfg: AppConfig['github']) {
+  constructor(cfg: GithubRuntimeConfig) {
     this.cfg = cfg
   }
 
@@ -118,10 +118,10 @@ function encodeBase64Utf8(text: string): string {
   return btoa(bin)
 }
 
-export async function loadConfig(): Promise<AppConfig> {
+export async function loadConfig(): Promise<AppConfigFile> {
   const res = await fetch('./config.json', { cache: 'no-store' })
   if (!res.ok) throw new Error('无法加载 config.json')
-  return (await res.json()) as AppConfig
+  return (await res.json()) as AppConfigFile
 }
 
 /** Simple concurrency pool */

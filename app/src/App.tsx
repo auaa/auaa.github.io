@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { GithubClient, loadConfig } from './lib/github'
+import { decryptToken, loadStoredPrivateKey } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
 import { CategoryTabs } from './components/CategoryTabs'
 import { BottomNav } from './components/BottomNav'
+import { UnlockPanel } from './components/UnlockPanel'
 import { TodayPage } from './pages/TodayPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { GanttPage } from './pages/GanttPage'
-import type { TabId } from './types'
+import type { AppConfigFile, TabId } from './types'
 
 function initialTab(): TabId {
   const today = todayYmd()
@@ -24,6 +26,8 @@ function initialTab(): TabId {
 
 export default function App() {
   const [bootError, setBootError] = useState<string | null>(null)
+  const [fileCfg, setFileCfg] = useState<AppConfigFile | null>(null)
+  const [needUnlock, setNeedUnlock] = useState(false)
   const [client, setClient] = useState<GithubClient | null>(null)
   const [categories, setCategories] = useState<string[]>([])
   const [category, setCategory] = useState('')
@@ -34,13 +38,24 @@ export default function App() {
     ;(async () => {
       try {
         const cfg = await loadConfig()
-        if (!cfg.github?.token) throw new Error('config.json 缺少 github.token')
-        const c = new GithubClient(cfg.github)
-        const cats = await c.listCategories()
+        if (!cfg.github?.tokenEncrypted) {
+          throw new Error('config.json 缺少 github.tokenEncrypted，请先运行 scripts/encrypt-token.mjs')
+        }
         if (cancelled) return
-        setClient(c)
-        setCategories(cats)
-        setCategory(cats[0] ?? '')
+        setFileCfg(cfg)
+
+        const stored = loadStoredPrivateKey()
+        if (stored) {
+          try {
+            const token = await decryptToken(stored, cfg.github.tokenEncrypted)
+            if (cancelled) return
+            await bootWithToken(cfg, token)
+            return
+          } catch {
+            /* fall through to unlock UI */
+          }
+        }
+        if (!cancelled) setNeedUnlock(true)
       } catch (e) {
         if (!cancelled) setBootError(e instanceof Error ? e.message : String(e))
       }
@@ -49,6 +64,22 @@ export default function App() {
       cancelled = true
     }
   }, [])
+
+  async function bootWithToken(cfg: AppConfigFile, token: string) {
+    const runtime = {
+      owner: cfg.github.owner,
+      repo: cfg.github.repo,
+      branch: cfg.github.branch,
+      dataPath: cfg.github.dataPath,
+      token,
+    }
+    const c = new GithubClient(runtime)
+    const cats = await c.listCategories()
+    setClient(c)
+    setCategories(cats)
+    setCategory(cats[0] ?? '')
+    setNeedUnlock(false)
+  }
 
   const body = useMemo(() => {
     if (!client || !category) return null
@@ -64,6 +95,25 @@ export default function App() {
           <h1>Daily</h1>
         </header>
         <div className="panel error">{bootError}</div>
+      </div>
+    )
+  }
+
+  if (needUnlock && fileCfg) {
+    return (
+      <div className="app shell">
+        <header className="top">
+          <h1>Daily</h1>
+          <p className="muted">RSA 私钥解锁</p>
+        </header>
+        <UnlockPanel
+          tokenEncrypted={fileCfg.github.tokenEncrypted}
+          onUnlocked={(token) => {
+            void bootWithToken(fileCfg, token).catch((e) =>
+              setBootError(e instanceof Error ? e.message : String(e)),
+            )
+          }}
+        />
       </div>
     )
   }

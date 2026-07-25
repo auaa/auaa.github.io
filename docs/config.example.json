@@ -3,7 +3,7 @@
     "owner": "auaa",
     "repo": "auaa.github.io",
     "branch": "main",
-    "token": "github_pat_xxxxxxxx",
-    "dataPath": "data"
+    "dataPath": "data",
+    "tokenEncrypted": "<base64 RSA-OAEP ciphertext>"
   }
 }
