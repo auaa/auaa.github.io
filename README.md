@@ -1,29 +1,34 @@
 # auaa.github.io — Daily Todo
 
-个人每日任务（GitHub Pages + Markdown）。当前为 **Phase 0：API / CORS 最小验证页**。
+个人每日任务（GitHub Pages + Markdown）。
 
-## 本地路径
+- 站点：https://auaa.github.io/
+- 源码：`app/`
+- 数据：`data/<分类>/YYYY-MM-DD.md`
+- 构建产物：`docs/`（Pages 指向 `main` / `docs`）
 
-`/Users/qiuyungang/Data/Codes/github/auaa.github.io`
+## 使用
 
-## Pages
+1. 在仓库创建分类目录，例如 `data/日常/`
+2. 打开站点：每天首次进入甘特，同日再开默认今天
+3. 今天可增删改、状态下拉、拖拽排序；约 800ms 自动保存
+4. 历史 / 甘特只读
 
-- 源：`main` 分支 `/docs`
-- 验证页：https://auaa.github.io/
+## 开发
 
-## Token（应用读写用）
+```bash
+cd app
+npm install
+npm run dev
+npm run build   # 输出到 ../docs
+```
 
-1. GitHub → Settings → Developer settings → Fine-grained tokens  
-2. 仅授权本仓，`Contents: Read and write`  
-3. 写入 [`docs/config.json`](docs/config.json) 的 `github.token`（勿把无用的高权限 Token 放进来）  
-4. 参考模板：[`docs/config.example.json`](docs/config.example.json)
+## Token
 
-公私钥加密 Token 为后续可选，当前明文。
+Fine-grained PAT（本仓 Contents R/W）写在 `app/public/config.json`（构建进 `docs/config.json`）。公开仓明文存放，风险自担。
 
-## 数据
+## 任务格式
 
-分类目录手建于 `data/<分类名>/`，例如已有 `data/日常/`。每日文件：`YYYY-MM-DD.md`。
-
-## 验证
-
-打开站点后应能看到公开目录读取结果；填入 Token 后再测鉴权读取。
+```markdown
+- [ ] 标题 <!-- id:xxx status:planned planned:2026-07-25T10:00:00+08:00 -->
+```

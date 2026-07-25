@@ -1,0 +1,9 @@
+{
+  "github": {
+    "owner": "auaa",
+    "repo": "auaa.github.io",
+    "branch": "main",
+    "token": "github_pat_xxxxxxxx",
+    "dataPath": "data"
+  }
+}
