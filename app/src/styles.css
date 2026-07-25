@@ -218,6 +218,13 @@ select {
   min-height: 280px;
 }
 
+.boot-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+}
+
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);

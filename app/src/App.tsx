@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Spin } from 'antd'
 import { GithubClient, loadConfig } from './lib/github'
 import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
@@ -139,7 +140,9 @@ export default function App() {
   if (!client) {
     return (
       <Shell>
-        <p className="hint">启动中…</p>
+        <div className="boot-loading">
+          <Spin size="large" />
+        </div>
       </Shell>
     )
   }
