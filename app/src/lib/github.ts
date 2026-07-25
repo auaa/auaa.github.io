@@ -41,7 +41,12 @@ export class GithubClient {
     if (res.status === 404) return []
     if (!res.ok) throw new Error(`列出分类失败: ${res.status}`)
     const body = (await res.json()) as Array<{ name: string; type: string }>
-    return body.filter((x) => x.type === 'dir').map((x) => x.name).sort((a, b) => a.localeCompare(b, 'zh'))
+    const names = body.filter((x) => x.type === 'dir').map((x) => x.name)
+    const preferred = ['每日待办', '团队事项', '与产品沟通事项']
+    const rest = names
+      .filter((n) => !preferred.includes(n))
+      .sort((a, b) => a.localeCompare(b, 'zh'))
+    return [...preferred.filter((n) => names.includes(n)), ...rest]
   }
 
   async listDateFiles(category: string): Promise<string[]> {
