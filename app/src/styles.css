@@ -316,6 +316,19 @@ select {
   font-weight: 650;
 }
 
+.app.shell.shell-gantt {
+  max-width: none;
+  width: 100%;
+}
+
+.shell-gantt .bottom-nav {
+  max-width: none;
+}
+
+.gantt-panel {
+  overflow: hidden;
+}
+
 .gantt-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -325,6 +338,37 @@ select {
 
 .gantt {
   min-width: 100%;
+}
+
+/* 移动端竖屏看甘特：整页旋转为横屏布局（无法系统锁横屏时的回退） */
+@media (orientation: portrait) and (max-width: 920px) {
+  html.mode-gantt,
+  html.mode-gantt body {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  html.mode-gantt .app.shell.shell-gantt {
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    width: 100vh;
+    height: 100vw;
+    max-width: none;
+    margin: 0;
+    padding: 8px 10px 72px;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 30;
+    box-sizing: border-box;
+  }
+
+  html.mode-gantt .bottom-nav {
+    width: 100vh;
+    max-width: none;
+  }
 }
 
 .gantt-head-row {

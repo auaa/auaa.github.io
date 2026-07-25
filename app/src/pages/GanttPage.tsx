@@ -11,12 +11,71 @@ interface Props {
   category: string
 }
 
+function useGanttColWidth(labelW: number, dayCount: number) {
+  const [colW, setColW] = useState(40)
+  useEffect(() => {
+    const calc = () => {
+      // In CSS-rotated portrait mode, layout width is effectively 100vh
+      const portrait = window.matchMedia('(orientation: portrait) and (max-width: 920px)').matches
+      const avail = (portrait ? window.innerHeight : window.innerWidth) - labelW - 40
+      setColW(Math.max(40, Math.min(56, Math.floor(avail / dayCount))))
+    }
+    calc()
+    window.addEventListener('resize', calc)
+    window.addEventListener('orientationchange', calc)
+    return () => {
+      window.removeEventListener('resize', calc)
+      window.removeEventListener('orientationchange', calc)
+    }
+  }, [labelW, dayCount])
+  return colW
+}
+
+async function tryLockLandscape() {
+  const orient = screen.orientation as ScreenOrientation & {
+    lock?: (orientation: string) => Promise<void>
+  }
+  if (!orient?.lock) return
+  try {
+    // Some browsers require fullscreen before lock
+    const el = document.documentElement as HTMLElement & {
+      requestFullscreen?: () => Promise<void>
+      webkitRequestFullscreen?: () => Promise<void>
+    }
+    if (!document.fullscreenElement) {
+      await (el.requestFullscreen?.() || el.webkitRequestFullscreen?.())
+    }
+    await orient.lock('landscape')
+  } catch {
+    /* iOS / 无权限时忽略，改由 CSS 强制横屏布局 */
+  }
+}
+
+function unlockOrientation() {
+  try {
+    screen.orientation?.unlock?.()
+  } catch {
+    /* ignore */
+  }
+  if (document.fullscreenElement) {
+    void document.exitFullscreen?.()
+  }
+}
+
 export function GanttPage({ client, category }: Props) {
   const days = useMemo(() => lastNDays(30), [])
   const today = todayYmd()
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const labelW = 140
+  const colW = useGanttColWidth(labelW, days.length)
+
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 920px)').matches
+    if (mobile) void tryLockLandscape()
+    return () => unlockOrientation()
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -62,12 +121,10 @@ export function GanttPage({ client, category }: Props) {
   if (loading) return <div className="panel">加载甘特…</div>
   if (error) return <div className="panel error">{error}</div>
 
-  const colW = 28
-  const labelW = 128
   const trackW = days.length * colW
 
   return (
-    <div className="panel">
+    <div className="panel gantt-panel">
       <div className="panel-head">
         <div>
           <h2>甘特</h2>

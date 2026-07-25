@@ -34,6 +34,11 @@ export default function App() {
   const [tab, setTab] = useState<TabId>(initialTab)
 
   useEffect(() => {
+    document.documentElement.classList.toggle('mode-gantt', tab === 'gantt')
+    return () => document.documentElement.classList.remove('mode-gantt')
+  }, [tab])
+
+  useEffect(() => {
     let cancelled = false
     ;(async () => {
       try {
@@ -138,7 +143,7 @@ export default function App() {
   }
 
   return (
-    <div className="app shell">
+    <div className={`app shell${tab === 'gantt' ? ' shell-gantt' : ''}`}>
       <header className="top">
         <div>
           <h1>Daily</h1>
