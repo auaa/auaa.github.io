@@ -3,7 +3,7 @@ import { GithubClient, loadConfig } from './lib/github'
 import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
 import { CategoryTabs } from './components/CategoryTabs'
-import { BottomNav } from './components/BottomNav'
+import { MainNav } from './components/MainNav'
 import { UnlockPanel, UNLOCK_PASSWORD_LS } from './components/UnlockPanel'
 import { TodayPage } from './pages/TodayPage'
 import { HistoryPage } from './pages/HistoryPage'
@@ -26,18 +26,21 @@ function initialTab(): TabId {
 
 function Shell({
   children,
-  gantt,
-  subtitle,
+  wide,
+  headerRight,
 }: {
   children: ReactNode
-  gantt?: boolean
-  subtitle?: string
+  wide?: boolean
+  headerRight?: ReactNode
 }) {
   return (
-    <div className={`app-shell${gantt ? ' shell-gantt' : ''}`}>
-      <header className="mb-2">
-        <h1 className="title is-5 mb-0">Daily</h1>
-        {subtitle ? <p className="subtitle is-7 has-text-grey">{subtitle}</p> : null}
+    <div className={`app-shell${wide ? ' is-wide' : ''}`}>
+      <header className="app-header">
+        <div className="brand-block">
+          <div className="brand">Daily</div>
+          <div className="brand-sub">{todayYmd()}</div>
+        </div>
+        {headerRight}
       </header>
       {children}
     </div>
@@ -52,11 +55,6 @@ export default function App() {
   const [categories, setCategories] = useState<string[]>([])
   const [category, setCategory] = useState('')
   const [tab, setTab] = useState<TabId>(initialTab)
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('mode-gantt', tab === 'gantt')
-    return () => document.documentElement.classList.remove('mode-gantt')
-  }, [tab])
 
   useEffect(() => {
     let cancelled = false
@@ -124,14 +122,14 @@ export default function App() {
   if (bootError) {
     return (
       <Shell>
-        <div className="notification is-danger is-light is-size-7 py-3">{bootError}</div>
+        <div className="alert alert-danger">{bootError}</div>
       </Shell>
     )
   }
 
   if (needUnlock && fileCfg) {
     return (
-      <Shell subtitle="口令解锁">
+      <Shell>
         <UnlockPanel
           vault={fileCfg.github.tokenVault}
           onUnlocked={(token) => {
@@ -147,18 +145,17 @@ export default function App() {
   if (!client) {
     return (
       <Shell>
-        <p className="has-text-grey is-size-7">启动中…</p>
+        <p className="hint">启动中…</p>
       </Shell>
     )
   }
 
   return (
-    <Shell gantt={tab === 'gantt'} subtitle={`今日 ${todayYmd()}`}>
+    <Shell wide={tab === 'gantt'} headerRight={<MainNav value={tab} onChange={setTab} />}>
       <CategoryTabs categories={categories} value={category} onChange={setCategory} />
-      <main className="mt-2">
-        {body ?? <div className="notification is-warning is-light is-size-7 py-3">请先在仓库创建 data/分类名/</div>}
+      <main className="app-main">
+        {body ?? <div className="alert alert-warn">请先在仓库创建 data/分类名/</div>}
       </main>
-      <BottomNav value={tab} onChange={setTab} />
     </Shell>
   )
 }

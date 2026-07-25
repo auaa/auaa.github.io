@@ -12,54 +12,17 @@ interface Props {
 }
 
 function useGanttColWidth(labelW: number, dayCount: number) {
-  const [colW, setColW] = useState(40)
+  const [colW, setColW] = useState(44)
   useEffect(() => {
     const calc = () => {
-      // In CSS-rotated portrait mode, layout width is effectively 100vh
-      const portrait = window.matchMedia('(orientation: portrait) and (max-width: 920px)').matches
-      const avail = (portrait ? window.innerHeight : window.innerWidth) - labelW - 40
-      setColW(Math.max(40, Math.min(56, Math.floor(avail / dayCount))))
+      const avail = Math.min(window.innerWidth, 1280) - labelW - 64
+      setColW(Math.max(36, Math.min(52, Math.floor(avail / dayCount))))
     }
     calc()
     window.addEventListener('resize', calc)
-    window.addEventListener('orientationchange', calc)
-    return () => {
-      window.removeEventListener('resize', calc)
-      window.removeEventListener('orientationchange', calc)
-    }
+    return () => window.removeEventListener('resize', calc)
   }, [labelW, dayCount])
   return colW
-}
-
-async function tryLockLandscape() {
-  const orient = screen.orientation as ScreenOrientation & {
-    lock?: (orientation: string) => Promise<void>
-  }
-  if (!orient?.lock) return
-  try {
-    // Some browsers require fullscreen before lock
-    const el = document.documentElement as HTMLElement & {
-      requestFullscreen?: () => Promise<void>
-      webkitRequestFullscreen?: () => Promise<void>
-    }
-    if (!document.fullscreenElement) {
-      await (el.requestFullscreen?.() || el.webkitRequestFullscreen?.())
-    }
-    await orient.lock('landscape')
-  } catch {
-    /* iOS / 无权限时忽略，改由 CSS 强制横屏布局 */
-  }
-}
-
-function unlockOrientation() {
-  try {
-    screen.orientation?.unlock?.()
-  } catch {
-    /* ignore */
-  }
-  if (document.fullscreenElement) {
-    void document.exitFullscreen?.()
-  }
 }
 
 export function GanttPage({ client, category }: Props) {
@@ -68,14 +31,8 @@ export function GanttPage({ client, category }: Props) {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const labelW = 140
+  const labelW = 160
   const colW = useGanttColWidth(labelW, days.length)
-
-  useEffect(() => {
-    const mobile = window.matchMedia('(max-width: 920px)').matches
-    if (mobile) void tryLockLandscape()
-    return () => unlockOrientation()
-  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -118,22 +75,24 @@ export function GanttPage({ client, category }: Props) {
     }
   }, [client, category, days])
 
-  if (loading) return <div className="box is-size-7 py-3">加载甘特…</div>
-  if (error) return <div className="notification is-danger is-light is-size-7 py-3">{error}</div>
+  if (loading) return <div className="panel muted-panel">加载甘特…</div>
+  if (error) return <div className="alert alert-danger">{error}</div>
 
   const trackW = days.length * colW
 
   return (
-    <div className="box py-3 gantt-panel">
-      <div className="mb-2">
-        <h2 className="title is-6 mb-0">甘特</h2>
-        <p className="is-size-7 has-text-grey mb-0">
-          过去 30 天（{days[0]} ~ {days[days.length - 1]}）· 只读 · {category}
-        </p>
+    <div className="panel gantt-panel">
+      <div className="panel-head">
+        <div>
+          <h2 className="panel-title">甘特</h2>
+          <p className="panel-desc">
+            过去 30 天（{days[0]} ~ {days[days.length - 1]}）· 只读 · {category}
+          </p>
+        </div>
       </div>
-      {!tasks.length && <p className="has-text-centred has-text-grey is-size-7 py-4">窗口内暂无任务</p>}
+      {!tasks.length && <p className="empty-state">窗口内暂无任务</p>}
       <div className="gantt-scroll">
-        <div className="gantt" style={{ width: labelW + trackW }}>
+        <div style={{ width: labelW + trackW }}>
           <div className="gantt-head-row">
             <div className="gantt-label-cell" style={{ width: labelW }}>
               任务
@@ -189,12 +148,12 @@ function GanttRow({
     <div className="gantt-head-row">
       <div className="gantt-label-cell" style={{ width: labelW }}>
         <span
-          className={`gantt-dot ${task.status === 'started' ? 'is-started' : ''} ${task.status === 'completed' ? 'is-completed' : ''}`}
+          className={`gantt-dot status-${task.status}`}
           title={STATUS_LABEL[task.status]}
         />
         <span className="gantt-title">{task.title}</span>
       </div>
-      <div className="gantt-track" style={{ width: days.length * colW, height: 28 }}>
+      <div className="gantt-track" style={{ width: days.length * colW, height: 32 }}>
         {plannedIdx >= 0 && (
           <span className="gantt-plan" style={{ left: plannedIdx * colW + colW / 2 - 4 }} title={`规划 ${planned}`} />
         )}

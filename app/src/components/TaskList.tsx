@@ -1,7 +1,6 @@
 import {
   DndContext,
   PointerSensor,
-  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
@@ -37,7 +36,7 @@ function SortableTaskRow(props: TaskItemProps) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.85 : 1,
+    opacity: isDragging ? 0.88 : 1,
   }
 
   return (
@@ -52,21 +51,15 @@ function SortableTaskRow(props: TaskItemProps) {
   )
 }
 
-function statusTagClass(status: TaskStatus) {
-  if (status === 'started') return 'is-primary is-light'
-  if (status === 'completed') return 'is-success is-light'
-  return 'is-light'
-}
-
 function TaskFields({ task, readOnly, autoFocus, onTitleChange, onStatusChange, onDelete }: TaskItemProps) {
   return (
     <div className="task-body">
       <div className="task-main">
         {readOnly ? (
-          <span className="is-size-7 has-text-weight-medium">{task.title}</span>
+          <span className="task-title-text">{task.title}</span>
         ) : (
           <input
-            className="input is-small"
+            className="field-input task-title-input"
             value={task.title}
             autoFocus={autoFocus}
             onChange={(e) => onTitleChange?.(task.id, e.target.value)}
@@ -78,28 +71,24 @@ function TaskFields({ task, readOnly, autoFocus, onTitleChange, onStatusChange, 
         )}
         <div className="task-meta">
           {readOnly ? (
-            <span className={`tag is-small ${statusTagClass(task.status)}`}>{STATUS_LABEL[task.status]}</span>
+            <span className={`status-tag status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
           ) : (
-            <div className="select is-small">
-              <select
-                value={task.status}
-                onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
-              >
-                {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
-                  <option key={s} value={s}>
-                    {STATUS_LABEL[s]}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              className="field-select"
+              value={task.status}
+              onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
+            >
+              {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
+                <option key={s} value={s}>
+                  {STATUS_LABEL[s]}
+                </option>
+              ))}
+            </select>
           )}
           {!readOnly && (
-            <button
-              type="button"
-              className="delete is-small"
-              aria-label="删除"
-              onClick={() => onDelete?.(task.id)}
-            />
+            <button type="button" className="icon-btn" aria-label="删除" onClick={() => onDelete?.(task.id)}>
+              ×
+            </button>
           )}
         </div>
       </div>
@@ -135,10 +124,7 @@ export function TaskList({
   onStatusChange,
   onDelete,
 }: ListProps) {
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 8 } }),
-  )
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
   function onDragEnd(e: DragEndEvent) {
     const { active, over } = e
@@ -150,7 +136,7 @@ export function TaskList({
   }
 
   if (!tasks.length) {
-    return <p className="has-text-centred has-text-grey is-size-7 py-4">暂无任务</p>
+    return <p className="empty-state">暂无任务</p>
   }
 
   if (readOnly) {
