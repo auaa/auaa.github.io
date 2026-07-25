@@ -52,37 +52,39 @@ function SortableTaskRow(props: TaskItemProps) {
 function TaskFields({ task, readOnly, onTitleChange, onStatusChange, onDelete }: TaskItemProps) {
   return (
     <div className="task-body">
-      {readOnly ? (
-        <div className="task-title-ro">{task.title}</div>
-      ) : (
-        <input
-          className="task-title"
-          value={task.title}
-          onChange={(e) => onTitleChange?.(task.id, e.target.value)}
-          placeholder="任务标题"
-        />
-      )}
-      <div className="task-meta">
+      <div className="task-main">
         {readOnly ? (
-          <span className={`status-pill status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
+          <div className="task-title-ro">{task.title}</div>
         ) : (
-          <select
-            className="status-select"
-            value={task.status}
-            onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
-          >
-            {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
-              <option key={s} value={s}>
-                {STATUS_LABEL[s]}
-              </option>
-            ))}
-          </select>
+          <input
+            className="task-title"
+            value={task.title}
+            onChange={(e) => onTitleChange?.(task.id, e.target.value)}
+            placeholder="任务标题"
+          />
         )}
-        {!readOnly && (
-          <button type="button" className="btn-danger" onClick={() => onDelete?.(task.id)}>
-            删除
-          </button>
-        )}
+        <div className="task-meta">
+          {readOnly ? (
+            <span className={`status-pill status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
+          ) : (
+            <select
+              className="status-select"
+              value={task.status}
+              onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
+            >
+              {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
+                <option key={s} value={s}>
+                  {STATUS_LABEL[s]}
+                </option>
+              ))}
+            </select>
+          )}
+          {!readOnly && (
+            <button type="button" className="btn-danger" onClick={() => onDelete?.(task.id)} aria-label="删除">
+              ×
+            </button>
+          )}
+        </div>
       </div>
       <div className="task-dates">
         {task.plannedAt && <span>规划 {fmtShort(task.plannedAt)}</span>}
@@ -94,7 +96,7 @@ function TaskFields({ task, readOnly, onTitleChange, onStatusChange, onDelete }:
 }
 
 function fmtShort(iso: string) {
-  return iso.replace('T', ' ').replace(/\+08:00$/, '').slice(0, 16)
+  return iso.replace('T', ' ').replace(/\+08:00$/, '').slice(5, 16)
 }
 
 interface ListProps {

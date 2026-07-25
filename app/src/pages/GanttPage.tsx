@@ -193,7 +193,7 @@ function GanttRow({
         <span className={`dot status-${task.status}`} title={STATUS_LABEL[task.status]} />
         <span className="gantt-title">{task.title}</span>
       </div>
-      <div className="gantt-track" style={{ width: days.length * colW, height: 40 }}>
+      <div className="gantt-track" style={{ width: days.length * colW, height: 28 }}>
         {plannedIdx >= 0 && (
           <span className="gantt-plan" style={{ left: plannedIdx * colW + colW / 2 - 4 }} title={`规划 ${planned}`} />
         )}
