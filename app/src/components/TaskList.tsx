@@ -18,7 +18,8 @@ import { CSS } from '@dnd-kit/utilities'
 import { DeleteOutlined, HolderOutlined } from '@ant-design/icons'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 import type { Task, TaskPriority, TaskStatus } from '../types'
-import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
+import { STATUS_LABEL } from '../types'
+import { PRIORITY_OPTIONS, PriorityFlame } from './PriorityFlame'
 
 interface ListProps {
   tasks: Task[]
@@ -122,25 +123,22 @@ export function TaskList({
       dataIndex: 'priority',
       key: 'priority',
       width: 88,
+      align: 'center',
       render: (priority: TaskPriority | undefined, row) =>
         canEdit ? (
           <Select
             size="small"
             allowClear
             placeholder="—"
-            style={{ width: 72 }}
+            style={{ width: 64 }}
             value={priority}
-            options={[
-              { value: 1, label: '1' },
-              { value: 2, label: '2' },
-              { value: 3, label: '3' },
-            ]}
+            options={PRIORITY_OPTIONS}
+            optionLabelProp="label"
+            popupMatchSelectWidth={false}
             onChange={(v) => onPriorityChange?.(row.id, v)}
           />
-        ) : priority ? (
-          PRIORITY_LABEL[priority]
         ) : (
-          '—'
+          <PriorityFlame value={priority} />
         ),
     },
     {

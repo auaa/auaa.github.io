@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { DatePicker, Form, Input, Modal, Select } from 'antd'
 import dayjs, { type Dayjs } from 'dayjs'
 import type { Task, TaskDraft, TaskPriority } from '../types'
+import { PRIORITY_OPTIONS } from './PriorityFlame'
 
 export type TaskDialogMode = 'create' | 'edit'
 
@@ -85,11 +86,9 @@ export function TaskDialog(props: Props) {
               <Select
                 allowClear
                 placeholder="不设置"
-                options={[
-                  { value: 1, label: '1' },
-                  { value: 2, label: '2' },
-                  { value: 3, label: '3' },
-                ]}
+                options={PRIORITY_OPTIONS}
+                optionLabelProp="label"
+                popupMatchSelectWidth={false}
               />
             </Form.Item>
             <Form.Item name="dueAt" label="预期完成时间">

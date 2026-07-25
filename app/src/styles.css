@@ -510,22 +510,16 @@ select {
   text-align: right;
 }
 
-.priority-tag {
-  flex: 0 0 36px;
-  text-align: center;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--subtle);
+.priority-flame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  vertical-align: middle;
 }
 
-.priority-tag.p1 {
-  color: var(--danger);
-}
-.priority-tag.p2 {
-  color: var(--warn);
-}
-.priority-tag.p3 {
-  color: var(--accent);
+.priority-empty {
+  color: var(--subtle);
 }
 
 .task-list-head {
