@@ -56,7 +56,7 @@ export function TaskDialog(props: Props) {
         title,
         priority: values.priority,
         detail,
-        dueAt: values.dueAt ? values.dueAt.format('YYYY-MM-DDTHH:mm') : undefined,
+        dueAt: values.dueAt ? values.dueAt.format('YYYY-MM-DD') : undefined,
       })
     } else {
       props.onSubmit({ title, detail })
@@ -95,8 +95,8 @@ export function TaskDialog(props: Props) {
                 popupMatchSelectWidth={false}
               />
             </Form.Item>
-            <Form.Item name="dueAt" label="预期完成时间">
-              <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" style={{ width: '100%' }} />
+            <Form.Item name="dueAt" label="期望完成日期">
+              <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
             </Form.Item>
           </>
         )}

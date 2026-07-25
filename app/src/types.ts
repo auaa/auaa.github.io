@@ -13,7 +13,7 @@ export interface Task {
   priority?: TaskPriority
   /** 详情，可选 */
   detail?: string
-  /** 预期完成时间 YYYY-MM-DD 或 YYYY-MM-DDTHH:mm，可选 */
+  /** 期望完成日期 YYYY-MM-DD，可选 */
   dueAt?: string
 }
 

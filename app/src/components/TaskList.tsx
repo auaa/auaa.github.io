@@ -34,7 +34,7 @@ interface ListProps {
 
 function fmtDue(due?: string) {
   if (!due) return '—'
-  return due.replace('T', ' ').slice(0, 16)
+  return due.slice(0, 10)
 }
 
 function DragHandle({ id }: { id: string }) {
@@ -156,10 +156,10 @@ export function TaskList({
         ),
     },
     {
-      title: '预期完成',
+      title: '期望完成日期',
       dataIndex: 'dueAt',
       key: 'dueAt',
-      width: 140,
+      width: 120,
       render: (due?: string) => fmtDue(due),
     },
   )
