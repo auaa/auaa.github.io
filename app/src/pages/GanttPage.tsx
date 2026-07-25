@@ -118,22 +118,20 @@ export function GanttPage({ client, category }: Props) {
     }
   }, [client, category, days])
 
-  if (loading) return <div className="panel">加载甘特…</div>
-  if (error) return <div className="panel error">{error}</div>
+  if (loading) return <div className="box is-size-7 py-3">加载甘特…</div>
+  if (error) return <div className="notification is-danger is-light is-size-7 py-3">{error}</div>
 
   const trackW = days.length * colW
 
   return (
-    <div className="panel gantt-panel">
-      <div className="panel-head">
-        <div>
-          <h2>甘特</h2>
-          <p className="muted">
-            过去 30 天（{days[0]} ~ {days[days.length - 1]}）· 只读 · {category}
-          </p>
-        </div>
+    <div className="box py-3 gantt-panel">
+      <div className="mb-2">
+        <h2 className="title is-6 mb-0">甘特</h2>
+        <p className="is-size-7 has-text-grey mb-0">
+          过去 30 天（{days[0]} ~ {days[days.length - 1]}）· 只读 · {category}
+        </p>
       </div>
-      {!tasks.length && <div className="empty">窗口内暂无任务</div>}
+      {!tasks.length && <p className="has-text-centred has-text-grey is-size-7 py-4">窗口内暂无任务</p>}
       <div className="gantt-scroll">
         <div className="gantt" style={{ width: labelW + trackW }}>
           <div className="gantt-head-row">
@@ -144,7 +142,7 @@ export function GanttPage({ client, category }: Props) {
               {days.map((d) => (
                 <div
                   key={d}
-                  className={`gantt-day ${d === today ? 'today' : ''}`}
+                  className={`gantt-day ${d === today ? 'is-today' : ''}`}
                   style={{ width: colW }}
                   title={d}
                 >
@@ -190,7 +188,10 @@ function GanttRow({
   return (
     <div className="gantt-head-row">
       <div className="gantt-label-cell" style={{ width: labelW }}>
-        <span className={`dot status-${task.status}`} title={STATUS_LABEL[task.status]} />
+        <span
+          className={`gantt-dot ${task.status === 'started' ? 'is-started' : ''} ${task.status === 'completed' ? 'is-completed' : ''}`}
+          title={STATUS_LABEL[task.status]}
+        />
         <span className="gantt-title">{task.title}</span>
       </div>
       <div className="gantt-track" style={{ width: days.length * colW, height: 28 }}>
@@ -199,7 +200,7 @@ function GanttRow({
         )}
         {startIdx >= 0 && endIdx >= 0 && (
           <span
-            className={`gantt-bar ${task.status === 'completed' ? 'done' : 'active'}`}
+            className={`gantt-bar ${task.status === 'completed' ? 'is-done' : 'is-active'}`}
             style={{
               left: startIdx * colW + 2,
               width: Math.max(colW - 4, (endIdx - startIdx + 1) * colW - 4),

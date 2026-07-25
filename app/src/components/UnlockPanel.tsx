@@ -34,28 +34,39 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
   }
 
   return (
-    <div className="panel unlock">
-      <h2>解锁</h2>
-      <p className="muted">Token 已加密存放。输入口令后可选择记住到本机，下次自动解锁。</p>
-      <input
-        className="password-input"
-        type="password"
-        inputMode="numeric"
-        autoComplete="current-password"
-        placeholder="解锁口令"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && password) void unlock()
-        }}
-      />
-      <label className="check">
-        <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+    <div className="box py-4">
+      <h2 className="title is-6 mb-2">解锁</h2>
+      <p className="is-size-7 has-text-grey mb-3">
+        Token 已加密存放。输入口令后可选择记住到本机，下次自动解锁。
+      </p>
+      <div className="field">
+        <div className="control">
+          <input
+            className="input is-small"
+            type="password"
+            inputMode="numeric"
+            autoComplete="current-password"
+            placeholder="解锁口令"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && password) void unlock()
+            }}
+          />
+        </div>
+      </div>
+      <label className="checkbox is-size-7 mb-3">
+        <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />{' '}
         记住口令到本机（下次免输入）
       </label>
-      {error && <div className="error-inline">{error}</div>}
-      <button type="button" className="btn primary" disabled={busy || !password} onClick={() => void unlock()}>
-        {busy ? '解密中…' : '解锁'}
+      {error && <p className="help is-danger mb-2">{error}</p>}
+      <button
+        type="button"
+        className={`button is-primary is-small${busy ? ' is-loading' : ''}`}
+        disabled={busy || !password}
+        onClick={() => void unlock()}
+      >
+        解锁
       </button>
     </div>
   )

@@ -123,30 +123,30 @@ export function TodayPage({ client, category }: Props) {
     markDirty([...tasks, { id: newTaskId(), title: '新任务', status: 'planned', plannedAt: now }])
   }
 
-  if (loading) return <div className="panel">加载今天…</div>
-  if (error) return <div className="panel error">{error}</div>
+  if (loading) return <div className="box is-size-7 py-3">加载今天…</div>
+  if (error) return <div className="notification is-danger is-light is-size-7 py-3">{error}</div>
 
   return (
-    <div className="panel">
-      <div className="panel-head">
+    <div className="box py-3">
+      <div className="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap mb-2" style={{ gap: '0.5rem' }}>
         <div>
-          <h2>今天</h2>
-          <p className="muted">
+          <h2 className="title is-6 mb-0">今天</h2>
+          <p className="is-size-7 has-text-grey mb-0">
             {ymd}
             {!exists && tasks.length ? ' · 继承未落盘' : ''}
           </p>
         </div>
-        <div className="head-actions">
-          <span className={`save-flag save-${saveState}`}>
+        <div className="buttons are-small mb-0">
+          <span className={`is-size-7 mr-2 save-${saveState}`}>
             {saveState === 'dirty' && '未保存'}
             {saveState === 'saving' && '保存中…'}
             {saveState === 'saved' && (saveMsg || '已保存')}
             {saveState === 'error' && (saveMsg || '保存失败')}
           </span>
-          <button type="button" className="btn" onClick={() => void save()}>
+          <button type="button" className="button" onClick={() => void save()}>
             保存
           </button>
-          <button type="button" className="btn primary" onClick={addTask}>
+          <button type="button" className="button is-primary" onClick={addTask}>
             新增
           </button>
         </div>

@@ -78,25 +78,23 @@ export function HistoryPage({ client, category }: Props) {
     return () => io.disconnect()
   }, [loadMore])
 
-  if (loading) return <div className="panel">加载历史…</div>
-  if (error) return <div className="panel error">{error}</div>
+  if (loading) return <div className="box is-size-7 py-3">加载历史…</div>
+  if (error) return <div className="notification is-danger is-light is-size-7 py-3">{error}</div>
 
   return (
-    <div className="panel">
-      <div className="panel-head">
-        <div>
-          <h2>历史</h2>
-          <p className="muted">只读 · 每次 2 天 · 不含今天</p>
-        </div>
+    <div className="box py-3">
+      <div className="mb-2">
+        <h2 className="title is-6 mb-0">历史</h2>
+        <p className="is-size-7 has-text-grey mb-0">只读 · 每次 2 天 · 不含今天</p>
       </div>
-      {!blocks.length && <div className="empty">暂无历史记录</div>}
+      {!blocks.length && <p className="has-text-centred has-text-grey is-size-7 py-4">暂无历史记录</p>}
       {blocks.map((b) => (
         <section key={b.ymd} className="day-block">
-          <h3>{b.ymd}</h3>
+          <h3 className="is-size-7 has-text-weight-semibold has-text-grey mb-1">{b.ymd}</h3>
           <TaskList tasks={b.tasks} readOnly />
         </section>
       ))}
-      <div ref={sentinel} className="sentinel">
+      <div ref={sentinel} className="has-text-centred has-text-grey is-size-7 py-3">
         {cursor < dates.length ? (loadingMore ? '加载中…' : '下拉加载更多') : blocks.length ? '没有更多了' : ''}
       </div>
     </div>

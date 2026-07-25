@@ -49,15 +49,21 @@ function SortableTaskRow(props: TaskItemProps) {
   )
 }
 
+function statusTagClass(status: TaskStatus) {
+  if (status === 'started') return 'is-primary is-light'
+  if (status === 'completed') return 'is-success is-light'
+  return 'is-light'
+}
+
 function TaskFields({ task, readOnly, onTitleChange, onStatusChange, onDelete }: TaskItemProps) {
   return (
     <div className="task-body">
       <div className="task-main">
         {readOnly ? (
-          <div className="task-title-ro">{task.title}</div>
+          <span className="is-size-7 has-text-weight-medium">{task.title}</span>
         ) : (
           <input
-            className="task-title"
+            className="input is-small"
             value={task.title}
             onChange={(e) => onTitleChange?.(task.id, e.target.value)}
             placeholder="任务标题"
@@ -65,24 +71,28 @@ function TaskFields({ task, readOnly, onTitleChange, onStatusChange, onDelete }:
         )}
         <div className="task-meta">
           {readOnly ? (
-            <span className={`status-pill status-${task.status}`}>{STATUS_LABEL[task.status]}</span>
+            <span className={`tag is-small ${statusTagClass(task.status)}`}>{STATUS_LABEL[task.status]}</span>
           ) : (
-            <select
-              className="status-select"
-              value={task.status}
-              onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
-            >
-              {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
-                <option key={s} value={s}>
-                  {STATUS_LABEL[s]}
-                </option>
-              ))}
-            </select>
+            <div className="select is-small">
+              <select
+                value={task.status}
+                onChange={(e) => onStatusChange?.(task.id, e.target.value as TaskStatus)}
+              >
+                {(Object.keys(STATUS_LABEL) as TaskStatus[]).map((s) => (
+                  <option key={s} value={s}>
+                    {STATUS_LABEL[s]}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
           {!readOnly && (
-            <button type="button" className="btn-danger" onClick={() => onDelete?.(task.id)} aria-label="删除">
-              ×
-            </button>
+            <button
+              type="button"
+              className="delete is-small"
+              aria-label="删除"
+              onClick={() => onDelete?.(task.id)}
+            />
           )}
         </div>
       </div>
@@ -131,7 +141,7 @@ export function TaskList({
   }
 
   if (!tasks.length) {
-    return <div className="empty">暂无任务</div>
+    return <p className="has-text-centred has-text-grey is-size-7 py-4">暂无任务</p>
   }
 
   if (readOnly) {

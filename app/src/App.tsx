@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { GithubClient, loadConfig } from './lib/github'
 import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
@@ -22,6 +22,26 @@ function initialTab(): TabId {
     /* ignore */
   }
   return 'today'
+}
+
+function Shell({
+  children,
+  gantt,
+  subtitle,
+}: {
+  children: ReactNode
+  gantt?: boolean
+  subtitle?: string
+}) {
+  return (
+    <div className={`app-shell${gantt ? ' shell-gantt' : ''}`}>
+      <header className="mb-2">
+        <h1 className="title is-5 mb-0">Daily</h1>
+        {subtitle ? <p className="subtitle is-7 has-text-grey">{subtitle}</p> : null}
+      </header>
+      {children}
+    </div>
+  )
 }
 
 export default function App() {
@@ -103,22 +123,15 @@ export default function App() {
 
   if (bootError) {
     return (
-      <div className="app shell">
-        <header className="top">
-          <h1>Daily</h1>
-        </header>
-        <div className="panel error">{bootError}</div>
-      </div>
+      <Shell>
+        <div className="notification is-danger is-light is-size-7 py-3">{bootError}</div>
+      </Shell>
     )
   }
 
   if (needUnlock && fileCfg) {
     return (
-      <div className="app shell">
-        <header className="top">
-          <h1>Daily</h1>
-          <p className="muted">口令解锁</p>
-        </header>
+      <Shell subtitle="口令解锁">
         <UnlockPanel
           vault={fileCfg.github.tokenVault}
           onUnlocked={(token) => {
@@ -127,32 +140,25 @@ export default function App() {
             )
           }}
         />
-      </div>
+      </Shell>
     )
   }
 
   if (!client) {
     return (
-      <div className="app shell">
-        <header className="top">
-          <h1>Daily</h1>
-        </header>
-        <div className="panel">启动中…</div>
-      </div>
+      <Shell>
+        <p className="has-text-grey is-size-7">启动中…</p>
+      </Shell>
     )
   }
 
   return (
-    <div className={`app shell${tab === 'gantt' ? ' shell-gantt' : ''}`}>
-      <header className="top">
-        <div>
-          <h1>Daily</h1>
-          <p className="muted">今日 {todayYmd()}</p>
-        </div>
-      </header>
+    <Shell gantt={tab === 'gantt'} subtitle={`今日 ${todayYmd()}`}>
       <CategoryTabs categories={categories} value={category} onChange={setCategory} />
-      <main className="main">{body ?? <div className="panel">请先在仓库创建 data/分类名/</div>}</main>
+      <main className="mt-2">
+        {body ?? <div className="notification is-warning is-light is-size-7 py-3">请先在仓库创建 data/分类名/</div>}
+      </main>
       <BottomNav value={tab} onChange={setTab} />
-    </div>
+    </Shell>
   )
 }
