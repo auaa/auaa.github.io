@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Alert, Checkbox, Form, Input, Modal } from 'antd'
 import { decryptTokenWithPassword, type TokenVault } from '../lib/crypto'
 
 export const UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
@@ -15,6 +16,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
   const [busy, setBusy] = useState(false)
 
   async function unlock() {
+    if (!password || busy) return
     setBusy(true)
     setError(null)
     try {
@@ -34,29 +36,42 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
   }
 
   return (
-    <div className="panel unlock-panel">
-      <h2 className="panel-title">解锁</h2>
-      <p className="panel-desc">输入口令解密 Token。可记住到本机，下次自动进入。</p>
-      <input
-        className="field-input"
-        type="password"
-        inputMode="numeric"
-        autoComplete="current-password"
-        placeholder="解锁口令"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && password) void unlock()
-        }}
-      />
-      <label className="check-row">
-        <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
-        记住口令到本机
-      </label>
-      {error && <p className="field-error">{error}</p>}
-      <button type="button" className="btn btn-primary" disabled={busy || !password} onClick={() => void unlock()}>
-        {busy ? '解密中…' : '进入'}
-      </button>
-    </div>
+    <Modal
+      title="解锁"
+      open
+      centered
+      closable={false}
+      maskClosable={false}
+      keyboard={false}
+      okText={busy ? '解密中…' : '进入'}
+      cancelButtonProps={{ style: { display: 'none' } }}
+      okButtonProps={{ disabled: busy || !password, loading: busy }}
+      onOk={() => void unlock()}
+      destroyOnHidden={false}
+      width={420}
+    >
+      <p style={{ margin: '0 0 12px', color: '#626f86' }}>
+        输入口令解密 Token。可记住到本机，下次自动进入。
+      </p>
+      <Form layout="vertical" onFinish={() => void unlock()}>
+        <Form.Item label="解锁口令" style={{ marginBottom: 12 }}>
+          <Input.Password
+            autoFocus
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="解锁口令"
+            inputMode="numeric"
+            autoComplete="current-password"
+            onPressEnter={() => void unlock()}
+          />
+        </Form.Item>
+        <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)}>
+          记住口令到本机
+        </Checkbox>
+      </Form>
+      {error && (
+        <Alert type="error" showIcon message={error} style={{ marginTop: 12 }} />
+      )}
+    </Modal>
   )
 }
