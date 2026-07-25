@@ -3,3 +3,4 @@ app/node_modules
 
 keys/private.pem
 *.pem.bak
+.idea/
