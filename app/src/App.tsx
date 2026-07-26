@@ -4,13 +4,15 @@ import { GithubClient, loadConfig } from './lib/github'
 import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
 import { Sidebar } from './components/Sidebar'
-import { UnlockPanel, UNLOCK_PASSWORD_LS } from './components/UnlockPanel'
 import { TaskDialog } from './components/TaskDialog'
 import { TodayPage } from './pages/TodayPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { CalendarPage } from './pages/CalendarPage'
 import { GanttPage } from './pages/GanttPage'
 import type { AppConfigFile, TabId, TaskDraft } from './types'
+
+/** 临时：默认解锁口令，打开即自动登录（勿用于长期公开环境） */
+const DEFAULT_UNLOCK_PASSWORD = 'REDACTED'
 
 function initialTab(): TabId {
   const today = todayYmd()
@@ -32,8 +34,6 @@ function Shell({ children }: { children: ReactNode }) {
 
 export default function App() {
   const [bootError, setBootError] = useState<string | null>(null)
-  const [fileCfg, setFileCfg] = useState<AppConfigFile | null>(null)
-  const [needUnlock, setNeedUnlock] = useState(false)
   const [client, setClient] = useState<GithubClient | null>(null)
   const [categories, setCategories] = useState<string[]>([])
   const [category, setCategory] = useState('')
@@ -49,30 +49,9 @@ export default function App() {
         if (!cfg.github?.tokenVault?.ciphertext) {
           throw new Error('config.json 缺少 github.tokenVault，请先运行 scripts/encrypt-token.mjs')
         }
+        const token = await decryptTokenWithPassword(DEFAULT_UNLOCK_PASSWORD, cfg.github.tokenVault)
         if (cancelled) return
-        setFileCfg(cfg)
-
-        let stored = ''
-        try {
-          stored = localStorage.getItem(UNLOCK_PASSWORD_LS) || ''
-        } catch {
-          stored = ''
-        }
-        if (stored) {
-          try {
-            const token = await decryptTokenWithPassword(stored, cfg.github.tokenVault)
-            if (cancelled) return
-            await bootWithToken(cfg, token)
-            return
-          } catch {
-            try {
-              localStorage.removeItem(UNLOCK_PASSWORD_LS)
-            } catch {
-              /* ignore */
-            }
-          }
-        }
-        if (!cancelled) setNeedUnlock(true)
+        await bootWithToken(cfg, token)
       } catch (e) {
         if (!cancelled) setBootError(e instanceof Error ? e.message : String(e))
       }
@@ -94,7 +73,6 @@ export default function App() {
     setClient(c)
     setCategories(cats)
     setCategory(cats[0] ?? '')
-    setNeedUnlock(false)
   }
 
   const body = useMemo(() => {
@@ -118,21 +96,6 @@ export default function App() {
     return (
       <Shell>
         <div className="alert alert-danger">{bootError}</div>
-      </Shell>
-    )
-  }
-
-  if (needUnlock && fileCfg) {
-    return (
-      <Shell>
-        <UnlockPanel
-          vault={fileCfg.github.tokenVault}
-          onUnlocked={(token) => {
-            void bootWithToken(fileCfg, token).catch((e) =>
-              setBootError(e instanceof Error ? e.message : String(e)),
-            )
-          }}
-        />
       </Shell>
     )
   }
