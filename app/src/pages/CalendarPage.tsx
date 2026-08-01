@@ -41,7 +41,6 @@ export function CalendarPage({ client, category }: Props) {
   const [archive, setArchive] = useState<MonthArchive | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [missing, setMissing] = useState(false)
   const [dayOpen, setDayOpen] = useState<string | null>(null)
 
   const monthKey = panelMonth.format('YYYY-MM')
@@ -51,16 +50,11 @@ export function CalendarPage({ client, category }: Props) {
     ;(async () => {
       setLoading(true)
       setError(null)
-      setMissing(false)
       setArchive(null)
       try {
         const file = await client.getMonthArchive(category, monthKey)
         if (cancelled) return
-        if (!file) {
-          setMissing(true)
-          return
-        }
-        setArchive(file.data)
+        setArchive(file?.data ?? null)
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e))
       } finally {
@@ -137,12 +131,6 @@ export function CalendarPage({ client, category }: Props) {
   return (
     <div className="cal-page">
       {error && <div className="alert alert-danger">{error}</div>}
-      {missing && !loading && (
-        <div className="alert alert-warn">
-          无 {monthKey} 月归档（{category}/_month/{monthKey}.json）。请运行
-          scripts/rebuild-month-archive.mjs 生成后再查看。
-        </div>
-      )}
 
       <div className="cal-full">
         {loading ? (

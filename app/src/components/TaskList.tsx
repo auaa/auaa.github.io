@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { DeleteOutlined, HolderOutlined } from '@ant-design/icons'
+import { HolderOutlined } from '@ant-design/icons'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 import type { Task, TaskStatus } from '../types'
 import { STATUS_LABEL } from '../types'
@@ -28,7 +28,6 @@ interface ListProps {
   onReorder?: (tasks: Task[]) => void
   onTitleClick?: (task: Task) => void
   onStatusChange?: (id: string, status: TaskStatus) => void
-  onDelete?: (id: string) => void
 }
 
 function fmtDue(due?: string) {
@@ -78,7 +77,6 @@ export function TaskList({
   onReorder,
   onTitleClick,
   onStatusChange,
-  onDelete,
 }: ListProps) {
   const canEdit = !!editable && !readOnly
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
@@ -146,24 +144,6 @@ export function TaskList({
       render: (due?: string) => fmtDue(due),
     },
   )
-
-  if (canEdit) {
-    columns.push({
-      title: '操作',
-      key: 'actions',
-      width: 72,
-      render: (_, row) => (
-        <Button
-          type="text"
-          danger
-          size="small"
-          icon={<DeleteOutlined />}
-          aria-label="删除"
-          onClick={() => onDelete?.(row.id)}
-        />
-      ),
-    })
-  }
 
   const table = (
     <Table<Task>

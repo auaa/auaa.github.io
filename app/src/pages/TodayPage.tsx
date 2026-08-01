@@ -173,7 +173,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
         onStatusChange={(id, status: TaskStatus) =>
           markDirty(tasks.map((t) => (t.id === id ? applyStatusChange(t, status, nowShanghaiIso()) : t)))
         }
-        onDelete={(id) => markDirty(tasks.filter((t) => t.id !== id))}
       />
 
       <TaskDialog
