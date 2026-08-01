@@ -186,7 +186,7 @@ select {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 44px 8px 8px;
+  padding: 28px 8px 8px;
 }
 
 .sidebar-section {
