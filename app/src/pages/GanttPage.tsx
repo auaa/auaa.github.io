@@ -151,7 +151,9 @@ function GanttRow({
           className={`gantt-dot status-${task.status}`}
           title={STATUS_LABEL[task.status]}
         />
-        <span className="gantt-title">{task.title}</span>
+        <span className="gantt-title" title={task.title || '（无标题）'}>
+          {task.title}
+        </span>
       </div>
       <div className="gantt-track" style={{ width: days.length * colW, height: 32 }}>
         {plannedIdx >= 0 && (
