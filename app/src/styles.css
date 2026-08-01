@@ -94,7 +94,7 @@ select {
   color: #fff;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -240,18 +240,19 @@ select {
   min-height: 36px;
   margin: 0 0 4px;
   padding: 8px 12px;
-  border: none;
+  border: 1px solid var(--accent);
   border-radius: var(--radius);
-  background: var(--accent);
-  color: #fff;
+  background: #fff;
+  color: var(--accent);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
 }
 
 .side-create:hover {
-  background: var(--accent-hover);
-  color: #fff;
+  background: var(--selected);
+  border-color: var(--accent-hover);
+  color: var(--accent-hover);
 }
 
 .side-create-icon {
