@@ -22,10 +22,18 @@ const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
 
 function splitYmd(ymd: string) {
   const [y, m, d] = ymd.split('-')
+  const date = new Date(`${ymd}T12:00:00+08:00`)
+  const weekday = new Intl.DateTimeFormat('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    weekday: 'short',
+  }).format(date)
+  const dow = date.getDay()
   return {
     year: y,
     monthEn: MONTH_EN[Number(m) - 1] ?? m,
     day: String(Number(d)),
+    weekday,
+    isWeekend: dow === 0 || dow === 6,
   }
 }
 
@@ -97,14 +105,15 @@ export function Sidebar({
   onCreate,
   dateLabel,
 }: Props) {
-  const { year, monthEn, day } = splitYmd(dateLabel)
+  const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
 
   return (
     <aside className="app-sidebar">
       <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
-        <div className="sidebar-date-day">{day}</div>
-        <div className="sidebar-date-month">
-          {monthEn} {year}
+        <div className="sidebar-date-month">{monthEn}</div>
+        <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
+        <div className="sidebar-date-meta">
+          {year} · {weekday}
         </div>
       </div>
 
