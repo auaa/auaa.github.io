@@ -100,6 +100,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
       const result = await client.putFile(category, ymd, md, shaRef.current)
       setSha(result.sha)
       setExists(true)
+      await client.syncMonthDay(category, ymd, list)
       setSaveState('saved')
       dirtyRef.current = false
       setSaveMsg('已保存')

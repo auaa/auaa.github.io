@@ -1,122 +1,189 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Badge, Button, Calendar, Spin } from 'antd'
+import { Calendar, Modal, Spin, Tooltip } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import type { GithubClient } from '../lib/github'
+import type { GithubClient, MonthArchive } from '../lib/github'
 import { todayYmd } from '../lib/date'
-import { parseMarkdown } from '../lib/markdown'
+import { sortTasksForCalendar } from '../lib/monthArchive'
 import { TaskList } from '../components/TaskList'
-import type { Task } from '../types'
+import { PRIORITY_LABEL, STATUS_LABEL, type Task, type TaskStatus } from '../types'
+
+const CELL_LIMIT = 5
+
+const STATUS_BAR: Record<TaskStatus, string> = {
+  planned: '#8590a2',
+  started: '#b38600',
+  completed: '#216e4e',
+}
 
 interface Props {
   client: GithubClient
   category: string
 }
 
+function taskTooltip(task: Task): string {
+  const lines = [
+    task.title || '（无标题）',
+    `状态：${STATUS_LABEL[task.status]}`,
+    `优先级：${task.priority ? PRIORITY_LABEL[task.priority] : '—'}`,
+  ]
+  if (task.dueAt) lines.push(`期望完成：${task.dueAt}`)
+  if (task.plannedAt) lines.push(`规划：${task.plannedAt}`)
+  if (task.startedAt) lines.push(`开始：${task.startedAt}`)
+  if (task.completedAt) lines.push(`完成：${task.completedAt}`)
+  if (task.detail) lines.push(`详情：${task.detail}`)
+  return lines.join('\n')
+}
+
 export function CalendarPage({ client, category }: Props) {
   const today = todayYmd()
-  const [selected, setSelected] = useState(today)
-  const [fileDates, setFileDates] = useState<Set<string>>(new Set())
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [loadingDates, setLoadingDates] = useState(true)
-  const [loadingDay, setLoadingDay] = useState(false)
+  const [panelMonth, setPanelMonth] = useState(() => dayjs(today))
+  const [archive, setArchive] = useState<MonthArchive | null>(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [missing, setMissing] = useState(false)
+  const [dayOpen, setDayOpen] = useState<string | null>(null)
 
-  const selectedDay = useMemo(() => dayjs(selected), [selected])
+  const monthKey = panelMonth.format('YYYY-MM')
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      setLoadingDates(true)
+      setLoading(true)
       setError(null)
+      setMissing(false)
+      setArchive(null)
       try {
-        const dates = await client.listDateFiles(category)
+        const file = await client.getMonthArchive(category, monthKey)
         if (cancelled) return
-        setFileDates(new Set(dates))
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : String(e))
-      } finally {
-        if (!cancelled) setLoadingDates(false)
-      }
-    })()
-    return () => {
-      cancelled = true
-    }
-  }, [client, category])
-
-  useEffect(() => {
-    let cancelled = false
-    ;(async () => {
-      setLoadingDay(true)
-      setError(null)
-      try {
-        if (!fileDates.has(selected)) {
-          if (!cancelled) {
-            setTasks([])
-            if (!loadingDates) setLoadingDay(false)
-          }
+        if (!file) {
+          setMissing(true)
           return
         }
-        const file = await client.getFile(category, selected)
-        if (cancelled) return
-        setTasks(file ? parseMarkdown(file.content) : [])
+        setArchive(file.data)
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e))
       } finally {
-        if (!cancelled) setLoadingDay(false)
+        if (!cancelled) setLoading(false)
       }
     })()
     return () => {
       cancelled = true
     }
-  }, [client, category, selected, fileDates, loadingDates])
+  }, [client, category, monthKey])
+
+  const dayTasks = useMemo(() => {
+    if (!dayOpen || !archive) return []
+    return sortTasksForCalendar(archive.days[dayOpen] ?? [])
+  }, [archive, dayOpen])
+
+  function openDay(ymd: string) {
+    setDayOpen(ymd)
+  }
 
   function cellRender(date: Dayjs) {
-    const key = date.format('YYYY-MM-DD')
-    if (!fileDates.has(key)) return null
-    return <Badge status="processing" />
+    const ymd = date.format('YYYY-MM-DD')
+    if (date.format('YYYY-MM') !== monthKey) {
+      return <div className="cal-cell is-outside" />
+    }
+    const raw = archive?.days[ymd] ?? []
+    const sorted = sortTasksForCalendar(raw)
+    const shown = sorted.slice(0, CELL_LIMIT)
+    const more = sorted.length - shown.length
+
+    return (
+      <div
+        className={`cal-cell ${ymd === today ? 'is-today' : ''}`}
+        onClick={() => openDay(ymd)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            openDay(ymd)
+          }
+        }}
+      >
+        <div className="cal-cell-date">{date.date()}</div>
+        <div className="cal-cell-tasks">
+          {shown.map((t) => (
+            <Tooltip key={t.id} title={<pre className="cal-tip">{taskTooltip(t)}</pre>}>
+              <div
+                className="cal-task-line"
+                onClick={(e) => e.stopPropagation()}
+                style={{ borderLeftColor: STATUS_BAR[t.status] }}
+              >
+                <span className="cal-task-title">{t.title || '（无标题）'}</span>
+              </div>
+            </Tooltip>
+          ))}
+          {more > 0 && (
+            <button
+              type="button"
+              className="cal-more"
+              onClick={(e) => {
+                e.stopPropagation()
+                openDay(ymd)
+              }}
+            >
+              +{more}
+            </button>
+          )}
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="panel">
+    <div className="panel gantt-panel">
       <div className="panel-head">
         <div>
           <h2 className="panel-title">日历</h2>
-          <p className="panel-desc">点选日期查看当天任务（只读）；蓝点表示有任务文件</p>
-        </div>
-        <div className="panel-actions">
-          <Button size="small" onClick={() => setSelected(today)}>
-            回到今天
-          </Button>
+          <p className="panel-desc">扫一眼当月任务 · 悬停看详情 · 点击日期查看全天（只读）</p>
         </div>
       </div>
 
       {error && <div className="alert alert-danger">{error}</div>}
+      {missing && !loading && (
+        <div className="alert alert-warn">
+          无 {monthKey} 月归档（{category}/_month/{monthKey}.json）。请运行
+          scripts/rebuild-month-archive.mjs 生成后再查看。
+        </div>
+      )}
 
-      <div className="cal-layout">
-        <div className="cal-antd-wrap">
-          {loadingDates ? (
+      <div className="cal-full">
+        {loading ? (
+          <div className="muted-panel">
             <Spin />
-          ) : (
-            <Calendar
-              fullscreen={false}
-              value={selectedDay}
-              onSelect={(d) => setSelected(d.format('YYYY-MM-DD'))}
-              cellRender={cellRender}
-            />
-          )}
-        </div>
-        <div className="cal-day-panel">
-          <h3 className="day-label">{selected}</h3>
-          {loadingDay || loadingDates ? (
-            <Spin />
-          ) : !fileDates.has(selected) ? (
-            <p className="empty-state">该日无任务文件</p>
-          ) : (
-            <TaskList tasks={tasks} readOnly />
-          )}
-        </div>
+          </div>
+        ) : (
+          <Calendar
+            fullscreen
+            value={panelMonth}
+            onPanelChange={(d) => setPanelMonth(d)}
+            onSelect={(d) => {
+              setPanelMonth(d)
+              if (d.format('YYYY-MM') === monthKey) openDay(d.format('YYYY-MM-DD'))
+            }}
+            fullCellRender={cellRender}
+          />
+        )}
       </div>
+
+      <Modal
+        title={dayOpen ?? '当日任务'}
+        open={!!dayOpen}
+        onCancel={() => setDayOpen(null)}
+        footer={null}
+        width={720}
+        destroyOnHidden
+      >
+        {!dayOpen || !(archive?.days[dayOpen]?.length) ? (
+          <p className="empty-state">该日无任务</p>
+        ) : (
+          <TaskList tasks={dayTasks} readOnly />
+        )}
+      </Modal>
     </div>
   )
 }

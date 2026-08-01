@@ -1,4 +1,14 @@
-import type { AppConfigFile, GithubRuntimeConfig } from '../types'
+import type { AppConfigFile, GithubRuntimeConfig, Task } from '../types'
+import {
+  MONTH_DIR,
+  emptyMonthArchive,
+  monthKeyFromYmd,
+  parseMonthArchive,
+  upsertMonthDay,
+  type MonthArchive,
+} from './monthArchive'
+
+export type { MonthArchive }
 
 export class GithubConflictError extends Error {
   constructor(message = '远程文件已变更，请刷新后重试') {
@@ -85,8 +95,53 @@ export class GithubClient {
     sha?: string,
   ): Promise<{ sha: string }> {
     const path = this.dataPath(category, `${ymd}.md`)
+    return this.putPath(path, `chore(${category}): update ${ymd}.md`, content, sha)
+  }
+
+  async getMonthArchive(
+    category: string,
+    month: string,
+  ): Promise<{ data: MonthArchive; sha: string } | null> {
+    const path = this.dataPath(category, MONTH_DIR, `${month}.json`)
+    const res = await fetch(`${this.base}/contents/${encodeURI(path)}?ref=${this.cfg.branch}`, {
+      headers: this.headers(false),
+    })
+    if (res.status === 404) return null
+    if (!res.ok) throw new Error(`读取月归档失败: ${res.status}`)
+    const body = (await res.json()) as { content: string; encoding: string; sha: string }
+    const text = body.encoding === 'base64' ? decodeBase64Utf8(body.content) : body.content
+    return { data: parseMonthArchive(JSON.parse(text) as unknown), sha: body.sha }
+  }
+
+  async putMonthArchive(
+    category: string,
+    month: string,
+    data: MonthArchive,
+    sha?: string,
+  ): Promise<{ sha: string }> {
+    const path = this.dataPath(category, MONTH_DIR, `${month}.json`)
+    const content = `${JSON.stringify(data, null, 2)}\n`
+    return this.putPath(path, `chore(${category}): update ${month} month archive`, content, sha)
+  }
+
+  /** 日文件保存后同步当月归档中该日任务（不做其它兜底） */
+  async syncMonthDay(category: string, ymd: string, tasks: Task[]): Promise<void> {
+    const month = monthKeyFromYmd(ymd)
+    const existing = await this.getMonthArchive(category, month)
+    const base = existing?.data ?? emptyMonthArchive(month)
+    if (base.month !== month) throw new Error(`月归档 month 字段不匹配: ${base.month} ≠ ${month}`)
+    const next = upsertMonthDay(base, ymd, tasks)
+    await this.putMonthArchive(category, month, next, existing?.sha)
+  }
+
+  private async putPath(
+    path: string,
+    message: string,
+    content: string,
+    sha?: string,
+  ): Promise<{ sha: string }> {
     const payload: Record<string, string> = {
-      message: `chore(${category}): update ${ymd}.md`,
+      message,
       content: encodeBase64Utf8(content),
       branch: this.cfg.branch,
     }

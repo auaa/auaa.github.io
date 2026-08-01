@@ -752,33 +752,111 @@ select {
   background: #22a06b;
 }
 
-.cal-layout {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.cal-antd-wrap {
-  flex: 0 0 320px;
+.cal-full {
+  margin-top: 4px;
+  background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 8px;
-  background: #fff;
+  overflow: hidden;
 }
 
-.cal-day-panel {
-  flex: 1;
+.cal-full .ant-picker-calendar {
+  background: transparent;
+}
+
+.cal-full .ant-picker-calendar-date-content {
+  height: auto !important;
+  min-height: 0;
+}
+
+.cal-full .ant-picker-cell {
+  min-height: 118px;
+  vertical-align: top;
+}
+
+.cal-full .ant-picker-calendar-date {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  border-top: 1px solid var(--line) !important;
+}
+
+.cal-cell {
+  min-height: 112px;
+  padding: 4px 6px 6px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.cal-cell.is-outside {
+  min-height: 112px;
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cal-cell.is-today {
+  background: var(--selected);
+}
+
+.cal-cell-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.cal-cell.is-today .cal-cell-date {
+  color: var(--accent);
+}
+
+.cal-cell-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cal-task-line {
+  display: flex;
+  align-items: center;
   min-width: 0;
+  border-left: 3px solid var(--subtle);
+  padding: 1px 0 1px 5px;
+  line-height: 1.25;
+  font-size: 12px;
+  color: var(--ink);
+  background: rgba(9, 30, 66, 0.03);
+  border-radius: 0 2px 2px 0;
 }
 
-@media (max-width: 900px) {
-  .cal-layout {
-    flex-direction: column;
-  }
+.cal-task-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  .cal-antd-wrap {
-    flex-basis: auto;
-    width: 100%;
-  }
+.cal-more {
+  margin-top: 1px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.cal-more:hover {
+  text-decoration: underline;
+}
+
+.cal-tip {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.45;
+  max-width: 320px;
 }
 
