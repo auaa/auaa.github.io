@@ -213,6 +213,29 @@ select {
   padding: 28px 8px 8px;
 }
 
+.sidebar-quote {
+  flex: 0 0 auto;
+  margin: 4px 8px 4px;
+  padding: 10px 10px 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.sidebar-quote-en {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.sidebar-quote-zh {
+  margin: 6px 0 0;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .sidebar-section {
   display: flex;
   flex-direction: column;

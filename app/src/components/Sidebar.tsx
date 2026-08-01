@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { fetchShanbayQuote, type ShanbayQuote } from '../lib/shanbayQuote'
 import type { TabId } from '../types'
 import { TAB_LABEL } from '../types'
 
@@ -121,6 +123,22 @@ export function Sidebar({
   dateLabel,
 }: Props) {
   const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
+  const [quote, setQuote] = useState<ShanbayQuote | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        const data = await fetchShanbayQuote()
+        if (!cancelled) setQuote(data)
+      } catch {
+        if (!cancelled) setQuote(null)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <aside className="app-sidebar">
@@ -195,6 +213,13 @@ export function Sidebar({
           ))}
         </div>
       </div>
+
+      {quote && (quote.content || quote.translation) && (
+        <div className="sidebar-quote">
+          {quote.content ? <p className="sidebar-quote-en">{quote.content}</p> : null}
+          {quote.translation ? <p className="sidebar-quote-zh">{quote.translation}</p> : null}
+        </div>
+      )}
     </aside>
   )
 }
