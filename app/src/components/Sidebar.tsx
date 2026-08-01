@@ -112,12 +112,10 @@ export function Sidebar({
 
       <div className="sidebar-date" title={dateLabel}>
         <div className="sidebar-date-day">{day}</div>
-        <div className="sidebar-date-meta">
-          <div className="sidebar-date-month">
-            {year}年{month}月
-          </div>
-          <div className="sidebar-date-weekday">{weekday}</div>
+        <div className="sidebar-date-month">
+          {year}年{month}月
         </div>
+        <div className="sidebar-date-weekday">{weekday}</div>
       </div>
 
       <div className="sidebar-scroll">
