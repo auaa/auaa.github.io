@@ -53,12 +53,12 @@ function splitYmd(ymd: string) {
 
 function NavIcon({ name }: { name: string }) {
   const common = {
-    width: 16,
-    height: 16,
-    viewBox: '0 0 16 16',
+    width: 20,
+    height: 20,
+    viewBox: '0 0 20 20',
     fill: 'none',
     stroke: 'currentColor',
-    strokeWidth: 1.5,
+    strokeWidth: 1.6,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
     'aria-hidden': true,
@@ -67,42 +67,42 @@ function NavIcon({ name }: { name: string }) {
     case 'today':
       return (
         <svg {...common}>
-          <rect x="2.5" y="3.5" width="11" height="10" rx="1.5" />
-          <path d="M2.5 6.5h11M5.5 2.5v2M10.5 2.5v2" />
-          <path d="M5.5 9.5h2M8.5 11.5h2" />
+          <rect x="3" y="4" width="14" height="13" rx="2" />
+          <path d="M3 8h14M7 2.5v3M13 2.5v3" />
+          <path d="M7.5 12.5l1.8 1.8 3.7-3.7" />
         </svg>
       )
     case 'history':
       return (
         <svg {...common}>
-          <circle cx="8" cy="8" r="5.5" />
-          <path d="M8 5v3.5l2.5 1.5" />
+          <circle cx="10" cy="10" r="7" />
+          <path d="M10 6.5V10l3 2" />
         </svg>
       )
     case 'calendar':
       return (
         <svg {...common}>
-          <rect x="2.5" y="3.5" width="11" height="10" rx="1.5" />
-          <path d="M2.5 6.5h11M5.5 2.5v2M10.5 2.5v2M5.5 9h1M7.5 9h1M9.5 9h1M5.5 11h1M7.5 11h1" />
+          <rect x="3" y="4" width="14" height="13" rx="2" />
+          <path d="M3 8h14M7 2.5v3M13 2.5v3" />
         </svg>
       )
     case 'gantt':
       return (
         <svg {...common}>
-          <path d="M2.5 4h6M2.5 8h9M2.5 12h5" />
-          <path d="M2.5 4v8" />
+          <path d="M3 5h9M3 10h12M3 15h7" />
+          <path d="M3 5v10" />
         </svg>
       )
     case 'folder':
       return (
         <svg {...common}>
-          <path d="M2.5 5.5V12a1.5 1.5 0 0 0 1.5 1.5h8A1.5 1.5 0 0 0 13.5 12V6.5A1.5 1.5 0 0 0 12 5H8L6.5 3.5H4A1.5 1.5 0 0 0 2.5 5v.5z" />
+          <path d="M3 7.5V15a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 17 15V9a1.5 1.5 0 0 0-1.5-1.5H10L8.5 6H4.5A1.5 1.5 0 0 0 3 7.5z" />
         </svg>
       )
     case 'plus':
       return (
-        <svg {...common}>
-          <path d="M8 3.5v9M3.5 8h9" />
+        <svg {...common} width={18} height={18}>
+          <path d="M10 5v10M5 10h10" />
         </svg>
       )
     default:
