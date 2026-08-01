@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchShanbayQuote, type ShanbayQuote } from '../lib/shanbayQuote'
+import { fetchDailyQuote, type DailyQuote } from '../lib/dailyQuote'
 import type { TabId } from '../types'
 import { TAB_LABEL } from '../types'
 
@@ -123,13 +123,13 @@ export function Sidebar({
   dateLabel,
 }: Props) {
   const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
-  const [quote, setQuote] = useState<ShanbayQuote | null>(null)
+  const [quote, setQuote] = useState<DailyQuote | null>(null)
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
       try {
-        const data = await fetchShanbayQuote()
+        const data = await fetchDailyQuote()
         if (!cancelled) setQuote(data)
       } catch {
         if (!cancelled) setQuote(null)
