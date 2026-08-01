@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import type { GithubClient, MonthArchive } from '../lib/github'
 import { todayYmd } from '../lib/date'
 import { sortTasksForCalendar } from '../lib/monthArchive'
+import { PriorityFlame } from '../components/PriorityFlame'
 import { TaskList } from '../components/TaskList'
 import { PRIORITY_LABEL, STATUS_LABEL, type Task, type TaskStatus } from '../types'
 
@@ -118,6 +119,7 @@ export function CalendarPage({ client, category }: Props) {
                 onClick={(e) => e.stopPropagation()}
                 style={{ borderLeftColor: STATUS_BAR[t.status] }}
               >
+                <PriorityFlame value={t.priority} size={14} />
                 <span className="cal-task-title">{t.title || '（无标题）'}</span>
               </div>
             </Tooltip>

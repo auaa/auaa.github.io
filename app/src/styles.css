@@ -92,21 +92,28 @@ select {
   background: transparent;
 }
 
+.sidebar-date-day-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+}
+
 .sidebar-date-badge {
   position: absolute;
-  top: 6px;
-  right: 8px;
+  top: 0;
+  right: 0;
   z-index: 2;
-  padding: 2px 7px;
+  padding: 1px 5px;
   border-radius: 3px;
-  background: #fff;
-  color: var(--accent);
-  font-size: 0.625rem;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.5625rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   line-height: 1.3;
-  box-shadow: 0 1px 4px rgba(9, 30, 66, 0.22);
+  white-space: nowrap;
   pointer-events: none;
+  transform: translate(55%, -15%);
 }
 
 .sidebar-date-notch {
@@ -972,7 +979,14 @@ select {
   font-size: 0.875rem;
 }
 
+.gantt-label-cell .priority-flame,
+.gantt-label-cell .priority-empty {
+  flex: 0 0 auto;
+}
+
 .gantt-title {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1204,9 +1218,10 @@ select {
 .cal-task-line {
   display: flex;
   align-items: center;
+  gap: 3px;
   min-width: 0;
   border-left: 3px solid var(--subtle);
-  padding: 1px 0 1px 5px;
+  padding: 1px 0 1px 4px;
   line-height: 1.25;
   font-size: 12px;
   color: var(--ink);
@@ -1214,7 +1229,14 @@ select {
   border-radius: 0 2px 2px 0;
 }
 
+.cal-task-line .priority-flame,
+.cal-task-line .priority-empty {
+  flex: 0 0 auto;
+}
+
 .cal-task-title {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

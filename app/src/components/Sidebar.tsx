@@ -126,10 +126,12 @@ export function Sidebar({
     <aside className="app-sidebar">
       <div className="sidebar-brand-wrap">
         <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
-          <span className="sidebar-date-badge">CURR</span>
           <div className="sidebar-date-month">{monthEn}</div>
           <div className="sidebar-date-body">
-            <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
+            <div className="sidebar-date-day-wrap">
+              <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
+              <span className="sidebar-date-badge">今天</span>
+            </div>
             <div className="sidebar-date-meta">
               <span className="sidebar-date-weekday">{weekday}</span>
               <span className="sidebar-date-year">{year}</span>

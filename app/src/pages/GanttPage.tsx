@@ -4,8 +4,9 @@ import type { GithubClient } from '../lib/github'
 import { mapPool } from '../lib/github'
 import { dateKeyFromIso, lastNDays, todayYmd } from '../lib/date'
 import { parseMarkdown } from '../lib/markdown'
+import { PriorityFlame } from '../components/PriorityFlame'
 import type { Task } from '../types'
-import { STATUS_LABEL } from '../types'
+import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
 
 interface Props {
   client: GithubClient
@@ -151,7 +152,12 @@ function GanttRow({
           className={`gantt-dot status-${task.status}`}
           title={STATUS_LABEL[task.status]}
         />
-        <Tooltip title={task.title || '（无标题）'}>
+        <PriorityFlame value={task.priority} size={16} />
+        <Tooltip
+          title={`${task.title || '（无标题）'}${
+            task.priority ? ` · ${PRIORITY_LABEL[task.priority]}` : ''
+          }`}
+        >
           <span className="gantt-title">{task.title}</span>
         </Tooltip>
       </div>
