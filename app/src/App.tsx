@@ -9,7 +9,7 @@ import { TodayPage } from './pages/TodayPage'
 import { HistoryPage } from './pages/HistoryPage'
 import { CalendarPage } from './pages/CalendarPage'
 import { GanttPage } from './pages/GanttPage'
-import type { AppConfigFile, TabId, TaskDraft } from './types'
+import { TAB_LABEL, type AppConfigFile, type TabId, type TaskDraft } from './types'
 
 /** 临时：默认解锁口令，打开即自动登录（勿用于长期公开环境） */
 const DEFAULT_UNLOCK_PASSWORD = 'REDACTED'
@@ -69,6 +69,11 @@ export default function App() {
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
+
+  useEffect(() => {
+    const view = TAB_LABEL[tab]
+    document.title = category ? `${category}-${view} . auaa` : `${view} . auaa`
+  }, [category, tab])
 
   useEffect(() => {
     let cancelled = false

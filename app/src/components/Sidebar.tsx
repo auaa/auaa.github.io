@@ -114,8 +114,8 @@ export function Sidebar({
         <div className="sidebar-date-body">
           <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
           <div className="sidebar-date-meta">
-            <span className="sidebar-date-year">{year}</span>
             <span className="sidebar-date-weekday">{weekday}</span>
+            <span className="sidebar-date-year">{year}</span>
           </div>
         </div>
       </div>
