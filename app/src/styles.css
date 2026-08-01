@@ -891,7 +891,7 @@ select {
 }
 
 .cal-full .ant-picker-content th {
-  padding: 6px 0;
+  padding: 11px 0; /* +10px 总高度（上下各 +5） */
   text-align: center;
   color: var(--muted);
   font-weight: 600;
