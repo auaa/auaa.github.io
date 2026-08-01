@@ -186,7 +186,7 @@ select {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 40px 8px 8px;
+  padding: 52px 8px 8px;
 }
 
 .sidebar-section {
@@ -208,13 +208,13 @@ select {
   appearance: none;
   position: absolute;
   right: 32px;
-  bottom: -32px;
+  bottom: -48px;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   margin: 0;
   padding: 0;
   border: 2px solid var(--accent);
@@ -242,7 +242,7 @@ select {
 
 .side-add-orbit {
   position: absolute;
-  inset: -6px;
+  inset: -7px;
   border-radius: 50%;
   pointer-events: none;
   animation: side-add-spin 2.2s linear infinite;
@@ -252,9 +252,9 @@ select {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
   border-radius: 50%;
   background: var(--accent);
   border: 2px solid #fff;
