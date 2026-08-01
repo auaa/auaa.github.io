@@ -14,6 +14,7 @@ interface Props {
   categories: string[]
   category: string
   onCategoryChange: (c: string) => void
+  onCreate: () => void
   dateLabel: string
 }
 
@@ -97,6 +98,12 @@ function NavIcon({ name }: { name: string }) {
           <path d="M2.5 5.5V12a1.5 1.5 0 0 0 1.5 1.5h8A1.5 1.5 0 0 0 13.5 12V6.5A1.5 1.5 0 0 0 12 5H8L6.5 3.5H4A1.5 1.5 0 0 0 2.5 5v.5z" />
         </svg>
       )
+    case 'plus':
+      return (
+        <svg {...common}>
+          <path d="M8 3.5v9M3.5 8h9" />
+        </svg>
+      )
     default:
       return null
   }
@@ -108,6 +115,7 @@ export function Sidebar({
   categories,
   category,
   onCategoryChange,
+  onCreate,
   dateLabel,
 }: Props) {
   const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
@@ -127,7 +135,18 @@ export function Sidebar({
 
       <div className="sidebar-scroll">
         <div className="sidebar-section">
-          <div className="sidebar-section-label">视图</div>
+          <div className="sidebar-section-head">
+            <div className="sidebar-section-label">视图</div>
+            <button
+              type="button"
+              className="side-add"
+              onClick={onCreate}
+              title="新建任务"
+              aria-label="新建任务"
+            >
+              <NavIcon name="plus" />
+            </button>
+          </div>
           {NAV_TABS.map(({ id, icon }) => (
             <button
               key={id}

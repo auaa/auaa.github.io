@@ -153,25 +153,10 @@ export default function App() {
           categories={categories}
           category={category}
           onCategoryChange={setCategory}
+          onCreate={() => setCreateOpen(true)}
           dateLabel={todayYmd()}
         />
         <main className="app-main">
-          <button
-            type="button"
-            className="fab-create"
-            onClick={() => setCreateOpen(true)}
-            title="新建任务"
-            aria-label="新建任务"
-          >
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M8 3.5v9M3.5 8h9"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
           {body ?? <div className="alert alert-warn">请先在仓库创建 data/分类名/</div>}
         </main>
       </div>
