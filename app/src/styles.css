@@ -97,7 +97,7 @@ select {
   left: 0;
   top: calc(100% - 1px);
   width: 100%;
-  height: 56px;
+  height: 48px;
   overflow: visible;
   pointer-events: none;
   color: var(--line);
@@ -186,7 +186,7 @@ select {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 52px 8px 8px;
+  padding: 44px 8px 8px;
 }
 
 .sidebar-section {
@@ -208,13 +208,13 @@ select {
   appearance: none;
   position: absolute;
   right: 32px;
-  bottom: -48px;
+  bottom: -40px;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   margin: 0;
   padding: 0;
   border: 2px solid var(--accent);
@@ -242,7 +242,7 @@ select {
 
 .side-add-orbit {
   position: absolute;
-  inset: -7px;
+  inset: -6px;
   border-radius: 50%;
   pointer-events: none;
   animation: side-add-spin 2.2s linear infinite;
@@ -252,9 +252,9 @@ select {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 10px;
-  height: 10px;
-  margin-left: -5px;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
   border-radius: 50%;
   background: var(--accent);
   border: 2px solid #fff;

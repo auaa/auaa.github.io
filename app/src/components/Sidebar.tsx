@@ -101,7 +101,7 @@ function NavIcon({ name }: { name: string }) {
       )
     case 'plus':
       return (
-        <svg {...common} width={26} height={26}>
+        <svg {...common} width={22} height={22}>
           <path d="M10 5v10M5 10h10" />
         </svg>
       )
@@ -134,8 +134,8 @@ export function Sidebar({
               <span className="sidebar-date-year">{year}</span>
             </div>
           </div>
-          <svg className="sidebar-date-notch" viewBox="0 -2 238 56" preserveAspectRatio="none" aria-hidden>
-            <path d="M0 0 H153 A32 32 0 0 1 203 0 H238" />
+          <svg className="sidebar-date-notch" viewBox="0 -2 238 48" preserveAspectRatio="none" aria-hidden>
+            <path d="M0 0 H159 A28 28 0 0 1 205 0 H238" />
           </svg>
         </div>
         <button
