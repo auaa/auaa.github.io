@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Calendar, Modal, Spin, Tooltip } from 'antd'
+import { Button, Calendar, Modal, Spin, Tooltip } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import type { GithubClient, MonthArchive } from '../lib/github'
@@ -135,14 +135,7 @@ export function CalendarPage({ client, category }: Props) {
   }
 
   return (
-    <div className="panel gantt-panel">
-      <div className="panel-head">
-        <div>
-          <h2 className="panel-title">日历</h2>
-          <p className="panel-desc">扫一眼当月任务 · 悬停看详情 · 点击日期查看全天（只读）</p>
-        </div>
-      </div>
-
+    <div className="cal-page">
       {error && <div className="alert alert-danger">{error}</div>}
       {missing && !loading && (
         <div className="alert alert-warn">
@@ -153,18 +146,33 @@ export function CalendarPage({ client, category }: Props) {
 
       <div className="cal-full">
         {loading ? (
-          <div className="muted-panel">
+          <div className="cal-loading">
             <Spin />
           </div>
         ) : (
           <Calendar
             fullscreen
+            mode="month"
             value={panelMonth}
-            onPanelChange={(d) => setPanelMonth(d)}
+            onPanelChange={(d, mode) => {
+              if (mode !== 'month') return
+              setPanelMonth(d)
+            }}
             onSelect={(d) => {
               setPanelMonth(d)
               if (d.format('YYYY-MM') === monthKey) openDay(d.format('YYYY-MM-DD'))
             }}
+            headerRender={() => (
+              <div className="cal-header">
+                <Button size="small" onClick={() => setPanelMonth((m) => m.subtract(1, 'month'))}>
+                  上一月
+                </Button>
+                <span className="cal-header-label">{panelMonth.format('YYYY年M月')}</span>
+                <Button size="small" onClick={() => setPanelMonth((m) => m.add(1, 'month'))}>
+                  下一月
+                </Button>
+              </div>
+            )}
             fullCellRender={cellRender}
           />
         )}

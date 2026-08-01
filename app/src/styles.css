@@ -752,12 +752,49 @@ select {
   background: #22a06b;
 }
 
+.cal-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.cal-page .alert {
+  margin-bottom: 12px;
+  flex: 0 0 auto;
+}
+
 .cal-full {
-  margin-top: 4px;
+  flex: 1 1 auto;
+  min-height: 0;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.cal-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cal-header-label {
+  min-width: 7em;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
 }
 
 .cal-full .ant-picker-calendar {
