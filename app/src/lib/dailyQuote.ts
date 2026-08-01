@@ -51,7 +51,7 @@ async function fetchJson(url: string): Promise<unknown> {
   return res.json()
 }
 
-/** 「一个」今日短句；优先直连，失败则 CORS/混合内容代理 */
+/** 「一个」今日短句；源站仅 HTTP，Pages 下直接走 HTTPS 代理 */
 export async function fetchDailyQuote(): Promise<DailyQuote | null> {
   const today = todayYmd()
   try {
@@ -64,13 +64,9 @@ export async function fetchDailyQuote(): Promise<DailyQuote | null> {
     /* ignore */
   }
 
-  let data: unknown
-  try {
-    data = await fetchJson(QUOTE_URL)
-  } catch {
-    data = await fetchJson(`https://api.allorigins.win/raw?url=${encodeURIComponent(QUOTE_URL)}`)
-  }
-
+  const data = await fetchJson(
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(QUOTE_URL)}`,
+  )
   const quote = pickQuote(data)
   if (quote) {
     try {
