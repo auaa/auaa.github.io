@@ -121,6 +121,13 @@ export function Sidebar({
       </div>
 
       <div className="sidebar-scroll">
+        <button type="button" className="side-create" onClick={onCreate}>
+          <span className="side-create-icon">
+            <NavIcon name="plus" />
+          </span>
+          新建任务
+        </button>
+
         <div className="sidebar-section">
           <div className="sidebar-section-label">视图</div>
           {NAV_TABS.map(({ id, icon }) => (
@@ -156,15 +163,6 @@ export function Sidebar({
             </button>
           ))}
         </div>
-      </div>
-
-      <div className="sidebar-footer">
-        <button type="button" className="side-item side-create" onClick={onCreate}>
-          <span className="side-item-icon">
-            <NavIcon name="plus" />
-          </span>
-          <span className="side-item-label">新建任务</span>
-        </button>
       </div>
     </aside>
   )

@@ -230,25 +230,34 @@ select {
   color: var(--accent);
 }
 
-.sidebar-footer {
-  flex: 0 0 auto;
-  border-top: 1px solid var(--line);
-  padding: 8px 8px 0;
-  margin-top: 4px;
-}
-
 .side-create {
-  color: var(--ink);
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 36px;
+  margin: 0 0 4px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.875rem;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .side-create:hover {
-  background: var(--bg-hover);
-  color: var(--accent);
+  background: var(--accent-hover);
+  color: #fff;
 }
 
-.side-create:hover .side-item-icon {
-  color: var(--accent);
+.side-create-icon {
+  display: flex;
+  flex: 0 0 16px;
+  color: inherit;
 }
 
 .app-main {
