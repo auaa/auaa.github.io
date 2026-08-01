@@ -101,8 +101,8 @@ function NavIcon({ name }: { name: string }) {
       )
     case 'plus':
       return (
-        <svg {...common} width={22} height={22}>
-          <path d="M10 5v10M5 10h10" />
+        <svg {...common} width={28} height={28} strokeWidth={1.8}>
+          <path d="M10 4.5v11M4.5 10h11" />
         </svg>
       )
     default:
