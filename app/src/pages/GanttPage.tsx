@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Spin } from 'antd'
+import { Spin, Tooltip } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { mapPool } from '../lib/github'
 import { dateKeyFromIso, lastNDays, todayYmd } from '../lib/date'
@@ -151,9 +151,9 @@ function GanttRow({
           className={`gantt-dot status-${task.status}`}
           title={STATUS_LABEL[task.status]}
         />
-        <span className="gantt-title" title={task.title || '（无标题）'}>
-          {task.title}
-        </span>
+        <Tooltip title={task.title || '（无标题）'}>
+          <span className="gantt-title">{task.title}</span>
+        </Tooltip>
       </div>
       <div className="gantt-track" style={{ width: days.length * colW, height: 32 }}>
         {plannedIdx >= 0 && (
