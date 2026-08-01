@@ -19,8 +19,9 @@
       {
         "id": "ijNs9mZ3aF",
         "title": "生产环境和开发环境的APP推送消息隔离",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-01T13:05:48+08:00",
+        "startedAt": "2026-08-01T14:01:29+08:00",
         "priority": 1,
         "dueAt": "2026-08-03"
       }
