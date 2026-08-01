@@ -98,10 +98,17 @@ select {
   text-transform: uppercase;
 }
 
+.sidebar-date-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px 14px 14px;
+}
+
 .sidebar-date-day {
   margin: 0;
-  padding: 14px 10px 2px;
-  font-size: 3.25rem;
+  font-size: 4rem;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -114,12 +121,22 @@ select {
 }
 
 .sidebar-date-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
   margin: 0;
-  padding: 6px 10px 14px;
   color: var(--muted);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.2;
+  text-align: left;
+}
+
+.sidebar-date-year,
+.sidebar-date-weekday {
+  display: block;
 }
 
 .panel-toolbar {

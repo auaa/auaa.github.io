@@ -111,9 +111,12 @@ export function Sidebar({
     <aside className="app-sidebar">
       <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
         <div className="sidebar-date-month">{monthEn}</div>
-        <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
-        <div className="sidebar-date-meta">
-          {year} · {weekday}
+        <div className="sidebar-date-body">
+          <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
+          <div className="sidebar-date-meta">
+            <span className="sidebar-date-year">{year}</span>
+            <span className="sidebar-date-weekday">{weekday}</span>
+          </div>
         </div>
       </div>
 
