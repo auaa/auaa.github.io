@@ -134,6 +134,9 @@ export function Sidebar({
               <span className="sidebar-date-year">{year}</span>
             </div>
           </div>
+          <svg className="sidebar-date-notch" viewBox="0 -28 238 40" preserveAspectRatio="none" aria-hidden>
+            <path d="M0 0 H160 A26 26 0 0 0 208 0 H238" />
+          </svg>
         </div>
         <button
           type="button"
