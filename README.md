@@ -5,6 +5,13 @@
 - 站点：https://auaa.github.io/
 - 源码：`app/` · 数据：`data/<分类>/` · 产物：`docs/`
 
+
+# 域名管理
+域名账户: https://my.dnshe.com/index.php?m=domain_hub&view=domains
+
+注册账号: qiuyg_yc@163.com
+
+
 ## 加密 Token
 
 ```bash
