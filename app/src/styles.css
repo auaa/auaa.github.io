@@ -885,14 +885,7 @@ select {
   background: #fafbfc;
 }
 
-/* 周一～周日：六、日列浅底；周六右侧分隔略加重，突出周日列 */
-.cal-full .ant-picker-content th:nth-child(6),
-.cal-full .ant-picker-content th:nth-child(7),
-.cal-full .ant-picker-content td:nth-child(6),
-.cal-full .ant-picker-content td:nth-child(7) {
-  background: #f7f8fb;
-}
-
+/* 周六右侧分隔略加重，突出周日列 */
 .cal-full .ant-picker-content th:nth-child(6),
 .cal-full .ant-picker-content td:nth-child(6) {
   border-right-color: #d5dae3;
@@ -959,8 +952,16 @@ select {
   text-align: center;
 }
 
+.cal-cell-date.weekend {
+  color: var(--ant-color-error);
+}
+
 .cal-cell.is-today .cal-cell-date {
   color: var(--accent);
+}
+
+.cal-cell.is-today .cal-cell-date.weekend {
+  color: var(--ant-color-error);
 }
 
 .cal-cell-tasks {

@@ -14,6 +14,7 @@ createRoot(document.getElementById('root')!).render(
     <ConfigProvider
       locale={zhCN}
       theme={{
+        cssVar: {},
         token: {
           colorPrimary: '#0c66e4',
           borderRadius: 3,

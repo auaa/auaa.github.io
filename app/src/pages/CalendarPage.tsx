@@ -82,6 +82,7 @@ export function CalendarPage({ client, category }: Props) {
 
   function cellRender(date: Dayjs) {
     const ymd = date.format('YYYY-MM-DD')
+    const weekend = date.day() === 0 || date.day() === 6
     if (date.format('YYYY-MM') !== monthKey) {
       return <div className="cal-cell is-outside" />
     }
@@ -108,7 +109,7 @@ export function CalendarPage({ client, category }: Props) {
             : undefined
         }
       >
-        <div className="cal-cell-date">{date.date()}</div>
+        <div className={`cal-cell-date${weekend ? ' weekend' : ''}`}>{date.date()}</div>
         <div className="cal-cell-tasks">
           {shown.map((t) => (
             <Tooltip key={t.id} title={<pre className="cal-tip">{taskTooltip(t)}</pre>}>

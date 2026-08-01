@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CalendarOutlined } from '@ant-design/icons'
+import { ScheduleOutlined } from '@ant-design/icons'
 import type { GithubClient } from '../lib/github'
 import { todayYmd } from '../lib/date'
 import { parseMarkdown } from '../lib/markdown'
@@ -88,7 +88,7 @@ export function HistoryPage({ client, category }: Props) {
       {blocks.map((b) => (
         <section key={b.ymd} className="day-block">
           <h3 className="day-label">
-            <CalendarOutlined className="day-label-icon" aria-hidden />
+            <ScheduleOutlined className="day-label-icon" aria-hidden />
             {b.ymd}
           </h3>
           <TaskList tasks={b.tasks} readOnly />
