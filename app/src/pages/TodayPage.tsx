@@ -142,23 +142,36 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingCreate, loading])
 
+  useEffect(() => {
+    if (saveState !== 'saved') return
+    const timer = window.setTimeout(() => {
+      setSaveState('idle')
+      setSaveMsg('')
+    }, 10_000)
+    return () => window.clearTimeout(timer)
+  }, [saveState])
+
   if (loading) return <div className="panel muted-panel">加载今天…</div>
   if (error) return <div className="alert alert-danger">{error}</div>
 
   const inheritHint = !exists && tasks.length ? '继承未落盘' : ''
-  const showToolbar = !!inheritHint || saveState !== 'idle'
+  const saveLabel =
+    saveState === 'dirty'
+      ? '未保存'
+      : saveState === 'saving'
+        ? '保存中…'
+        : saveState === 'saved'
+          ? saveMsg || '已保存'
+          : saveState === 'error'
+            ? saveMsg || '保存失败'
+            : ''
 
   return (
-    <div className="panel">
-      {showToolbar && (
-        <div className="panel-toolbar">
-          <span className="panel-toolbar-hint">{inheritHint}</span>
-          <span className={`save-flag save-${saveState}`}>
-            {saveState === 'dirty' && '未保存'}
-            {saveState === 'saving' && '保存中…'}
-            {saveState === 'saved' && (saveMsg || '已保存')}
-            {saveState === 'error' && (saveMsg || '保存失败')}
-          </span>
+    <div className="panel today-panel">
+      {inheritHint && <div className="today-float-hint">{inheritHint}</div>}
+      {saveState !== 'idle' && saveLabel && (
+        <div className={`today-save-float save-${saveState}`} role="status" aria-live="polite">
+          {saveLabel}
         </div>
       )}
 
