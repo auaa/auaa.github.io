@@ -813,6 +813,10 @@ select {
   background: #22a06b;
 }
 
+.app-shell:has(.cal-page) {
+  padding-top: 0;
+}
+
 .cal-page {
   display: flex;
   flex-direction: column;
@@ -846,7 +850,7 @@ select {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -862,6 +866,14 @@ select {
   background: transparent;
 }
 
+.cal-full .ant-picker-panel {
+  border: 0;
+}
+
+.cal-full .ant-picker-body {
+  padding: 0 !important;
+}
+
 .cal-full .ant-picker-calendar-date-content {
   height: auto !important;
   min-height: 0;
@@ -869,6 +881,7 @@ select {
 
 .cal-full .ant-picker-content {
   border-collapse: collapse;
+  width: 100%;
 }
 
 .cal-full .ant-picker-content th,
@@ -878,11 +891,11 @@ select {
 }
 
 .cal-full .ant-picker-content th {
-  padding: 8px 0;
+  padding: 6px 0;
   text-align: center;
   color: var(--muted);
   font-weight: 600;
-  background: #fafbfc;
+  background: transparent;
 }
 
 /* 周六右侧分隔略加重，突出周日列 */
@@ -897,7 +910,7 @@ select {
 }
 
 .cal-full .ant-picker-cell {
-  min-height: 118px;
+  min-height: 132px;
   vertical-align: top;
   padding: 0 !important;
 }
@@ -916,8 +929,8 @@ select {
 }
 
 .cal-cell {
-  min-height: 112px;
-  padding: 4px 6px 6px;
+  min-height: 126px;
+  padding: 6px 6px 8px;
   cursor: default;
   text-align: left;
   box-sizing: border-box;
@@ -933,7 +946,7 @@ select {
 }
 
 .cal-cell.is-outside {
-  min-height: 112px;
+  min-height: 126px;
   opacity: 0.4;
   cursor: default;
   pointer-events: none;
