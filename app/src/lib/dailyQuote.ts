@@ -1,32 +1,48 @@
 import { todayYmd } from './date'
 
-/** 金山词霸每日一句（HTTPS，避免 Pages 混合内容拦截） */
-const QUOTE_URL = 'https://open.iciba.com/dsapi/'
-const CACHE_KEY = 'icibaDailyQuote'
+/** 「一个」首页；仅 HTTP，GitHub Pages 下直连会被混合内容拦截，需代理 */
+const QUOTE_URL = 'http://v3.wufazhuce.com:8000/api/channel/one/0/0'
+const CACHE_KEY = 'oneDailyQuote'
 
 export interface DailyQuote {
   content: string
-  translation: string
   dateline?: string
 }
 
 function pickQuote(raw: unknown): DailyQuote | null {
   if (!raw || typeof raw !== 'object') return null
   const obj = raw as Record<string, unknown>
-  const content = typeof obj.content === 'string' ? obj.content.trim() : ''
-  // 接口中文在 note；缓存里用 translation；接口自带 translation 是产品名需忽略
-  let translation = ''
-  if (typeof obj.note === 'string' && obj.note.trim()) translation = obj.note.trim()
-  else if (typeof obj.translation === 'string') {
-    const t = obj.translation.trim()
-    if (t && t !== '新版每日一句') translation = t
+
+  // 缓存形态
+  if (typeof obj.content === 'string' && obj.content.trim() && !('data' in obj)) {
+    return {
+      content: obj.content.trim(),
+      dateline: typeof obj.dateline === 'string' ? obj.dateline : undefined,
+    }
   }
-  if (!content && !translation) return null
-  return {
-    content,
-    translation,
-    dateline: typeof obj.dateline === 'string' ? obj.dateline : undefined,
+
+  const data = obj.data
+  if (!data || typeof data !== 'object') return null
+  const d = data as Record<string, unknown>
+  const list = d.content_list
+  if (!Array.isArray(list) || !list.length) return null
+  const first = list[0]
+  if (!first || typeof first !== 'object') return null
+  const forward = (first as Record<string, unknown>).forward
+  if (typeof forward !== 'string' || !forward.trim()) return null
+
+  let dateline: string | undefined
+  if (typeof d.date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(d.date)) {
+    dateline = d.date.slice(0, 10)
+  } else {
+    const weather = d.weather
+    if (weather && typeof weather === 'object') {
+      const wd = (weather as Record<string, unknown>).date
+      if (typeof wd === 'string') dateline = wd
+    }
   }
+
+  return { content: forward.trim(), dateline }
 }
 
 async function fetchJson(url: string): Promise<unknown> {
@@ -35,7 +51,7 @@ async function fetchJson(url: string): Promise<unknown> {
   return res.json()
 }
 
-/** 词霸每日一句；直连失败时走 CORS 代理 */
+/** 「一个」今日短句；优先直连，失败则 CORS/混合内容代理 */
 export async function fetchDailyQuote(): Promise<DailyQuote | null> {
   const today = todayYmd()
   try {

@@ -214,12 +214,11 @@ export function Sidebar({
         </div>
       </div>
 
-      {quote && (quote.content || quote.translation) && (
+      {quote?.content ? (
         <div className="sidebar-quote">
-          {quote.content ? <p className="sidebar-quote-en">{quote.content}</p> : null}
-          {quote.translation ? <p className="sidebar-quote-zh">{quote.translation}</p> : null}
+          <p className="sidebar-quote-text">{quote.content}</p>
         </div>
-      )}
+      ) : null}
     </aside>
   )
 }
