@@ -145,8 +145,6 @@ export function Sidebar({
           type="button"
           className={createOpen ? 'side-add is-open' : 'side-add'}
           onClick={onCreate}
-          title="新建任务"
-          aria-label="新建任务"
           aria-expanded={createOpen}
         >
           <span className="side-add-orbit" aria-hidden="true">
