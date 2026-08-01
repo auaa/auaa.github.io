@@ -15,6 +15,7 @@ interface Props {
   category: string
   onCategoryChange: (c: string) => void
   onCreate: () => void
+  createOpen?: boolean
   dateLabel: string
 }
 
@@ -116,6 +117,7 @@ export function Sidebar({
   category,
   onCategoryChange,
   onCreate,
+  createOpen = false,
   dateLabel,
 }: Props) {
   const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
@@ -139,10 +141,11 @@ export function Sidebar({
             <div className="sidebar-section-label">视图</div>
             <button
               type="button"
-              className="side-add"
+              className={createOpen ? 'side-add is-open' : 'side-add'}
               onClick={onCreate}
               title="新建任务"
               aria-label="新建任务"
+              aria-expanded={createOpen}
             >
               <span className="side-add-orbit" aria-hidden="true">
                 <span className="side-add-dot" />

@@ -250,7 +250,8 @@ select {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.side-add:hover {
+.side-add:hover,
+.side-add.is-open {
   background: #fff;
   border-color: var(--accent);
   color: var(--accent);
@@ -258,17 +259,20 @@ select {
   box-shadow: 0 6px 14px rgba(12, 102, 228, 0.28);
 }
 
-.side-add:hover .side-add-orbit {
+.side-add:hover .side-add-orbit,
+.side-add.is-open .side-add-orbit {
   animation-play-state: paused;
 }
 
-.side-add:hover .side-add-dot {
+.side-add:hover .side-add-dot,
+.side-add.is-open .side-add-dot {
   transform: scale(1.2);
   background: var(--accent-hover);
   box-shadow: 0 0 0 3px rgba(12, 102, 228, 0.18);
 }
 
-.side-add:hover .side-add-icon {
+.side-add:hover .side-add-icon,
+.side-add.is-open .side-add-icon {
   transform: rotate(90deg);
 }
 
@@ -295,7 +299,8 @@ select {
     animation: none;
   }
 
-  .side-add:hover .side-add-icon {
+  .side-add:hover .side-add-icon,
+  .side-add.is-open .side-add-icon {
     transform: none;
   }
 }

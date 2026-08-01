@@ -154,6 +154,7 @@ export default function App() {
           category={category}
           onCategoryChange={setCategory}
           onCreate={() => setCreateOpen(true)}
+          createOpen={createOpen}
           dateLabel={todayYmd()}
         />
         <main className="app-main">
