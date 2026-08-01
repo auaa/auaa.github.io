@@ -6,8 +6,11 @@ export interface Task {
   id: string
   title: string
   status: TaskStatus
+  /** 规划时间 yyyy-MM-dd HH:mm:ss */
   plannedAt: string
+  /** 开始时间 yyyy-MM-dd HH:mm:ss */
   startedAt?: string
+  /** 结束/完成时间 yyyy-MM-dd HH:mm:ss */
   completedAt?: string
   /** 优先级，可选 */
   priority?: TaskPriority

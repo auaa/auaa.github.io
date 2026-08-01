@@ -101,7 +101,7 @@ function NavIcon({ name }: { name: string }) {
       )
     case 'plus':
       return (
-        <svg {...common} width={18} height={18}>
+        <svg {...common} width={22} height={22}>
           <path d="M10 5v10M5 10h10" />
         </svg>
       )
@@ -124,37 +124,37 @@ export function Sidebar({
 
   return (
     <aside className="app-sidebar">
-      <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
-        <div className="sidebar-date-month">{monthEn}</div>
-        <div className="sidebar-date-body">
-          <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
-          <div className="sidebar-date-meta">
-            <span className="sidebar-date-weekday">{weekday}</span>
-            <span className="sidebar-date-year">{year}</span>
+      <div className="sidebar-brand-wrap">
+        <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
+          <div className="sidebar-date-month">{monthEn}</div>
+          <div className="sidebar-date-body">
+            <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
+            <div className="sidebar-date-meta">
+              <span className="sidebar-date-weekday">{weekday}</span>
+              <span className="sidebar-date-year">{year}</span>
+            </div>
           </div>
         </div>
+        <button
+          type="button"
+          className={createOpen ? 'side-add is-open' : 'side-add'}
+          onClick={onCreate}
+          title="新建任务"
+          aria-label="新建任务"
+          aria-expanded={createOpen}
+        >
+          <span className="side-add-orbit" aria-hidden="true">
+            <span className="side-add-dot" />
+          </span>
+          <span className="side-add-icon">
+            <NavIcon name="plus" />
+          </span>
+        </button>
       </div>
 
       <div className="sidebar-scroll">
         <div className="sidebar-section">
-          <div className="sidebar-section-head">
-            <div className="sidebar-section-label">视图</div>
-            <button
-              type="button"
-              className={createOpen ? 'side-add is-open' : 'side-add'}
-              onClick={onCreate}
-              title="新建任务"
-              aria-label="新建任务"
-              aria-expanded={createOpen}
-            >
-              <span className="side-add-orbit" aria-hidden="true">
-                <span className="side-add-dot" />
-              </span>
-              <span className="side-add-icon">
-                <NavIcon name="plus" />
-              </span>
-            </button>
-          </div>
+          <div className="sidebar-section-label">视图</div>
           {NAV_TABS.map(({ id, icon }) => (
             <button
               key={id}

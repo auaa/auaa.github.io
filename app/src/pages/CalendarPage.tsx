@@ -146,7 +146,7 @@ export function CalendarPage({ client, category }: Props) {
       <div className="cal-full">
         {loading ? (
           <div className="cal-loading">
-            <Spin />
+            <Spin size="large" />
           </div>
         ) : (
           <Calendar

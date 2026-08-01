@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Spin } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
@@ -151,7 +152,13 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     return () => window.clearTimeout(timer)
   }, [saveState])
 
-  if (loading) return <div className="panel muted-panel">加载今天…</div>
+  if (loading) {
+    return (
+      <div className="panel panel-loading">
+        <Spin size="large" />
+      </div>
+    )
+  }
   if (error) return <div className="alert alert-danger">{error}</div>
 
   const inheritHint = !exists && tasks.length ? '继承未落盘' : ''

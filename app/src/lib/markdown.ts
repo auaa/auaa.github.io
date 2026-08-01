@@ -1,7 +1,11 @@
+import { normalizeDateTime } from './date'
 import type { Task, TaskPriority, TaskStatus } from '../types'
 
 const LINE_RE =
   /^-\s+\[([ xX])\]\s+(.*?)\s*<!--\s*(.*?)\s*-->\s*$/
+
+/** 按 key:value 切分；value 可含空格，直到下一个字母 key:（避免把 14:30 当成 key） */
+const META_RE = /([A-Za-z]+):((?:(?!\s+[A-Za-z]+:).)+)/g
 
 function parsePriority(v: string): TaskPriority | undefined {
   if (v === '1' || v === '2' || v === '3') return Number(v) as TaskPriority
@@ -10,16 +14,16 @@ function parsePriority(v: string): TaskPriority | undefined {
 
 function parseMeta(raw: string): Partial<Task> & { id?: string; status?: TaskStatus } {
   const out: Partial<Task> & { id?: string; status?: TaskStatus } = {}
-  for (const part of raw.trim().split(/\s+/)) {
-    const i = part.indexOf(':')
-    if (i <= 0) continue
-    const k = part.slice(0, i)
-    const v = part.slice(i + 1)
+  META_RE.lastIndex = 0
+  let m: RegExpExecArray | null
+  while ((m = META_RE.exec(raw)) !== null) {
+    const k = m[1]
+    const v = m[2].trim()
     if (k === 'id') out.id = v
     else if (k === 'status' && (v === 'planned' || v === 'started' || v === 'completed')) out.status = v
-    else if (k === 'planned') out.plannedAt = v
-    else if (k === 'started') out.startedAt = v
-    else if (k === 'completed') out.completedAt = v
+    else if (k === 'planned') out.plannedAt = normalizeDateTime(v) ?? v
+    else if (k === 'started') out.startedAt = normalizeDateTime(v) ?? v
+    else if (k === 'completed') out.completedAt = normalizeDateTime(v) ?? v
     else if (k === 'priority') {
       const p = parsePriority(v)
       if (p) out.priority = p

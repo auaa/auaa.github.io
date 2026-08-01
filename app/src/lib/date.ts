@@ -24,10 +24,20 @@ export function todayYmd(date = new Date()): string {
   return `${p.year}-${p.month}-${p.day}`
 }
 
-/** ISO-like local Shanghai timestamp with +08:00 */
+/** Asia/Shanghai 本地时间：yyyy-MM-dd HH:mm:ss */
 export function nowShanghaiIso(date = new Date()): string {
   const p = partsInShanghai(date)
-  return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}:${p.second}+08:00`
+  return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}`
+}
+
+/** 归一化为 yyyy-MM-dd HH:mm:ss（兼容旧 ISO / 仅日期） */
+export function normalizeDateTime(raw?: string): string | undefined {
+  if (!raw) return undefined
+  const full = raw.match(/^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2})/)
+  if (full) return `${full[1]} ${full[2]}`
+  const day = raw.match(/^(\d{4}-\d{2}-\d{2})$/)
+  if (day) return `${day[1]} 00:00:00`
+  return raw
 }
 
 export function ymdToDate(ymd: string): Date {

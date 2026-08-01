@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ScheduleOutlined } from '@ant-design/icons'
+import { Spin } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { todayYmd } from '../lib/date'
 import { parseMarkdown } from '../lib/markdown'
@@ -79,7 +80,13 @@ export function HistoryPage({ client, category }: Props) {
     return () => io.disconnect()
   }, [loadMore])
 
-  if (loading) return <div className="panel muted-panel">加载历史…</div>
+  if (loading) {
+    return (
+      <div className="panel panel-loading">
+        <Spin size="large" />
+      </div>
+    )
+  }
   if (error) return <div className="alert alert-danger">{error}</div>
 
   return (

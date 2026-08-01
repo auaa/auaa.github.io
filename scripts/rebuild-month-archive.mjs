@@ -84,16 +84,16 @@ function parseMarkdown(md) {
     const checked = m[1].toLowerCase() === 'x'
     const title = m[2].trim()
     const meta = {}
-    for (const part of m[3].trim().split(/\s+/)) {
-      const i = part.indexOf(':')
-      if (i <= 0) continue
-      const k = part.slice(0, i)
-      const v = part.slice(i + 1)
+    const metaRe = /([A-Za-z]+):((?:(?!\s+[A-Za-z]+:).)+)/g
+    let mm
+    while ((mm = metaRe.exec(m[3])) !== null) {
+      const k = mm[1]
+      const v = mm[2].trim()
       if (k === 'id') meta.id = v
       else if (k === 'status' && (v === 'planned' || v === 'started' || v === 'completed')) meta.status = v
-      else if (k === 'planned') meta.plannedAt = v
-      else if (k === 'started') meta.startedAt = v
-      else if (k === 'completed') meta.completedAt = v
+      else if (k === 'planned') meta.plannedAt = v.replace(/^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}).*$/, '$1 $2')
+      else if (k === 'started') meta.startedAt = v.replace(/^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}).*$/, '$1 $2')
+      else if (k === 'completed') meta.completedAt = v.replace(/^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}:\d{2}).*$/, '$1 $2')
       else if (k === 'priority' && (v === '1' || v === '2' || v === '3')) meta.priority = Number(v)
       else if (k === 'due') meta.dueAt = decodeURIComponent(v)
       else if (k === 'detail') {
