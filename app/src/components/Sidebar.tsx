@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-import { fetchDailyQuote, type DailyQuote } from '../lib/dailyQuote'
 import type { TabId } from '../types'
 import { TAB_LABEL } from '../types'
 
@@ -123,22 +121,6 @@ export function Sidebar({
   dateLabel,
 }: Props) {
   const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
-  const [quote, setQuote] = useState<DailyQuote | null>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    ;(async () => {
-      try {
-        const data = await fetchDailyQuote()
-        if (!cancelled) setQuote(data)
-      } catch {
-        if (!cancelled) setQuote(null)
-      }
-    })()
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   return (
     <aside className="app-sidebar">
@@ -213,12 +195,6 @@ export function Sidebar({
           ))}
         </div>
       </div>
-
-      {quote?.content ? (
-        <div className="sidebar-quote">
-          <p className="sidebar-quote-text">{quote.content}</p>
-        </div>
-      ) : null}
     </aside>
   )
 }
