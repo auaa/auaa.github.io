@@ -14,7 +14,16 @@ import type { AppConfigFile, TabId, TaskDraft } from './types'
 /** 临时：默认解锁口令，打开即自动登录（勿用于长期公开环境） */
 const DEFAULT_UNLOCK_PASSWORD = 'REDACTED'
 
+const TAB_IDS: TabId[] = ['today', 'history', 'calendar', 'gantt']
+
+function tabFromHash(): TabId | null {
+  const raw = location.hash.replace(/^#/, '')
+  return TAB_IDS.includes(raw as TabId) ? (raw as TabId) : null
+}
+
 function initialTab(): TabId {
+  const fromHash = tabFromHash()
+  if (fromHash) return fromHash
   const today = todayYmd()
   try {
     const last = localStorage.getItem(LANDING_KEY)
@@ -40,6 +49,26 @@ export default function App() {
   const [tab, setTab] = useState<TabId>(initialTab)
   const [createOpen, setCreateOpen] = useState(false)
   const [pendingCreate, setPendingCreate] = useState<TaskDraft | null>(null)
+
+  function changeTab(next: TabId) {
+    setTab(next)
+    if (location.hash.replace(/^#/, '') !== next) {
+      location.hash = next
+    }
+  }
+
+  useEffect(() => {
+    // 首次进入无 hash 时补上，用 replace 避免多一条历史
+    if (!tabFromHash()) {
+      history.replaceState(null, '', `#${tab}`)
+    }
+    const onHashChange = () => {
+      const fromHash = tabFromHash()
+      if (fromHash) setTab(fromHash)
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -115,7 +144,7 @@ export default function App() {
       <div className="app-layout">
         <Sidebar
           tab={tab}
-          onTabChange={setTab}
+          onTabChange={changeTab}
           categories={categories}
           category={category}
           onCategoryChange={setCategory}
@@ -133,7 +162,7 @@ export default function App() {
         onClose={() => setCreateOpen(false)}
         onSubmit={(draft) => {
           setPendingCreate(draft)
-          setTab('today')
+          changeTab('today')
         }}
       />
     </Shell>
