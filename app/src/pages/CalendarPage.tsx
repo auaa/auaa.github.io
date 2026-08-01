@@ -5,7 +5,6 @@ import dayjs from 'dayjs'
 import type { GithubClient, MonthArchive } from '../lib/github'
 import { todayYmd } from '../lib/date'
 import { sortTasksForCalendar } from '../lib/monthArchive'
-import { PriorityFlame } from '../components/PriorityFlame'
 import { TaskList } from '../components/TaskList'
 import { PRIORITY_LABEL, STATUS_LABEL, type Task, type TaskStatus } from '../types'
 
@@ -23,11 +22,8 @@ interface Props {
 }
 
 function taskTooltip(task: Task): string {
-  const lines = [
-    task.title || '（无标题）',
-    `状态：${STATUS_LABEL[task.status]}`,
-    `优先级：${task.priority ? PRIORITY_LABEL[task.priority] : '—'}`,
-  ]
+  const lines = [task.title || '（无标题）', `状态：${STATUS_LABEL[task.status]}`]
+  if (task.priority) lines.push(`优先级：${PRIORITY_LABEL[task.priority]}`)
   if (task.dueAt) lines.push(`期望完成：${task.dueAt}`)
   if (task.plannedAt) lines.push(`规划：${task.plannedAt}`)
   if (task.startedAt) lines.push(`开始：${task.startedAt}`)
@@ -119,7 +115,9 @@ export function CalendarPage({ client, category }: Props) {
                 onClick={(e) => e.stopPropagation()}
                 style={{ borderLeftColor: STATUS_BAR[t.status] }}
               >
-                <PriorityFlame value={t.priority} size={14} />
+                {t.priority ? (
+                  <span className={`cal-task-priority p${t.priority}`}>{PRIORITY_LABEL[t.priority]}</span>
+                ) : null}
                 <span className="cal-task-title">{t.title || '（无标题）'}</span>
               </div>
             </Tooltip>

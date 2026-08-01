@@ -979,9 +979,24 @@ select {
   font-size: 0.875rem;
 }
 
-.gantt-label-cell .priority-flame,
-.gantt-label-cell .priority-empty {
+.gantt-priority {
   flex: 0 0 auto;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--subtle);
+}
+
+.gantt-priority.p1 {
+  color: #b71c1c;
+}
+
+.gantt-priority.p2 {
+  color: #e65100;
+}
+
+.gantt-priority.p3 {
+  color: #b38600;
 }
 
 .gantt-title {
@@ -1229,9 +1244,24 @@ select {
   border-radius: 0 2px 2px 0;
 }
 
-.cal-task-line .priority-flame,
-.cal-task-line .priority-empty {
+.cal-task-priority {
   flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--subtle);
+}
+
+.cal-task-priority.p1 {
+  color: #b71c1c;
+}
+
+.cal-task-priority.p2 {
+  color: #e65100;
+}
+
+.cal-task-priority.p3 {
+  color: #b38600;
 }
 
 .cal-task-title {
