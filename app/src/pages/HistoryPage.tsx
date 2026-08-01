@@ -83,12 +83,6 @@ export function HistoryPage({ client, category }: Props) {
 
   return (
     <div className="panel">
-      <div className="panel-head">
-        <div>
-          <h2 className="panel-title">历史</h2>
-          <p className="panel-desc">只读 · 每次 2 天 · 不含今天</p>
-        </div>
-      </div>
       {!blocks.length && <p className="empty-state">暂无历史记录</p>}
       {blocks.map((b) => (
         <section key={b.ymd} className="day-block">

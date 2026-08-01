@@ -145,17 +145,14 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
   if (loading) return <div className="panel muted-panel">加载今天…</div>
   if (error) return <div className="alert alert-danger">{error}</div>
 
+  const inheritHint = !exists && tasks.length ? '继承未落盘' : ''
+  const showToolbar = !!inheritHint || saveState !== 'idle'
+
   return (
     <div className="panel">
-      <div className="panel-head">
-        <div>
-          <h2 className="panel-title">今日</h2>
-          <p className="panel-desc">
-            {ymd}
-            {!exists && tasks.length ? ' · 继承未落盘' : ''}
-          </p>
-        </div>
-        <div className="panel-actions">
+      {showToolbar && (
+        <div className="panel-toolbar">
+          <span className="panel-toolbar-hint">{inheritHint}</span>
           <span className={`save-flag save-${saveState}`}>
             {saveState === 'dirty' && '未保存'}
             {saveState === 'saving' && '保存中…'}
@@ -163,7 +160,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
             {saveState === 'error' && (saveMsg || '保存失败')}
           </span>
         </div>
-      </div>
+      )}
 
       <TaskList
         tasks={tasks}

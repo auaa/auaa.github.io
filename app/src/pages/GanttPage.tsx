@@ -82,14 +82,6 @@ export function GanttPage({ client, category }: Props) {
 
   return (
     <div className="panel gantt-panel">
-      <div className="panel-head">
-        <div>
-          <h2 className="panel-title">甘特</h2>
-          <p className="panel-desc">
-            过去 30 天（{days[0]} ~ {days[days.length - 1]}）· 只读 · {category}
-          </p>
-        </div>
-      </div>
       {!tasks.length && <p className="empty-state">窗口内暂无任务</p>}
       <div className="gantt-scroll">
         <div style={{ width: labelW + trackW }}>

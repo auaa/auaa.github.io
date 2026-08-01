@@ -71,7 +71,12 @@ export function CalendarPage({ client, category }: Props) {
     return sortTasksForCalendar(archive.days[dayOpen] ?? [])
   }, [archive, dayOpen])
 
+  function dayHasTasks(ymd: string) {
+    return (archive?.days[ymd]?.length ?? 0) > 0
+  }
+
   function openDay(ymd: string) {
+    if (!dayHasTasks(ymd)) return
     setDayOpen(ymd)
   }
 
@@ -84,19 +89,24 @@ export function CalendarPage({ client, category }: Props) {
     const sorted = sortTasksForCalendar(raw)
     const shown = sorted.slice(0, CELL_LIMIT)
     const more = sorted.length - shown.length
+    const clickable = sorted.length > 0
 
     return (
       <div
-        className={`cal-cell ${ymd === today ? 'is-today' : ''}`}
-        onClick={() => openDay(ymd)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            openDay(ymd)
-          }
-        }}
+        className={`cal-cell${ymd === today ? ' is-today' : ''}${clickable ? ' is-clickable' : ' is-empty'}`}
+        onClick={clickable ? () => openDay(ymd) : undefined}
+        role={clickable ? 'button' : undefined}
+        tabIndex={clickable ? 0 : undefined}
+        onKeyDown={
+          clickable
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  openDay(ymd)
+                }
+              }
+            : undefined
+        }
       >
         <div className="cal-cell-date">{date.date()}</div>
         <div className="cal-cell-tasks">
@@ -147,8 +157,9 @@ export function CalendarPage({ client, category }: Props) {
               setPanelMonth(d)
             }}
             onSelect={(d) => {
-              setPanelMonth(d)
-              if (d.format('YYYY-MM') === monthKey) openDay(d.format('YYYY-MM-DD'))
+              const ymd = d.format('YYYY-MM-DD')
+              if (d.format('YYYY-MM') === monthKey) openDay(ymd)
+              else setPanelMonth(d)
             }}
             headerRender={() => (
               <div className="cal-header">

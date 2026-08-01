@@ -18,6 +18,21 @@ interface Props {
   dateLabel: string
 }
 
+function splitYmd(ymd: string) {
+  const [y, m, d] = ymd.split('-')
+  const date = new Date(`${ymd}T12:00:00+08:00`)
+  const weekday = new Intl.DateTimeFormat('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    weekday: 'short',
+  }).format(date)
+  return {
+    year: y,
+    month: String(Number(m)),
+    day: d,
+    weekday,
+  }
+}
+
 function NavIcon({ name }: { name: string }) {
   const common = {
     width: 16,
@@ -86,13 +101,22 @@ export function Sidebar({
   onCreate,
   dateLabel,
 }: Props) {
+  const { year, month, day, weekday } = splitYmd(dateLabel)
+
   return (
     <aside className="app-sidebar">
       <div className="sidebar-brand">
         <img className="sidebar-brand-icon" src="/logo.png" alt="" width={36} height={36} />
-        <div className="sidebar-brand-text">
-          <div className="brand">Daily</div>
-          <div className="brand-sub">{dateLabel}</div>
+        <div className="brand">Daily</div>
+      </div>
+
+      <div className="sidebar-date" title={dateLabel}>
+        <div className="sidebar-date-day">{day}</div>
+        <div className="sidebar-date-meta">
+          <div className="sidebar-date-month">
+            {year}年{month}月
+          </div>
+          <div className="sidebar-date-weekday">{weekday}</div>
         </div>
       </div>
 
