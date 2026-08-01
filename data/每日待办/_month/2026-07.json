@@ -21,8 +21,10 @@
       {
         "id": "Vs1uL9BZPi",
         "title": "排查线上费用中心sim卡充值流水不正确的问题",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-07-31 15:13:05",
+        "startedAt": "2026-07-31 15:13:05",
+        "completedAt": "2026-07-31 18:00:00",
         "priority": 3
       }
     ]
