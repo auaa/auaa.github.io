@@ -18,18 +18,14 @@ interface Props {
   dateLabel: string
 }
 
+const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 function splitYmd(ymd: string) {
   const [y, m, d] = ymd.split('-')
-  const date = new Date(`${ymd}T12:00:00+08:00`)
-  const weekday = new Intl.DateTimeFormat('zh-CN', {
-    timeZone: 'Asia/Shanghai',
-    weekday: 'short',
-  }).format(date)
   return {
     year: y,
-    month: String(Number(m)),
-    day: d,
-    weekday,
+    monthEn: MONTH_EN[Number(m) - 1] ?? m,
+    day: String(Number(d)),
   }
 }
 
@@ -101,21 +97,15 @@ export function Sidebar({
   onCreate,
   dateLabel,
 }: Props) {
-  const { year, month, day, weekday } = splitYmd(dateLabel)
+  const { year, monthEn, day } = splitYmd(dateLabel)
 
   return (
     <aside className="app-sidebar">
-      <div className="sidebar-brand">
-        <img className="sidebar-brand-icon" src="/logo.png" alt="" width={36} height={36} />
-        <div className="brand">Daily</div>
-      </div>
-
-      <div className="sidebar-date" title={dateLabel}>
+      <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
         <div className="sidebar-date-day">{day}</div>
         <div className="sidebar-date-month">
-          {year}年{month}月
+          {monthEn} {year}
         </div>
-        <div className="sidebar-date-weekday">{weekday}</div>
       </div>
 
       <div className="sidebar-scroll">
