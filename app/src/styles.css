@@ -203,17 +203,16 @@ select {
   height: 28px;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--accent);
+  border: none;
   border-radius: 50%;
-  background: #fff;
-  color: var(--accent);
+  background: var(--accent);
+  color: #fff;
   cursor: pointer;
 }
 
 .side-add:hover {
-  background: var(--selected);
-  border-color: var(--accent-hover);
-  color: var(--accent-hover);
+  background: var(--accent-hover);
+  color: #fff;
 }
 
 .side-hint {
