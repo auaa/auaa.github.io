@@ -47,21 +47,19 @@ select {
   font: inherit;
 }
 
-.app-shell {
-  width: min(1680px, calc(100% - 24px));
-  margin: 0 auto;
-  padding: 16px 0 40px;
-}
-
+.app-shell,
 .app-shell.is-wide {
-  width: min(1680px, calc(100% - 24px));
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .app-layout {
   display: flex;
   align-items: stretch;
-  gap: 16px;
-  min-height: calc(100vh - 56px);
+  gap: 0;
+  min-height: 100vh;
 }
 
 .app-sidebar {
@@ -70,10 +68,11 @@ select {
   flex-direction: column;
   padding: 0 0 8px;
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  min-height: calc(100vh - 56px);
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 100vh;
   overflow: hidden;
 }
 
@@ -96,6 +95,7 @@ select {
   font-weight: 600;
   letter-spacing: 0.06em;
   line-height: 1.2;
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -230,41 +230,52 @@ select {
   color: var(--accent);
 }
 
-.side-create {
+.app-main {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+}
+
+.app-main > .panel,
+.app-main > .cal-page {
+  flex: 1 1 auto;
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.fab-create {
   appearance: none;
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 36px;
-  margin: 0 0 4px;
-  padding: 8px 12px;
-  border: 1px solid var(--accent);
-  border-radius: var(--radius);
-  background: #fff;
-  color: var(--accent);
-  font-size: 0.875rem;
-  font-weight: 600;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(12, 102, 228, 0.35);
 }
 
-.side-create:hover {
-  background: var(--selected);
-  border-color: var(--accent-hover);
-  color: var(--accent-hover);
+.fab-create:hover {
+  background: var(--accent-hover);
 }
 
-.side-create-icon {
-  display: flex;
-  flex: 0 0 16px;
-  color: inherit;
-}
-
-.app-main {
-  flex: 1;
-  min-width: 0;
-  min-height: 280px;
+.app-main .panel-toolbar,
+.app-main .cal-header {
+  padding-right: 56px;
 }
 
 .boot-loading {
@@ -820,15 +831,12 @@ select {
   background: #22a06b;
 }
 
-.app-shell:has(.cal-page) {
-  padding-top: 0;
-}
-
 .cal-page {
   display: flex;
   flex-direction: column;
   min-height: 0;
   height: 100%;
+  padding: 0;
 }
 
 .cal-page .alert {
@@ -840,8 +848,8 @@ select {
   flex: 1 1 auto;
   min-height: 0;
   background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border: 0;
+  border-radius: 0;
   overflow: hidden;
 }
 
