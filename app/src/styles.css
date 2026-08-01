@@ -175,8 +175,9 @@ select {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 28px;
-  padding-right: 4px;
+  min-height: 36px;
+  padding: 4px 8px 2px 0;
+  overflow: visible;
 }
 
 .sidebar-section-label {
@@ -195,33 +196,108 @@ select {
 
 .side-add {
   appearance: none;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 28px;
-  width: 28px;
-  height: 28px;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
   margin: 0;
   padding: 0;
-  border: none;
+  border: 2px solid var(--accent);
   border-radius: 50%;
   background: var(--accent);
   color: #fff;
   cursor: pointer;
+  overflow: visible;
   box-shadow: 0 1px 2px rgba(9, 30, 66, 0.12);
-  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.side-add-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  line-height: 0;
+  transition: transform 0.18s ease;
+}
+
+.side-add-orbit {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: side-add-spin 2.2s linear infinite;
+}
+
+.side-add-dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(12, 102, 228, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .side-add:hover {
+  background: #fff;
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(12, 102, 228, 0.28);
+}
+
+.side-add:hover .side-add-orbit {
+  animation-play-state: paused;
+}
+
+.side-add:hover .side-add-dot {
+  transform: scale(1.2);
   background: var(--accent-hover);
-  color: #fff;
-  transform: scale(1.08) translateY(-1px);
-  box-shadow: 0 4px 10px rgba(12, 102, 228, 0.35);
+  box-shadow: 0 0 0 3px rgba(12, 102, 228, 0.18);
+}
+
+.side-add:hover .side-add-icon {
+  transform: rotate(90deg);
 }
 
 .side-add:active {
   transform: scale(0.96);
   box-shadow: 0 1px 2px rgba(9, 30, 66, 0.16);
+}
+
+.side-add:active .side-add-icon {
+  transform: rotate(90deg) scale(0.92);
+}
+
+@keyframes side-add-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .side-add-orbit {
+    animation: none;
+  }
+
+  .side-add:hover .side-add-icon {
+    transform: none;
+  }
 }
 
 .side-hint {

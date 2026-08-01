@@ -144,7 +144,12 @@ export function Sidebar({
               title="新建任务"
               aria-label="新建任务"
             >
-              <NavIcon name="plus" />
+              <span className="side-add-orbit" aria-hidden="true">
+                <span className="side-add-dot" />
+              </span>
+              <span className="side-add-icon">
+                <NavIcon name="plus" />
+              </span>
             </button>
           </div>
           {NAV_TABS.map(({ id, icon }) => (
