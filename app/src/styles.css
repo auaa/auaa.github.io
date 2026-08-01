@@ -806,6 +806,20 @@ select {
   min-height: 0;
 }
 
+.cal-full .ant-picker-content th {
+  border-bottom: 1px solid #e6e9ef;
+  color: var(--muted);
+}
+
+.cal-full .ant-picker-content td {
+  border-right: 1px solid #e6e9ef;
+  border-bottom: 1px solid #e6e9ef;
+}
+
+.cal-full .ant-picker-content tr td:last-child {
+  border-right: 0;
+}
+
 .cal-full .ant-picker-cell {
   min-height: 118px;
   vertical-align: top;
@@ -815,7 +829,7 @@ select {
   margin: 0 !important;
   padding: 0 !important;
   height: 100% !important;
-  border-top: 1px solid var(--line) !important;
+  border-top: 0 !important;
 }
 
 .cal-cell {
@@ -823,6 +837,7 @@ select {
   padding: 4px 6px 6px;
   cursor: pointer;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .cal-cell.is-outside {
