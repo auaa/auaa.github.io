@@ -695,10 +695,18 @@ select {
 }
 
 .day-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 10px;
   color: var(--muted);
   font-size: 0.875rem;
   font-weight: 600;
+}
+
+.day-label-icon {
+  color: var(--accent);
+  font-size: 14px;
 }
 
 .sentinel {
@@ -899,6 +907,11 @@ select {
   min-height: 118px;
   vertical-align: top;
   padding: 0 !important;
+}
+
+.cal-full .ant-picker-cell:not(.ant-picker-cell-in-view) {
+  pointer-events: none;
+  cursor: default;
 }
 
 .cal-full .ant-picker-calendar-date {

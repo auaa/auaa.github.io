@@ -157,9 +157,9 @@ export function CalendarPage({ client, category }: Props) {
               setPanelMonth(d)
             }}
             onSelect={(d) => {
-              const ymd = d.format('YYYY-MM-DD')
-              if (d.format('YYYY-MM') === monthKey) openDay(ymd)
-              else setPanelMonth(d)
+              // 上/下月占位格：忽略，不换月、不打开浮层
+              if (d.format('YYYY-MM') !== monthKey) return
+              openDay(d.format('YYYY-MM-DD'))
             }}
             headerRender={() => (
               <div className="cal-header">
