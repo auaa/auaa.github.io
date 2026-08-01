@@ -45,7 +45,7 @@ function splitYmd(ymd: string) {
   return {
     year: y,
     monthEn: MONTH_EN[Number(m) - 1] ?? m,
-    day: String(Number(d)),
+    day: d.padStart(2, '0'),
     weekday,
     isWeekend: dow === 0 || dow === 6,
   }
@@ -126,6 +126,7 @@ export function Sidebar({
     <aside className="app-sidebar">
       <div className="sidebar-brand-wrap">
         <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
+          <span className="sidebar-date-badge">CURR</span>
           <div className="sidebar-date-month">{monthEn}</div>
           <div className="sidebar-date-body">
             <div className={`sidebar-date-day${isWeekend ? ' weekend' : ''}`}>{day}</div>
