@@ -3,9 +3,9 @@ import { TAB_LABEL } from '../types'
 
 const NAV_TABS: { id: TabId; icon: string }[] = [
   { id: 'today', icon: 'today' },
-  { id: 'history', icon: 'history' },
   { id: 'calendar', icon: 'calendar' },
   { id: 'gantt', icon: 'gantt' },
+  { id: 'history', icon: 'history' },
 ]
 
 interface Props {
