@@ -61,6 +61,64 @@
         "detail": "用户已经付款，只是想在其他设备上充值物联网卡。898604261023C0269968，共三张sim卡充值",
         "dueAt": "2026-08-03"
       }
+    ],
+    "2026-08-02": [
+      {
+        "id": "OaAIFBxffj",
+        "title": "支付中心增加监控--盛佳俊",
+        "status": "planned",
+        "plannedAt": "2026-07-25 15:53:27",
+        "priority": 3
+      },
+      {
+        "id": "fO6fiTYpxi",
+        "title": "排查支付中心读取联行号失败的原因",
+        "status": "planned",
+        "plannedAt": "2026-07-25 16:12:13"
+      },
+      {
+        "id": "mYKsKiUL5P",
+        "title": "李瑞特的设备利润分析代码找回",
+        "status": "planned",
+        "plannedAt": "2026-08-01 14:07:39",
+        "priority": 3,
+        "dueAt": "2026-08-10"
+      },
+      {
+        "id": "9CT7VFqdwi",
+        "title": "出厂测试APP改造文档设计",
+        "status": "planned",
+        "plannedAt": "2026-08-01 14:34:45",
+        "priority": 3,
+        "detail": "后端基于现有的unb功能需要主系统数据时，调用主系统接口。\n前端使用Vue重构一份。海外和国内分别构建一份。",
+        "dueAt": "2026-08-07"
+      },
+      {
+        "id": "DkZFeLrYrL",
+        "title": "【技术债】Feign熔断",
+        "status": "planned",
+        "plannedAt": "2026-08-01 16:09:56",
+        "priority": 3,
+        "dueAt": "2026-08-04"
+      },
+      {
+        "id": "DORdlYR6zF",
+        "title": "【咨询】物联网卡如何充值-李梦园",
+        "status": "planned",
+        "plannedAt": "2026-08-01 16:17:19",
+        "priority": 1,
+        "detail": "用户已经付款，只是想在其他设备上充值物联网卡。898604261023C0269968，共三张sim卡充值",
+        "dueAt": "2026-08-03"
+      },
+      {
+        "id": "Y6aR5RFAI2",
+        "title": "【海外支持】6个设备设置预授权金额",
+        "status": "planned",
+        "plannedAt": "2026-08-02 08:07:57",
+        "priority": 3,
+        "detail": "190027/190011/190006/190026/190056；190031",
+        "dueAt": "2026-08-02"
+      }
     ]
   }
 }
