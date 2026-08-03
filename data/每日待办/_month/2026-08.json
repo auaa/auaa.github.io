@@ -185,8 +185,10 @@
       {
         "id": "P6M3Bc1dph",
         "title": "排查有哪些设备的政策被修改了",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-03 11:56:59",
+        "startedAt": "2026-08-03 14:22:59",
+        "completedAt": "2026-08-03 14:22:59",
         "priority": 3,
         "dueAt": "2026-08-03"
       },
