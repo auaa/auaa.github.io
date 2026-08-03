@@ -218,11 +218,13 @@
       {
         "id": "WmACIlIKAh",
         "title": "支付中心导出Excel报错超过5万条无法导出",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-03 16:48:19",
         "priority": 3,
         "detail": "由于性能问题，暂不调整。由财务人员分批导出",
-        "dueAt": "2026-08-04"
+        "dueAt": "2026-08-04",
+        "startedAt": "2026-08-03 17:29:09",
+        "completedAt": "2026-08-03 17:29:09"
       }
     ]
   }
