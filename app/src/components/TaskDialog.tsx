@@ -1,10 +1,18 @@
 import { useEffect } from 'react'
-import { DatePicker, Form, Input, Modal, Radio, Space } from 'antd'
+import { Button, DatePicker, Form, Input, Modal, Radio, Space } from 'antd'
 import dayjs, { type Dayjs } from 'dayjs'
-import type { Task, TaskDraft, TaskPriority } from '../types'
+import type { Task, TaskDraft, TaskPriority, TaskStatus } from '../types'
 import { PriorityFlame } from './PriorityFlame'
 
 export type TaskDialogMode = 'create' | 'edit'
+
+export interface TaskEditPatch {
+  title: string
+  detail?: string
+  priority: TaskPriority
+  /** 一并切换状态（开始 / 完成） */
+  status?: TaskStatus
+}
 
 interface CreateProps {
   mode: 'create'
@@ -18,7 +26,7 @@ interface EditProps {
   open: boolean
   task: Task | null
   onClose: () => void
-  onSubmit: (patch: { title: string; detail?: string; priority: TaskPriority }) => void
+  onSubmit: (patch: TaskEditPatch) => void
 }
 
 type Props = CreateProps | EditProps
@@ -48,7 +56,7 @@ export function TaskDialog(props: Props) {
     }
   }, [props, form])
 
-  async function handleOk() {
+  async function submit(status?: TaskStatus) {
     const values = await form.validateFields().catch(() => null)
     if (!values) return
     const title = (values.title ?? '').trim()
@@ -62,7 +70,9 @@ export function TaskDialog(props: Props) {
         dueAt: values.dueAt ? values.dueAt.format('YYYY-MM-DD') : undefined,
       })
     } else {
-      props.onSubmit({ title, detail, priority })
+      const patch: TaskEditPatch = { title, detail, priority }
+      if (status) patch.status = status
+      props.onSubmit(patch)
     }
     props.onClose()
   }
@@ -72,11 +82,25 @@ export function TaskDialog(props: Props) {
       title={isCreate ? '新建任务' : '编辑任务'}
       open={props.open}
       onCancel={props.onClose}
-      onOk={() => void handleOk()}
-      okText="确定"
-      cancelText="取消"
       destroyOnHidden
       width={520}
+      footer={
+        isCreate
+          ? undefined
+          : (_, { OkBtn, CancelBtn }) => (
+              <>
+                <CancelBtn />
+                <OkBtn />
+                <Button onClick={() => void submit('started')}>开始</Button>
+                <Button type="primary" onClick={() => void submit('completed')}>
+                  完成
+                </Button>
+              </>
+            )
+      }
+      onOk={isCreate ? () => void submit() : () => void submit()}
+      okText="确定"
+      cancelText="取消"
     >
       <Form form={form} layout="vertical" style={{ marginTop: 12 }} initialValues={{ priority: 3 }}>
         <Form.Item

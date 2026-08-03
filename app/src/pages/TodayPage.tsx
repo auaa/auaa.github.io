@@ -228,15 +228,16 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
         open={!!editTask}
         task={editTask}
         onClose={() => setEditTask(null)}
-        onSubmit={({ title, detail, priority }) => {
+        onSubmit={({ title, detail, priority, status }) => {
           if (!editTask) return
           const id = editTask.id
           markDirty(
             tasksRef.current.map((t) => {
               if (t.id !== id) return t
-              const next = { ...t, title, priority }
+              let next: Task = { ...t, title, priority }
               if (detail) next.detail = detail
               else delete next.detail
+              if (status) next = applyStatusChange(next, status, nowShanghaiIso())
               return next
             }),
           )
