@@ -91,8 +91,10 @@ export function TaskDialog(props: Props) {
               <>
                 <CancelBtn />
                 <OkBtn />
-                <Button onClick={() => void submit('started')}>开始</Button>
-                <Button type="primary" onClick={() => void submit('completed')}>
+                <Button color="default" variant="outlined" onClick={() => void submit('started')}>
+                  开始
+                </Button>
+                <Button color="green" variant="solid" onClick={() => void submit('completed')}>
                   完成
                 </Button>
               </>
