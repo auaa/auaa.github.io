@@ -127,11 +127,20 @@ export class GithubClient {
   /** 日文件保存后同步当月归档中该日任务（不做其它兜底） */
   async syncMonthDay(category: string, ymd: string, tasks: Task[]): Promise<void> {
     const month = monthKeyFromYmd(ymd)
-    const existing = await this.getMonthArchive(category, month)
-    const base = existing?.data ?? emptyMonthArchive(month)
-    if (base.month !== month) throw new Error(`月归档 month 字段不匹配: ${base.month} ≠ ${month}`)
-    const next = upsertMonthDay(base, ymd, tasks)
-    await this.putMonthArchive(category, month, next, existing?.sha)
+    const write = async () => {
+      const existing = await this.getMonthArchive(category, month)
+      const base = existing?.data ?? emptyMonthArchive(month)
+      if (base.month !== month) throw new Error(`月归档 month 字段不匹配: ${base.month} ≠ ${month}`)
+      const next = upsertMonthDay(base, ymd, tasks)
+      await this.putMonthArchive(category, month, next, existing?.sha)
+    }
+    try {
+      await write()
+    } catch (e) {
+      // 月归档也常因外部提交/并发双写冲突；刷新 sha 后再写一次
+      if (!(e instanceof GithubConflictError)) throw e
+      await write()
+    }
   }
 
   private async putPath(

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Spin } from 'antd'
+import { message, Spin } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
@@ -17,8 +17,6 @@ interface Props {
   onPendingCreateHandled?: () => void
 }
 
-type SaveState = 'idle' | 'dirty' | 'saving' | 'saved' | 'error'
-
 function draftToTask(draft: TaskDraft): Task {
   return {
     id: newTaskId(),
@@ -33,15 +31,15 @@ function draftToTask(draft: TaskDraft): Task {
 
 export function TodayPage({ client, category, pendingCreate, onPendingCreateHandled }: Props) {
   const ymd = todayYmd()
+  const [messageApi, contextHolder] = message.useMessage()
   const [tasks, setTasks] = useState<Task[]>([])
   const [sha, setSha] = useState<string | undefined>()
   const [exists, setExists] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [saveState, setSaveState] = useState<SaveState>('idle')
-  const [saveMsg, setSaveMsg] = useState('')
   const [editTask, setEditTask] = useState<Task | null>(null)
   const dirtyRef = useRef(false)
+  const savingRef = useRef(false)
   const tasksRef = useRef(tasks)
   const shaRef = useRef(sha)
   const existsRef = useRef(exists)
@@ -74,7 +72,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
           setSha(undefined)
           setExists(false)
         }
-        setSaveState('idle')
         dirtyRef.current = false
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e))
@@ -90,19 +87,19 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
   const save = useCallback(async () => {
     const list = tasksRef.current
     if (!list.length && !existsRef.current) {
-      setSaveState('idle')
       dirtyRef.current = false
       return
     }
-    setSaveState('saving')
-    setSaveMsg('')
+    if (savingRef.current) return
+    savingRef.current = true
+    messageApi.open({ key: 'today-save', type: 'loading', content: '保存中…', duration: 0 })
     const md = serializeMarkdown(list, `${ymd} · ${category}`)
     try {
       let result: { sha: string }
       try {
         result = await client.putFile(category, ymd, md, shaRef.current)
       } catch (e) {
-        // 远程 md 已变（如外部提交）：取最新 sha 后用当前页面内容再写一次
+        // 远程日文件已变：取最新 sha 后用当前页面内容再写一次
         if (!(e instanceof GithubConflictError)) throw e
         const latest = await client.getFile(category, ymd)
         result = await client.putFile(category, ymd, md, latest?.sha)
@@ -110,14 +107,20 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
       setSha(result.sha)
       setExists(true)
       await client.syncMonthDay(category, ymd, list)
-      setSaveState('saved')
       dirtyRef.current = false
-      setSaveMsg('已保存')
+      messageApi.open({ key: 'today-save', type: 'success', content: '已保存', duration: 3 })
     } catch (e) {
-      setSaveState('error')
-      setSaveMsg(e instanceof GithubConflictError ? e.message : e instanceof Error ? e.message : String(e))
+      const msg =
+        e instanceof GithubConflictError
+          ? e.message
+          : e instanceof Error
+            ? e.message
+            : String(e)
+      messageApi.open({ key: 'today-save', type: 'error', content: msg, duration: 6 })
+    } finally {
+      savingRef.current = false
     }
-  }, [client, category, ymd])
+  }, [client, category, ymd, messageApi])
 
   useDebouncedCallback(
     () => {
@@ -142,11 +145,11 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
   useEffect(() => {
     const syncIfIdle = () => {
       if (document.visibilityState && document.visibilityState !== 'visible') return
-      if (dirtyRef.current) return
+      if (dirtyRef.current || savingRef.current) return
       void (async () => {
         try {
           const file = await client.getFile(category, ymd)
-          if (dirtyRef.current) return
+          if (dirtyRef.current || savingRef.current) return
           if (file) {
             if (file.sha === shaRef.current) return
             setTasks(parseMarkdown(file.content))
@@ -157,8 +160,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
             setSha(undefined)
             setExists(false)
           }
-          setSaveState('idle')
-          setSaveMsg('')
         } catch {
           /* ignore background sync errors */
         }
@@ -175,7 +176,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
   function markDirty(next: Task[]) {
     setTasks(next)
     dirtyRef.current = true
-    setSaveState('dirty')
   }
 
   useEffect(() => {
@@ -184,15 +184,6 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     onPendingCreateHandled?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingCreate, loading])
-
-  useEffect(() => {
-    if (saveState !== 'saved') return
-    const timer = window.setTimeout(() => {
-      setSaveState('idle')
-      setSaveMsg('')
-    }, 10_000)
-    return () => window.clearTimeout(timer)
-  }, [saveState])
 
   if (loading) {
     return (
@@ -204,25 +195,11 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
   if (error) return <div className="alert alert-danger">{error}</div>
 
   const inheritHint = !exists && tasks.length ? '继承未落盘' : ''
-  const saveLabel =
-    saveState === 'dirty'
-      ? '未保存'
-      : saveState === 'saving'
-        ? '保存中…'
-        : saveState === 'saved'
-          ? saveMsg || '已保存'
-          : saveState === 'error'
-            ? saveMsg || '保存失败'
-            : ''
 
   return (
     <div className="panel today-panel">
+      {contextHolder}
       {inheritHint && <div className="today-float-hint">{inheritHint}</div>}
-      {saveState !== 'idle' && saveLabel && (
-        <div className={`today-save-float save-${saveState}`} role="status" aria-live="polite">
-          {saveLabel}
-        </div>
-      )}
 
       <TaskList
         tasks={tasks}
