@@ -96,9 +96,17 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     }
     setSaveState('saving')
     setSaveMsg('')
+    const md = serializeMarkdown(list, `${ymd} · ${category}`)
     try {
-      const md = serializeMarkdown(list, `${ymd} · ${category}`)
-      const result = await client.putFile(category, ymd, md, shaRef.current)
+      let result: { sha: string }
+      try {
+        result = await client.putFile(category, ymd, md, shaRef.current)
+      } catch (e) {
+        // 远程 md 已变（如外部提交）：取最新 sha 后用当前页面内容再写一次
+        if (!(e instanceof GithubConflictError)) throw e
+        const latest = await client.getFile(category, ymd)
+        result = await client.putFile(category, ymd, md, latest?.sha)
+      }
       setSha(result.sha)
       setExists(true)
       await client.syncMonthDay(category, ymd, list)
@@ -129,6 +137,40 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     window.addEventListener('beforeunload', onBeforeUnload)
     return () => window.removeEventListener('beforeunload', onBeforeUnload)
   }, [])
+
+  // 窗口重新可见且无未保存改动时，静默同步远程 md，避免一直握着旧 sha
+  useEffect(() => {
+    const syncIfIdle = () => {
+      if (document.visibilityState && document.visibilityState !== 'visible') return
+      if (dirtyRef.current) return
+      void (async () => {
+        try {
+          const file = await client.getFile(category, ymd)
+          if (dirtyRef.current) return
+          if (file) {
+            if (file.sha === shaRef.current) return
+            setTasks(parseMarkdown(file.content))
+            setSha(file.sha)
+            setExists(true)
+          } else if (existsRef.current) {
+            setTasks([])
+            setSha(undefined)
+            setExists(false)
+          }
+          setSaveState('idle')
+          setSaveMsg('')
+        } catch {
+          /* ignore background sync errors */
+        }
+      })()
+    }
+    document.addEventListener('visibilitychange', syncIfIdle)
+    window.addEventListener('focus', syncIfIdle)
+    return () => {
+      document.removeEventListener('visibilitychange', syncIfIdle)
+      window.removeEventListener('focus', syncIfIdle)
+    }
+  }, [client, category, ymd])
 
   function markDirty(next: Task[]) {
     setTasks(next)
