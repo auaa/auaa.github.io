@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { notification, Spin } from 'antd'
+import { message, Spin } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
@@ -31,10 +31,7 @@ function draftToTask(draft: TaskDraft): Task {
 
 export function TodayPage({ client, category, pendingCreate, onPendingCreateHandled }: Props) {
   const ymd = todayYmd()
-  const [noticeApi, contextHolder] = notification.useNotification({
-    placement: 'topRight',
-    duration: 3,
-  })
+  const [messageApi, contextHolder] = message.useMessage()
   const [tasks, setTasks] = useState<Task[]>([])
   const [sha, setSha] = useState<string | undefined>()
   const [exists, setExists] = useState(false)
@@ -95,7 +92,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     }
     if (savingRef.current) return
     savingRef.current = true
-    noticeApi.open({ key: 'today-save', type: 'info', message: '保存中…', duration: 0 })
+    messageApi.open({ key: 'today-save', type: 'loading', content: '保存中…', duration: 0 })
     const md = serializeMarkdown(list, `${ymd} · ${category}`)
     try {
       const result = await client.putFile(category, ymd, md, shaRef.current)
@@ -103,8 +100,8 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
       setExists(true)
       await client.syncMonthDay(category, ymd, list)
       dirtyRef.current = false
-      noticeApi.destroy('today-inherit')
-      noticeApi.open({ key: 'today-save', type: 'success', message: '已保存', duration: 3 })
+      messageApi.destroy('today-inherit')
+      messageApi.open({ key: 'today-save', type: 'success', content: '已保存', duration: 3 })
     } catch (e) {
       const msg =
         e instanceof GithubConflictError
@@ -112,11 +109,11 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
           : e instanceof Error
             ? e.message
             : String(e)
-      noticeApi.open({ key: 'today-save', type: 'error', message: msg, duration: 6 })
+      messageApi.open({ key: 'today-save', type: 'error', content: msg, duration: 6 })
     } finally {
       savingRef.current = false
     }
-  }, [client, category, ymd, noticeApi])
+  }, [client, category, ymd, messageApi])
 
   useDebouncedCallback(
     () => {
@@ -184,16 +181,16 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
   useEffect(() => {
     if (loading) return
     if (!exists && tasks.length) {
-      noticeApi.open({
+      messageApi.open({
         key: 'today-inherit',
         type: 'info',
-        message: '继承未落盘',
+        content: '继承未落盘',
         duration: 0,
       })
     } else {
-      noticeApi.destroy('today-inherit')
+      messageApi.destroy('today-inherit')
     }
-  }, [loading, exists, tasks.length, noticeApi])
+  }, [loading, exists, tasks.length, messageApi])
 
   if (loading) {
     return (
