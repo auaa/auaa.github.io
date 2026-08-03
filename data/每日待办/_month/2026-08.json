@@ -172,8 +172,10 @@
       {
         "id": "ASfcHHlY2G",
         "title": "排查分期款账单扣费后，未修改支付状态的问题",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-03 09:42:42",
+        "startedAt": "2026-08-03 09:59:47",
+        "completedAt": "2026-08-03 09:59:47",
         "priority": 2,
         "detail": "鄂红娟反馈。由于微信平账，导致不够扣款了",
         "dueAt": "2026-08-03"
