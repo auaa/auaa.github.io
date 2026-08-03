@@ -207,8 +207,10 @@
       {
         "id": "fwpY0PfiUc",
         "title": "海外测试环境的订单与国内测试环境的订单冲突",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-03 15:25:57",
+        "startedAt": "2026-08-03 17:02:37",
+        "completedAt": "2026-08-03 17:02:37",
         "priority": 2,
         "detail": "暂时无法测试国内测试环境是否可以下单。先关闭",
         "dueAt": "2026-08-04"
@@ -219,6 +221,7 @@
         "status": "planned",
         "plannedAt": "2026-08-03 16:48:19",
         "priority": 3,
+        "detail": "由于性能问题，暂不调整。由财务人员分批导出",
         "dueAt": "2026-08-04"
       }
     ]
