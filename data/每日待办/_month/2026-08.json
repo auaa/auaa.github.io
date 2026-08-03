@@ -195,8 +195,10 @@
       {
         "id": "4BPkGvW0Nr",
         "title": "导出城东驿站自助售货机重复扣费的识别费账单",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-03 14:22:43",
+        "startedAt": "2026-08-03 15:25:12",
+        "completedAt": "2026-08-03 15:25:12",
         "priority": 2,
         "detail": "舒鑫",
         "dueAt": "2026-08-04"
