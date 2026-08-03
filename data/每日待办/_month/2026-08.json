@@ -132,7 +132,9 @@
         "id": "fO6fiTYpxi",
         "title": "排查支付中心读取联行号失败的原因",
         "status": "planned",
-        "plannedAt": "2026-07-25 16:12:13"
+        "plannedAt": "2026-07-25 16:12:13",
+        "priority": 3,
+        "detail": "该文件暂未生成，请稍后再试！"
       },
       {
         "id": "mYKsKiUL5P",
@@ -220,11 +222,11 @@
         "title": "支付中心导出Excel报错超过5万条无法导出",
         "status": "completed",
         "plannedAt": "2026-08-03 16:48:19",
+        "startedAt": "2026-08-03 17:29:09",
+        "completedAt": "2026-08-03 17:29:09",
         "priority": 3,
         "detail": "由于性能问题，暂不调整。由财务人员分批导出",
-        "dueAt": "2026-08-04",
-        "startedAt": "2026-08-03 17:29:09",
-        "completedAt": "2026-08-03 17:29:09"
+        "dueAt": "2026-08-04"
       }
     ]
   }
