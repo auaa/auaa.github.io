@@ -50,12 +50,9 @@ export class GithubClient {
   }
 
   private async fetchContents(path: string): Promise<Response> {
+    // 不要加 Cache-Control/Pragma 等自定义头：会触发 CORS 预检，GitHub 不允许
     return fetch(this.contentsGetUrl(path), {
-      headers: {
-        ...this.headers(false),
-        'Cache-Control': 'no-cache',
-        Pragma: 'no-cache',
-      },
+      headers: this.headers(false),
       cache: 'no-store',
     })
   }
