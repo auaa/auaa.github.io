@@ -43,11 +43,26 @@ export class GithubClient {
     return [root, ...parts].filter(Boolean).join('/')
   }
 
+  /** GET Contents：禁缓存 + 随机参数，避免浏览器/中间层返回旧 sha */
+  private contentsGetUrl(path: string): string {
+    const bust = `${Date.now()}_${Math.random().toString(36).slice(2, 10)}`
+    return `${this.base}/contents/${encodeURI(path)}?ref=${encodeURIComponent(this.cfg.branch)}&_=${bust}`
+  }
+
+  private async fetchContents(path: string): Promise<Response> {
+    return fetch(this.contentsGetUrl(path), {
+      headers: {
+        ...this.headers(false),
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+      },
+      cache: 'no-store',
+    })
+  }
+
   async listCategories(): Promise<string[]> {
     const path = this.dataPath()
-    const res = await fetch(`${this.base}/contents/${encodeURI(path)}?ref=${this.cfg.branch}`, {
-      headers: this.headers(false),
-    })
+    const res = await this.fetchContents(path)
     if (res.status === 404) return []
     if (!res.ok) throw new Error(`列出分类失败: ${res.status}`)
     const body = (await res.json()) as Array<{ name: string; type: string }>
@@ -61,9 +76,7 @@ export class GithubClient {
 
   async listDateFiles(category: string): Promise<string[]> {
     const path = this.dataPath(category)
-    const res = await fetch(`${this.base}/contents/${encodeURI(path)}?ref=${this.cfg.branch}`, {
-      headers: this.headers(false),
-    })
+    const res = await this.fetchContents(path)
     if (res.status === 404) return []
     if (!res.ok) throw new Error(`列出日期失败: ${res.status}`)
     const body = (await res.json()) as Array<{ name: string; type: string }>
@@ -78,9 +91,7 @@ export class GithubClient {
     ymd: string,
   ): Promise<{ content: string; sha: string } | null> {
     const path = this.dataPath(category, `${ymd}.md`)
-    const res = await fetch(`${this.base}/contents/${encodeURI(path)}?ref=${this.cfg.branch}`, {
-      headers: this.headers(false),
-    })
+    const res = await this.fetchContents(path)
     if (res.status === 404) return null
     if (!res.ok) throw new Error(`读取文件失败: ${res.status}`)
     const body = (await res.json()) as { content: string; encoding: string; sha: string }
@@ -103,9 +114,7 @@ export class GithubClient {
     month: string,
   ): Promise<{ data: MonthArchive; sha: string } | null> {
     const path = this.dataPath(category, MONTH_DIR, `${month}.json`)
-    const res = await fetch(`${this.base}/contents/${encodeURI(path)}?ref=${this.cfg.branch}`, {
-      headers: this.headers(false),
-    })
+    const res = await this.fetchContents(path)
     if (res.status === 404) return null
     if (!res.ok) throw new Error(`读取月归档失败: ${res.status}`)
     const body = (await res.json()) as { content: string; encoding: string; sha: string }
@@ -127,23 +136,41 @@ export class GithubClient {
   /** 日文件保存后同步当月归档中该日任务（不做其它兜底） */
   async syncMonthDay(category: string, ymd: string, tasks: Task[]): Promise<void> {
     const month = monthKeyFromYmd(ymd)
-    const write = async () => {
-      const existing = await this.getMonthArchive(category, month)
-      const base = existing?.data ?? emptyMonthArchive(month)
-      if (base.month !== month) throw new Error(`月归档 month 字段不匹配: ${base.month} ≠ ${month}`)
-      const next = upsertMonthDay(base, ymd, tasks)
-      await this.putMonthArchive(category, month, next, existing?.sha)
-    }
-    try {
-      await write()
-    } catch (e) {
-      // 月归档也常因外部提交/并发双写冲突；刷新 sha 后再写一次
-      if (!(e instanceof GithubConflictError)) throw e
-      await write()
-    }
+    const existing = await this.getMonthArchive(category, month)
+    const base = existing?.data ?? emptyMonthArchive(month)
+    if (base.month !== month) throw new Error(`月归档 month 字段不匹配: ${base.month} ≠ ${month}`)
+    const next = upsertMonthDay(base, ymd, tasks)
+    await this.putMonthArchive(category, month, next, existing?.sha)
   }
 
   private async putPath(
+    path: string,
+    message: string,
+    content: string,
+    sha?: string,
+  ): Promise<{ sha: string }> {
+    let currentSha = sha
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        return await this.putPathOnce(path, message, content, currentSha)
+      } catch (e) {
+        if (!(e instanceof GithubConflictError) || attempt === 2) throw e
+        // 冲突后强制重拉最新 sha（带防缓存），再写
+        const latest = await this.fetchContents(path)
+        if (latest.status === 404) {
+          currentSha = undefined
+        } else if (latest.ok) {
+          const body = (await latest.json()) as { sha: string }
+          currentSha = body.sha
+        } else {
+          throw e
+        }
+      }
+    }
+    throw new GithubConflictError()
+  }
+
+  private async putPathOnce(
     path: string,
     message: string,
     content: string,
@@ -159,6 +186,7 @@ export class GithubClient {
       method: 'PUT',
       headers: this.headers(true),
       body: JSON.stringify(payload),
+      cache: 'no-store',
     })
     if (res.status === 409 || res.status === 422) {
       throw new GithubConflictError()

@@ -1,4 +1,4 @@
-import { Button, Select, Table, Typography } from 'antd'
+import { Button, Select, Table, Tooltip, Typography } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import {
   DndContext,
@@ -127,14 +127,15 @@ export function TaskList({
       dataIndex: 'title',
       key: 'title',
       ellipsis: true,
-      render: (title: string, row) =>
-        canEdit ? (
-          <Typography.Link onClick={() => onTitleClick?.(row)} title={row.detail || undefined}>
-            {title || '（无标题）'}
-          </Typography.Link>
+      render: (title: string, row) => {
+        const text = title || '（无标题）'
+        const node = canEdit ? (
+          <Typography.Link onClick={() => onTitleClick?.(row)}>{text}</Typography.Link>
         ) : (
-          <span title={row.detail || undefined}>{title || '（无标题）'}</span>
-        ),
+          <span>{text}</span>
+        )
+        return row.detail ? <Tooltip title={row.detail}>{node}</Tooltip> : node
+      },
     },
     {
       title: '期望完成日期',

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { message, Spin } from 'antd'
+import { notification, Spin } from 'antd'
 import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
@@ -31,7 +31,10 @@ function draftToTask(draft: TaskDraft): Task {
 
 export function TodayPage({ client, category, pendingCreate, onPendingCreateHandled }: Props) {
   const ymd = todayYmd()
-  const [messageApi, contextHolder] = message.useMessage()
+  const [noticeApi, contextHolder] = notification.useNotification({
+    placement: 'topRight',
+    duration: 3,
+  })
   const [tasks, setTasks] = useState<Task[]>([])
   const [sha, setSha] = useState<string | undefined>()
   const [exists, setExists] = useState(false)
@@ -92,23 +95,16 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     }
     if (savingRef.current) return
     savingRef.current = true
-    messageApi.open({ key: 'today-save', type: 'loading', content: '保存中…', duration: 0 })
+    noticeApi.open({ key: 'today-save', type: 'info', message: '保存中…', duration: 0 })
     const md = serializeMarkdown(list, `${ymd} · ${category}`)
     try {
-      let result: { sha: string }
-      try {
-        result = await client.putFile(category, ymd, md, shaRef.current)
-      } catch (e) {
-        // 远程日文件已变：取最新 sha 后用当前页面内容再写一次
-        if (!(e instanceof GithubConflictError)) throw e
-        const latest = await client.getFile(category, ymd)
-        result = await client.putFile(category, ymd, md, latest?.sha)
-      }
+      const result = await client.putFile(category, ymd, md, shaRef.current)
       setSha(result.sha)
       setExists(true)
       await client.syncMonthDay(category, ymd, list)
       dirtyRef.current = false
-      messageApi.open({ key: 'today-save', type: 'success', content: '已保存', duration: 3 })
+      noticeApi.destroy('today-inherit')
+      noticeApi.open({ key: 'today-save', type: 'success', message: '已保存', duration: 3 })
     } catch (e) {
       const msg =
         e instanceof GithubConflictError
@@ -116,11 +112,11 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
           : e instanceof Error
             ? e.message
             : String(e)
-      messageApi.open({ key: 'today-save', type: 'error', content: msg, duration: 6 })
+      noticeApi.open({ key: 'today-save', type: 'error', message: msg, duration: 6 })
     } finally {
       savingRef.current = false
     }
-  }, [client, category, ymd, messageApi])
+  }, [client, category, ymd, noticeApi])
 
   useDebouncedCallback(
     () => {
@@ -185,21 +181,40 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingCreate, loading])
 
+  useEffect(() => {
+    if (loading) return
+    if (!exists && tasks.length) {
+      noticeApi.open({
+        key: 'today-inherit',
+        type: 'info',
+        message: '继承未落盘',
+        duration: 0,
+      })
+    } else {
+      noticeApi.destroy('today-inherit')
+    }
+  }, [loading, exists, tasks.length, noticeApi])
+
   if (loading) {
     return (
       <div className="panel panel-loading">
+        {contextHolder}
         <Spin size="large" />
       </div>
     )
   }
-  if (error) return <div className="alert alert-danger">{error}</div>
-
-  const inheritHint = !exists && tasks.length ? '继承未落盘' : ''
+  if (error) {
+    return (
+      <>
+        {contextHolder}
+        <div className="alert alert-danger">{error}</div>
+      </>
+    )
+  }
 
   return (
-    <div className="panel today-panel">
+    <div className="panel">
       {contextHolder}
-      {inheritHint && <div className="today-float-hint">{inheritHint}</div>}
 
       <TaskList
         tasks={tasks}
