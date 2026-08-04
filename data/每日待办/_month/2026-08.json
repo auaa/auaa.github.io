@@ -240,10 +240,11 @@
       {
         "id": "fO6fiTYpxi",
         "title": "排查支付中心读取联行号失败的原因",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-07-25 16:12:13",
+        "startedAt": "2026-08-04 11:06:17",
         "priority": 3,
-        "detail": "该文件暂未生成，请稍后再试！"
+        "detail": "该文件暂未生成，请稍后再试！\n和中信银行确认是，该文件是8点后才可下载。已和孙正沟通修改为定时任务：9点执行"
       },
       {
         "id": "mYKsKiUL5P",
