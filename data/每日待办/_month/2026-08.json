@@ -276,10 +276,11 @@
       {
         "id": "y963e0WyTv",
         "title": "升级开发环境的fastjson",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-04 10:02:19",
+        "startedAt": "2026-08-04 11:06:35",
         "priority": 3,
-        "detail": "fastjson1.2.83 包升级为1.2.84",
+        "detail": "fastjson1.2.83 包升级为1.2.84。\n测试分支已修改",
         "dueAt": "2026-08-18"
       }
     ]
