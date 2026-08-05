@@ -359,10 +359,12 @@
       {
         "id": "eS3xoZwZda",
         "title": "海外2台设备重启时间过长",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-05 08:48:24",
         "priority": 3,
-        "detail": "190006、190056"
+        "detail": "190006 凌晨重启是正常的\n190056 设备在地库，网络问题，频繁重启",
+        "startedAt": "2026-08-05 09:01:22",
+        "completedAt": "2026-08-05 09:01:22"
       }
     ]
   }
