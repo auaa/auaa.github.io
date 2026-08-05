@@ -4,6 +4,10 @@ name: Deploy docs to GitHub Pages
 on:
   push:
     branches: ['main']
+    # 仅静态产物或本 workflow 变更时部署；data/*.md 等日常提交不触发
+    paths:
+      - 'docs/**'
+      - '.github/workflows/jekyll-gh-pages.yml'
   workflow_dispatch:
 
 permissions:
