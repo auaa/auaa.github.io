@@ -313,11 +313,12 @@
       {
         "id": "mYKsKiUL5P",
         "title": "李瑞特的设备利润分析代码找回",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-01 14:07:39",
         "startedAt": "2026-08-03 11:54:30",
+        "completedAt": "2026-08-05 19:48:21",
         "priority": 3,
-        "detail": "直到上线才关闭",
+        "detail": "直到上线才关闭。已合入",
         "dueAt": "2026-08-10"
       },
       {
