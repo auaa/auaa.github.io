@@ -375,6 +375,15 @@
         "plannedAt": "2026-08-05 11:34:41",
         "priority": 3,
         "dueAt": "2026-08-17"
+      },
+      {
+        "id": "dj5fnqeVpt",
+        "title": "清除柒喜24H自助棋牌中信银行进件信息",
+        "status": "planned",
+        "plannedAt": "2026-08-05 19:29:24",
+        "priority": 3,
+        "detail": "用户选择的银行错误，导致每次提现都会扣手续费",
+        "dueAt": "2026-08-06"
       }
     ]
   }
