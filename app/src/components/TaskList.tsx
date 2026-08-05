@@ -19,6 +19,7 @@ import { HolderOutlined } from '@ant-design/icons'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
 import type { Task, TaskStatus } from '../types'
 import { STATUS_LABEL } from '../types'
+import { addDaysYmd, todayYmd } from '../lib/date'
 import { PriorityFlame } from './PriorityFlame'
 
 interface ListProps {
@@ -33,6 +34,17 @@ interface ListProps {
 function fmtDue(due?: string) {
   if (!due) return '—'
   return due.slice(0, 10)
+}
+
+/** 未完成：≤今天危险红；未来 2 天内警告色 */
+function dueTone(due: string | undefined, status: TaskStatus): 'danger' | 'warn' | null {
+  if (!due || status === 'completed') return null
+  const ymd = due.slice(0, 10)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd)) return null
+  const today = todayYmd()
+  if (ymd <= today) return 'danger'
+  if (ymd <= addDaysYmd(today, 2)) return 'warn'
+  return null
 }
 
 function DragHandle({ id }: { id: string }) {
@@ -142,7 +154,12 @@ export function TaskList({
       dataIndex: 'dueAt',
       key: 'dueAt',
       width: 120,
-      render: (due?: string) => fmtDue(due),
+      render: (due: string | undefined, row) => {
+        const text = fmtDue(due)
+        const tone = dueTone(due, row.status)
+        if (!tone) return text
+        return <span className={tone === 'danger' ? 'due-danger' : 'due-warn'}>{text}</span>
+      },
     },
   )
 
