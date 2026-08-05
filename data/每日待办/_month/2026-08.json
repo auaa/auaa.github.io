@@ -361,10 +361,18 @@
         "title": "海外2台设备重启时间过长",
         "status": "completed",
         "plannedAt": "2026-08-05 08:48:24",
-        "priority": 3,
-        "detail": "190006 凌晨重启是正常的\n190056 设备在地库，网络问题，频繁重启",
         "startedAt": "2026-08-05 09:01:22",
-        "completedAt": "2026-08-05 09:01:22"
+        "completedAt": "2026-08-05 09:01:22",
+        "priority": 3,
+        "detail": "190006 凌晨重启是正常的\n190056 设备在地库，网络问题，频繁重启"
+      },
+      {
+        "id": "vc4HcC4wjX",
+        "title": "智云掌纹支付设备对接",
+        "status": "planned",
+        "plannedAt": "2026-08-05 11:34:41",
+        "priority": 3,
+        "dueAt": "2026-08-17"
       }
     ]
   }
