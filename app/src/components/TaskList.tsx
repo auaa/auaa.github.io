@@ -1,4 +1,4 @@
-import { Button, Select, Table, Tooltip, Typography } from 'antd'
+import { Button, Select, Table, Tag, Tooltip, Typography } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import {
   DndContext,
@@ -21,6 +21,12 @@ import type { Task, TaskStatus } from '../types'
 import { STATUS_LABEL } from '../types'
 import { addDaysYmd, todayYmd } from '../lib/date'
 import { PriorityFlame } from './PriorityFlame'
+
+const STATUS_TAG_COLOR: Record<TaskStatus, string> = {
+  planned: 'default',
+  started: 'processing',
+  completed: 'success',
+}
 
 interface ListProps {
   tasks: Task[]
@@ -123,7 +129,7 @@ export function TaskList({
             onChange={(v) => onStatusChange?.(row.id, v)}
           />
         ) : (
-          STATUS_LABEL[status]
+          <Tag color={STATUS_TAG_COLOR[status]}>{STATUS_LABEL[status]}</Tag>
         ),
     },
     {
@@ -138,7 +144,8 @@ export function TaskList({
       title: '标题',
       dataIndex: 'title',
       key: 'title',
-      ellipsis: true,
+      // 关闭 ellipsis 自带 title，避免无详情时仍弹出原始标题
+      ellipsis: { showTitle: false },
       render: (title: string, row) => {
         const text = title || '（无标题）'
         const node = canEdit ? (
