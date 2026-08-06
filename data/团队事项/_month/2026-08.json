@@ -1,0 +1,17 @@
+{
+  "v": 1,
+  "month": "2026-08",
+  "days": {
+    "2026-08-06": [
+      {
+        "id": "2m7xCV4oYw",
+        "title": "【周伟】一卡通支付的订单明细中支付方式还是微信",
+        "status": "planned",
+        "plannedAt": "2026-08-06 17:48:02",
+        "priority": 3,
+        "detail": "https://cd2.lufff.com/zentao/bug-view-5749.html",
+        "dueAt": "2026-08-07"
+      }
+    ]
+  }
+}
