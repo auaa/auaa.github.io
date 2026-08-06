@@ -11,6 +11,14 @@
         "priority": 3,
         "detail": "https://cd2.lufff.com/zentao/bug-view-5749.html",
         "dueAt": "2026-08-07"
+      },
+      {
+        "id": "H9FD268zDs",
+        "title": "【桂礼显】排查商户的报表数据是否一致",
+        "status": "planned",
+        "plannedAt": "2026-08-06 17:49:24",
+        "priority": 3,
+        "dueAt": "2026-08-07"
       }
     ]
   }
