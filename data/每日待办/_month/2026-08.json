@@ -409,9 +409,11 @@
       {
         "id": "DkZFeLrYrL",
         "title": "【技术债】Feign熔断",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-01 16:09:56",
+        "startedAt": "2026-08-06 19:50:46",
         "priority": 3,
+        "detail": "已完成第一版整改",
         "dueAt": "2026-08-04"
       },
       {
