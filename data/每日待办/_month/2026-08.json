@@ -470,6 +470,78 @@
         "detail": "企业名称：合肥米源智能科技有限公司\n证件类型：统一社会信用代码\n统一社会信用代码：91340104MA8PERDE1K\n企业法人姓名：韩明顺\n法人证件类型：个人身份证\n法人证件号：341125198111209092\n开户银行：工商银行\n银行账号：1302011009200291553\n中信银行需要报文\n用户企业是注销状态",
         "dueAt": "2026-08-06"
       }
+    ],
+    "2026-08-07": [
+      {
+        "id": "OaAIFBxffj",
+        "title": "支付中心增加监控--盛佳俊",
+        "status": "planned",
+        "plannedAt": "2026-07-25 15:53:27",
+        "priority": 3
+      },
+      {
+        "id": "fO6fiTYpxi",
+        "title": "排查支付中心读取联行号失败的原因",
+        "status": "completed",
+        "plannedAt": "2026-07-25 16:12:13",
+        "startedAt": "2026-08-04 11:06:17",
+        "completedAt": "2026-08-07 08:37:12",
+        "priority": 3,
+        "detail": "该文件暂未生成，请稍后再试！\n和中信银行确认是，该文件是8点后才可下载。已和孙正沟通修改为定时任务：8:30执行\n\n根据tag: readBankBaseInfoEntry 查看日志同步成功！"
+      },
+      {
+        "id": "DkZFeLrYrL",
+        "title": "【技术债】Feign熔断",
+        "status": "started",
+        "plannedAt": "2026-08-01 16:09:56",
+        "startedAt": "2026-08-06 19:50:46",
+        "priority": 3,
+        "detail": "已完成第一版整改",
+        "dueAt": "2026-08-04"
+      },
+      {
+        "id": "y963e0WyTv",
+        "title": "升级开发环境的fastjson",
+        "status": "started",
+        "plannedAt": "2026-08-04 10:02:19",
+        "startedAt": "2026-08-04 11:06:35",
+        "priority": 3,
+        "detail": "fastjson1.2.83 包升级为1.2.84。\n测试分支已修改",
+        "dueAt": "2026-08-18"
+      },
+      {
+        "id": "MtcqfsIdUI",
+        "title": "【费用中心】费用和余额接口合并为1个",
+        "status": "planned",
+        "plannedAt": "2026-08-04 14:22:12",
+        "priority": 3,
+        "detail": "待和杨阳的代码合入到1个分支",
+        "dueAt": "2026-08-18"
+      },
+      {
+        "id": "vc4HcC4wjX",
+        "title": "智云掌纹支付设备对接",
+        "status": "planned",
+        "plannedAt": "2026-08-05 11:34:41",
+        "priority": 3,
+        "dueAt": "2026-08-17"
+      },
+      {
+        "id": "XUBOq6j89D",
+        "title": "流量卡充值数据订正",
+        "status": "planned",
+        "plannedAt": "2026-08-06 09:07:34",
+        "priority": 2,
+        "dueAt": "2026-08-10"
+      },
+      {
+        "id": "6rU7lKZuup",
+        "title": "确认账户余额报表中的各个账户余额是否正确",
+        "status": "planned",
+        "plannedAt": "2026-08-06 10:52:47",
+        "priority": 3,
+        "dueAt": "2026-08-06"
+      }
     ]
   }
 }
