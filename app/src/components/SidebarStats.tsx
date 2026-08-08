@@ -44,19 +44,25 @@ function StatusBar({ counts }: { counts: SidebarStatsCounts }) {
   )
 }
 
+function formatRatePct(r: number): string {
+  return `${Math.round(Math.min(1, Math.max(0, r)) * 100)}%`
+}
+
 function RateSparkline({ rates }: { rates: Array<number | null> }) {
   const w = 200
-  const h = 28
-  const padX = 2
-  const padY = 3
+  const h = 46
+  const padX = 10
+  const padTop = 12
+  const padBottom = 4
   const innerW = w - padX * 2
-  const innerH = h - padY * 2
+  const innerH = h - padTop - padBottom
   const n = rates.length
   const xAt = (i: number) => padX + (n <= 1 ? innerW / 2 : (i / (n - 1)) * innerW)
-  const yAt = (r: number) => padY + (1 - r) * innerH
+  const yAt = (r: number) => padTop + (1 - r) * innerH
 
   const segments: string[] = []
   let pts: string[] = []
+  const dots: { i: number; r: number }[] = []
   rates.forEach((r, i) => {
     if (r == null) {
       if (pts.length) {
@@ -66,20 +72,23 @@ function RateSparkline({ rates }: { rates: Array<number | null> }) {
       return
     }
     const clamped = Math.min(1, Math.max(0, r))
+    dots.push({ i, r: clamped })
     pts.push(`${xAt(i).toFixed(1)},${yAt(clamped).toFixed(1)}`)
   })
   if (pts.length) segments.push(pts.join(' '))
 
-  const lastIdx = [...rates].map((r, i) => (r != null ? i : -1)).filter((i) => i >= 0).pop()
-  const lastR = lastIdx != null ? rates[lastIdx] : null
+  const label = rates
+    .map((r, i) => (r == null ? null : `${i + 1}日 ${formatRatePct(r)}`))
+    .filter(Boolean)
+    .join('，')
 
   return (
     <svg
       className="sidebar-stats-spark"
       viewBox={`0 0 ${w} ${h}`}
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMidYMid meet"
       role="img"
-      aria-label="近七日完成率"
+      aria-label={label ? `近七日完成率：${label}` : '近七日完成率'}
     >
       <line
         className="sidebar-stats-spark-base"
@@ -91,14 +100,24 @@ function RateSparkline({ rates }: { rates: Array<number | null> }) {
       {segments.map((d, i) => (
         <polyline key={i} className="sidebar-stats-spark-line" fill="none" points={d} />
       ))}
-      {lastIdx != null && lastR != null && (
-        <circle
-          className="sidebar-stats-spark-dot"
-          cx={xAt(lastIdx)}
-          cy={yAt(Math.min(1, Math.max(0, lastR)))}
-          r={2.2}
-        />
-      )}
+      {dots.map(({ i, r }) => {
+        const x = xAt(i)
+        const y = yAt(r)
+        const anchor = i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'
+        return (
+          <g key={i}>
+            <circle className="sidebar-stats-spark-dot" cx={x} cy={y} r={2} />
+            <text
+              className="sidebar-stats-spark-label"
+              x={x}
+              y={Math.max(9, y - 5)}
+              textAnchor={anchor}
+            >
+              {formatRatePct(r)}
+            </text>
+          </g>
+        )
+      })}
     </svg>
   )
 }

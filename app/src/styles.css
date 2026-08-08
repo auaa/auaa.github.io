@@ -298,7 +298,7 @@ select {
 .sidebar-stats-spark {
   display: block;
   width: 100%;
-  height: 28px;
+  height: 48px;
 }
 
 .sidebar-stats-spark-base {
@@ -315,6 +315,17 @@ select {
 
 .sidebar-stats-spark-dot {
   fill: var(--accent);
+}
+
+.sidebar-stats-spark-label {
+  fill: var(--muted);
+  font-size: 8px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 2px;
+  stroke-linejoin: round;
 }
 
 .sidebar-stats-skel {
@@ -337,7 +348,7 @@ select {
 }
 
 .sidebar-stats-skel-spark {
-  height: 28px;
+  height: 48px;
 }
 
 @keyframes sidebar-stats-shimmer {
