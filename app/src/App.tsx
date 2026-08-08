@@ -1,8 +1,14 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Spin } from 'antd'
 import { GithubClient, loadConfig } from './lib/github'
 import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
+import {
+  completionRate,
+  loadSidebarStats,
+  loadTodayStatsCounts,
+  type SidebarStatsCounts,
+} from './lib/sidebarStats'
 import { Sidebar } from './components/Sidebar'
 import { TaskDialog } from './components/TaskDialog'
 import { TodayPage } from './pages/TodayPage'
@@ -49,6 +55,11 @@ export default function App() {
   const [tab, setTab] = useState<TabId>(initialTab)
   const [createOpen, setCreateOpen] = useState(false)
   const [pendingCreate, setPendingCreate] = useState<TaskDraft | null>(null)
+  const [statsLoading, setStatsLoading] = useState(false)
+  const [stats, setStats] = useState<{
+    today: SidebarStatsCounts
+    rates: Array<number | null>
+  } | null>(null)
 
   function changeTab(next: TabId) {
     setTab(next)
@@ -109,6 +120,45 @@ export default function App() {
     setCategory(cats[0] ?? '')
   }
 
+  useEffect(() => {
+    if (!client || !categories.length) {
+      setStats(null)
+      setStatsLoading(false)
+      return
+    }
+    let cancelled = false
+    setStatsLoading(true)
+    ;(async () => {
+      try {
+        const next = await loadSidebarStats(client, categories, todayYmd())
+        if (!cancelled) setStats(next)
+      } catch {
+        if (!cancelled) setStats(null)
+      } finally {
+        if (!cancelled) setStatsLoading(false)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [client, categories])
+
+  const refreshTodayStats = useCallback(async () => {
+    if (!client || !categories.length) return
+    try {
+      const today = await loadTodayStatsCounts(client, categories, todayYmd())
+      const last = completionRate(today)
+      setStats((prev) => {
+        if (!prev) return prev
+        const rates = prev.rates.length ? [...prev.rates] : Array.from({ length: 7 }, () => null)
+        rates[rates.length - 1] = last
+        return { today, rates }
+      })
+    } catch {
+      /* 保留上次结果 */
+    }
+  }, [client, categories])
+
   const body = useMemo(() => {
     if (!client || !category) return null
     if (tab === 'today') {
@@ -118,13 +168,14 @@ export default function App() {
           category={category}
           pendingCreate={pendingCreate}
           onPendingCreateHandled={() => setPendingCreate(null)}
+          onSaved={() => void refreshTodayStats()}
         />
       )
     }
     if (tab === 'history') return <HistoryPage client={client} category={category} />
     if (tab === 'calendar') return <CalendarPage client={client} category={category} />
     return <GanttPage client={client} category={category} />
-  }, [client, category, tab, pendingCreate])
+  }, [client, category, tab, pendingCreate, refreshTodayStats])
 
   if (bootError) {
     return (
@@ -156,6 +207,8 @@ export default function App() {
           onCreate={() => setCreateOpen(true)}
           createOpen={createOpen}
           dateLabel={todayYmd()}
+          statsLoading={statsLoading}
+          stats={stats}
         />
         <main className="app-main">
           {body ?? <div className="alert alert-warn">请先在仓库创建 data/分类名/</div>}

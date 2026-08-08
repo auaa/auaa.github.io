@@ -15,6 +15,8 @@ interface Props {
   category: string
   pendingCreate?: TaskDraft | null
   onPendingCreateHandled?: () => void
+  /** 今日 md（及月归档）保存成功后回调，用于刷新侧栏全分类统计 */
+  onSaved?: () => void
 }
 
 function draftToTask(draft: TaskDraft): Task {
@@ -29,7 +31,13 @@ function draftToTask(draft: TaskDraft): Task {
   }
 }
 
-export function TodayPage({ client, category, pendingCreate, onPendingCreateHandled }: Props) {
+export function TodayPage({
+  client,
+  category,
+  pendingCreate,
+  onPendingCreateHandled,
+  onSaved,
+}: Props) {
   const ymd = todayYmd()
   const [messageApi, contextHolder] = message.useMessage()
   const [tasks, setTasks] = useState<Task[]>([])
@@ -102,6 +110,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
       dirtyRef.current = false
       messageApi.destroy('today-inherit')
       messageApi.open({ key: 'today-save', type: 'success', content: '已保存', duration: 3 })
+      onSaved?.()
     } catch (e) {
       const msg =
         e instanceof GithubConflictError
@@ -113,7 +122,7 @@ export function TodayPage({ client, category, pendingCreate, onPendingCreateHand
     } finally {
       savingRef.current = false
     }
-  }, [client, category, ymd, messageApi])
+  }, [client, category, ymd, messageApi, onSaved])
 
   useDebouncedCallback(
     () => {

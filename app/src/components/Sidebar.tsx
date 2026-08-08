@@ -1,5 +1,7 @@
+import type { SidebarStatsCounts } from '../lib/sidebarStats'
 import type { TabId } from '../types'
 import { TAB_LABEL } from '../types'
+import { SidebarStats } from './SidebarStats'
 
 const NAV_TABS: { id: TabId; icon: string }[] = [
   { id: 'today', icon: 'today' },
@@ -17,6 +19,8 @@ interface Props {
   onCreate: () => void
   createOpen?: boolean
   dateLabel: string
+  statsLoading?: boolean
+  stats?: { today: SidebarStatsCounts; rates: Array<number | null> } | null
 }
 
 const MONTH_EN = [
@@ -119,8 +123,11 @@ export function Sidebar({
   onCreate,
   createOpen = false,
   dateLabel,
+  statsLoading = false,
+  stats = null,
 }: Props) {
   const { year, monthEn, day, weekday, isWeekend } = splitYmd(dateLabel)
+  const showStats = statsLoading || !!stats
 
   return (
     <aside className="app-sidebar">
@@ -193,6 +200,14 @@ export function Sidebar({
           ))}
         </div>
       </div>
+
+      {showStats && (
+        <SidebarStats
+          loading={statsLoading || !stats}
+          today={stats?.today ?? { planned: 0, started: 0, completed: 0 }}
+          rates={stats?.rates ?? []}
+        />
+      )}
     </aside>
   )
 }
