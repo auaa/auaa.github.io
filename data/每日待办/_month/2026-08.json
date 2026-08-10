@@ -618,9 +618,10 @@
       {
         "id": "zjh6EQIDZr",
         "title": "【线上问题】商户拉黑后，没有解除黑名单",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-10 11:53:47",
         "startedAt": "2026-08-10 16:04:05",
+        "completedAt": "2026-08-10 18:59:39",
         "priority": 3,
         "detail": "今日要上线",
         "dueAt": "2026-08-10"
