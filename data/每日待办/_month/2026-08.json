@@ -641,6 +641,14 @@
         "status": "planned",
         "plannedAt": "2026-08-10 15:14:47",
         "priority": 3
+      },
+      {
+        "id": "X0pwxXJWtg",
+        "title": "需要将海外分支同步至1.0.2",
+        "status": "planned",
+        "plannedAt": "2026-08-10 16:04:36",
+        "priority": 3,
+        "dueAt": "2026-08-21"
       }
     ]
   }
