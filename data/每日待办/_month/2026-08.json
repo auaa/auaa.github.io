@@ -626,8 +626,10 @@
       {
         "id": "p5JeDShCqo",
         "title": "增加5种识别费政策",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-10 12:52:24",
+        "startedAt": "2026-08-10 15:31:40",
+        "completedAt": "2026-08-10 15:31:40",
         "priority": 3,
         "detail": "https://alidocs.dingtalk.com/i/nodes/Gl6Pm2Db8D360QKMTGzkmNMmJxLq0Ee4?cid=749817%3A24657760&utm_source=im&utm_scene=person_space&iframeQuery=utm_medium%3Dim_card%26utm_source%3Dim&utm_medium=im_card&corpId=ding6b5e060c8fd2dbcb"
       },
