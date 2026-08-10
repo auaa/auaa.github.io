@@ -645,8 +645,10 @@
       {
         "id": "X0pwxXJWtg",
         "title": "需要将海外分支同步至1.0.2",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-10 16:04:36",
+        "startedAt": "2026-08-10 18:59:29",
+        "completedAt": "2026-08-10 18:59:29",
         "priority": 3,
         "dueAt": "2026-08-21"
       },
