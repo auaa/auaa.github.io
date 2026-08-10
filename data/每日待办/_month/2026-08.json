@@ -649,6 +649,14 @@
         "plannedAt": "2026-08-10 16:04:36",
         "priority": 3,
         "dueAt": "2026-08-21"
+      },
+      {
+        "id": "CYvfbp3NL5",
+        "title": "修复武汉胜源自动售货机有限公司财务报表",
+        "status": "planned",
+        "plannedAt": "2026-08-10 17:08:57",
+        "priority": 3,
+        "dueAt": "2026-08-12"
       }
     ]
   }
