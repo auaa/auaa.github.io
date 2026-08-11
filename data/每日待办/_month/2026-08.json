@@ -702,8 +702,10 @@
       {
         "id": "vc4HcC4wjX",
         "title": "智云掌纹支付设备对接",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-05 11:34:41",
+        "startedAt": "2026-08-11 09:27:13",
+        "completedAt": "2026-08-11 09:27:13",
         "priority": 3,
         "dueAt": "2026-08-17"
       },
