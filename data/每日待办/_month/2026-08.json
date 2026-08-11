@@ -763,6 +763,7 @@
         "status": "completed",
         "plannedAt": "2026-08-11 16:39:21",
         "priority": 3,
+        "detail": "发国内、海外测试环境。需要测试的点\n1. 正常购物\n2. app上的订单查询\n3. 多语言",
         "startedAt": "2026-08-11 17:46:18",
         "completedAt": "2026-08-11 17:46:18"
       }
