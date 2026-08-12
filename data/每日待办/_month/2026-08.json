@@ -808,9 +808,12 @@
       {
         "id": "XUBOq6j89D",
         "title": "流量卡充值数据订正",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-06 09:07:34",
+        "startedAt": "2026-08-12 16:53:09",
+        "completedAt": "2026-08-12 16:53:09",
         "priority": 2,
+        "detail": "已完成订正。总共7条数据",
         "dueAt": "2026-08-10"
       },
       {
