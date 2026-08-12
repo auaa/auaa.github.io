@@ -855,6 +855,13 @@
         "completedAt": "2026-08-12 09:09:20",
         "priority": 3,
         "detail": "易售后同步账单接口由廖明帅自己开发。主系统只需要新增可以关联设备的列表即可"
+      },
+      {
+        "id": "rzOvFZ4VFs",
+        "title": "解冻任务时，传递商户名称",
+        "status": "planned",
+        "plannedAt": "2026-08-12 14:33:05",
+        "priority": 3
       }
     ]
   }
