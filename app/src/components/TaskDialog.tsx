@@ -149,7 +149,7 @@ export function TaskDialog(props: Props) {
             rules={[{ required: true, message: '请选择分类' }]}
           >
             <Radio.Group>
-              <Space size={[12, 8]} wrap>
+              <Space size={[42, 8]} wrap>
                 {props.categories.map((c) => {
                   const label = categoryRadioLabel(c)
                   return (
