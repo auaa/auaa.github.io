@@ -24,7 +24,7 @@ export function PriorityFlame({ value, size = 22 }: Props) {
   }
   const color = COLORS[value]
   return (
-    <span className="priority-flame" style={{ width: size, height: size }} title={`优先级 ${value}`}>
+    <span className="priority-flame" style={{ width: size, height: size }}>
       <FireOutlined style={{ fontSize: size, color }} aria-hidden />
       <span className="priority-flame-num" style={{ color, fontSize: Math.max(10, size * 0.45) }}>
         {value}

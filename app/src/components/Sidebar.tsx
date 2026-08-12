@@ -132,7 +132,7 @@ export function Sidebar({
   return (
     <aside className="app-sidebar">
       <div className="sidebar-brand-wrap">
-        <div className="sidebar-date" title={dateLabel} aria-label={dateLabel}>
+        <div className="sidebar-date" aria-label={dateLabel}>
           <div className="sidebar-date-month">{monthEn}</div>
           <div className="sidebar-date-body">
             <div className="sidebar-date-day-wrap">
@@ -190,7 +190,6 @@ export function Sidebar({
               type="button"
               className={c === category ? 'side-item is-active' : 'side-item'}
               onClick={() => onCategoryChange(c)}
-              title={c}
             >
               <span className="side-item-icon">
                 <NavIcon name="folder" />

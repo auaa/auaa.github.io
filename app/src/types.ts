@@ -25,6 +25,8 @@ export interface TaskDraft {
   priority?: TaskPriority
   detail?: string
   dueAt?: string
+  /** 新建时选择的分类 */
+  category?: string
 }
 
 export interface TokenVault {

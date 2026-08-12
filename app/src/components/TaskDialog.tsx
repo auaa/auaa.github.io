@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Button, DatePicker, Form, Input, Modal, Radio, Space } from 'antd'
+import { Button, DatePicker, Form, Input, Modal, Radio, Space, Tooltip } from 'antd'
 import dayjs, { type Dayjs } from 'dayjs'
 import type { Task, TaskDraft, TaskPriority, TaskStatus } from '../types'
 import { PriorityFlame } from './PriorityFlame'
@@ -17,6 +17,7 @@ export interface TaskEditPatch {
 interface CreateProps {
   mode: 'create'
   open: boolean
+  categories: string[]
   onClose: () => void
   onSubmit: (draft: TaskDraft) => void
 }
@@ -36,6 +37,25 @@ interface FormValues {
   priority?: TaskPriority
   detail?: string
   dueAt?: Dayjs | null
+  category?: string
+}
+
+const DEFAULT_CREATE_CATEGORY = '每日待办'
+
+/** 新建弹窗 Radio 简写；value 仍用完整分类名 */
+const CATEGORY_SHORT_LABEL: Record<string, string> = {
+  每日待办: '每日',
+  团队事项: '团队',
+  与产品沟通事项: '产品',
+}
+
+function categoryRadioLabel(category: string): string {
+  return CATEGORY_SHORT_LABEL[category] ?? category
+}
+
+function defaultCreateCategory(categories: string[]): string {
+  if (categories.includes(DEFAULT_CREATE_CATEGORY)) return DEFAULT_CREATE_CATEGORY
+  return categories[0] ?? DEFAULT_CREATE_CATEGORY
 }
 
 export function TaskDialog(props: Props) {
@@ -52,7 +72,10 @@ export function TaskDialog(props: Props) {
       })
     } else if (props.mode === 'create') {
       form.resetFields()
-      form.setFieldsValue({ priority: 3 })
+      form.setFieldsValue({
+        priority: 3,
+        category: defaultCreateCategory(props.categories),
+      })
     }
   }, [props, form])
 
@@ -68,6 +91,7 @@ export function TaskDialog(props: Props) {
         priority,
         detail,
         dueAt: values.dueAt ? values.dueAt.format('YYYY-MM-DD') : undefined,
+        category: values.category || defaultCreateCategory(props.categories),
       })
     } else {
       const patch: TaskEditPatch = { title, detail, priority }
@@ -104,7 +128,40 @@ export function TaskDialog(props: Props) {
       okText="确定"
       cancelText="取消"
     >
-      <Form form={form} layout="vertical" style={{ marginTop: 12 }} initialValues={{ priority: 3 }}>
+      <Form
+        form={form}
+        layout="vertical"
+        style={{ marginTop: 12 }}
+        initialValues={{
+          priority: 3,
+          ...(isCreate
+            ? { category: defaultCreateCategory(props.mode === 'create' ? props.categories : []) }
+            : {}),
+        }}
+      >
+        {isCreate && props.mode === 'create' && (
+          <Form.Item
+            name="category"
+            label="分类"
+            rules={[{ required: true, message: '请选择分类' }]}
+          >
+            <Radio.Group>
+              <Space size={[12, 8]} wrap>
+                {props.categories.map((c) => {
+                  const label = categoryRadioLabel(c)
+                  return (
+                    <Tooltip key={c} title={label === c ? undefined : c}>
+                      <Radio value={c} style={{ marginInlineEnd: 0 }}>
+                        {label}
+                      </Radio>
+                    </Tooltip>
+                  )
+                })}
+              </Space>
+            </Radio.Group>
+          </Form.Item>
+        )}
+
         <Form.Item
           name="title"
           label="标题"

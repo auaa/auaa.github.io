@@ -218,8 +218,10 @@ export default function App() {
       <TaskDialog
         mode="create"
         open={createOpen}
+        categories={categories}
         onClose={() => setCreateOpen(false)}
         onSubmit={(draft) => {
+          if (draft.category) setCategory(draft.category)
           setPendingCreate(draft)
           changeTab('today')
         }}

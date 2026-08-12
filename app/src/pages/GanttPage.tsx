@@ -99,14 +99,11 @@ export function GanttPage({ client, category }: Props) {
             </div>
             <div className="gantt-days" style={{ width: trackW }}>
               {days.map((d) => (
-                <div
-                  key={d}
-                  className={`gantt-day ${d === today ? 'is-today' : ''}`}
-                  style={{ width: colW }}
-                  title={d}
-                >
-                  {d.slice(8)}
-                </div>
+                <Tooltip key={d} title={d}>
+                  <div className={`gantt-day ${d === today ? 'is-today' : ''}`} style={{ width: colW }}>
+                    {d.slice(8)}
+                  </div>
+                </Tooltip>
               ))}
             </div>
           </div>
@@ -147,10 +144,9 @@ function GanttRow({
   return (
     <div className="gantt-head-row">
       <div className="gantt-label-cell" style={{ width: labelW }}>
-        <span
-          className={`gantt-dot status-${task.status}`}
-          title={STATUS_LABEL[task.status]}
-        />
+        <Tooltip title={STATUS_LABEL[task.status]}>
+          <span className={`gantt-dot status-${task.status}`} />
+        </Tooltip>
         {task.priority ? (
           <span className={`gantt-priority p${task.priority}`}>{PRIORITY_LABEL[task.priority]}</span>
         ) : null}
@@ -164,17 +160,20 @@ function GanttRow({
       </div>
       <div className="gantt-track" style={{ width: days.length * colW, height: 32 }}>
         {plannedIdx >= 0 && (
-          <span className="gantt-plan" style={{ left: plannedIdx * colW + colW / 2 - 4 }} title={`规划 ${planned}`} />
+          <Tooltip title={`规划 ${planned}`}>
+            <span className="gantt-plan" style={{ left: plannedIdx * colW + colW / 2 - 4 }} />
+          </Tooltip>
         )}
         {startIdx >= 0 && endIdx >= 0 && (
-          <span
-            className={`gantt-bar ${task.status === 'completed' ? 'is-done' : 'is-active'}`}
-            style={{
-              left: startIdx * colW + 2,
-              width: Math.max(colW - 4, (endIdx - startIdx + 1) * colW - 4),
-            }}
-            title={`${started ?? ''} → ${completed ?? '进行中'}`}
-          />
+          <Tooltip title={`${started ?? ''} → ${completed ?? '进行中'}`}>
+            <span
+              className={`gantt-bar ${task.status === 'completed' ? 'is-done' : 'is-active'}`}
+              style={{
+                left: startIdx * colW + 2,
+                width: Math.max(colW - 4, (endIdx - startIdx + 1) * colW - 4),
+              }}
+            />
+          </Tooltip>
         )}
       </div>
     </div>

@@ -182,10 +182,11 @@ export function TodayPage({
 
   useEffect(() => {
     if (!pendingCreate || loading) return
+    if (pendingCreate.category && pendingCreate.category !== category) return
     markDirty([...tasksRef.current, draftToTask(pendingCreate)])
     onPendingCreateHandled?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingCreate, loading])
+  }, [pendingCreate, loading, category])
 
   useEffect(() => {
     if (loading) return
