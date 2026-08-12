@@ -219,6 +219,7 @@ export default function App() {
         mode="create"
         open={createOpen}
         categories={categories}
+        currentCategory={category}
         onClose={() => setCreateOpen(false)}
         onSubmit={(draft) => {
           if (draft.category) setCategory(draft.category)

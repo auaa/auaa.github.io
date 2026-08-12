@@ -18,6 +18,8 @@ interface CreateProps {
   mode: 'create'
   open: boolean
   categories: string[]
+  /** 侧栏当前选中分类；在列表中则作为新建默认值 */
+  currentCategory?: string
   onClose: () => void
   onSubmit: (draft: TaskDraft) => void
 }
@@ -53,7 +55,8 @@ function categoryRadioLabel(category: string): string {
   return CATEGORY_SHORT_LABEL[category] ?? category
 }
 
-function defaultCreateCategory(categories: string[]): string {
+function defaultCreateCategory(categories: string[], currentCategory?: string): string {
+  if (currentCategory && categories.includes(currentCategory)) return currentCategory
   if (categories.includes(DEFAULT_CREATE_CATEGORY)) return DEFAULT_CREATE_CATEGORY
   return categories[0] ?? DEFAULT_CREATE_CATEGORY
 }
@@ -74,7 +77,7 @@ export function TaskDialog(props: Props) {
       form.resetFields()
       form.setFieldsValue({
         priority: 3,
-        category: defaultCreateCategory(props.categories),
+        category: defaultCreateCategory(props.categories, props.currentCategory),
       })
     }
   }, [props, form])
@@ -91,7 +94,7 @@ export function TaskDialog(props: Props) {
         priority,
         detail,
         dueAt: values.dueAt ? values.dueAt.format('YYYY-MM-DD') : undefined,
-        category: values.category || defaultCreateCategory(props.categories),
+        category: values.category || defaultCreateCategory(props.categories, props.currentCategory),
       })
     } else {
       const patch: TaskEditPatch = { title, detail, priority }
@@ -134,8 +137,8 @@ export function TaskDialog(props: Props) {
         style={{ marginTop: 12 }}
         initialValues={{
           priority: 3,
-          ...(isCreate
-            ? { category: defaultCreateCategory(props.mode === 'create' ? props.categories : []) }
+          ...(isCreate && props.mode === 'create'
+            ? { category: defaultCreateCategory(props.categories, props.currentCategory) }
             : {}),
         }}
       >
