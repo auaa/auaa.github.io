@@ -923,8 +923,10 @@
       {
         "id": "eyWobvJdNc",
         "title": "分析拉黑商户数据情况",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-11 08:37:16",
+        "startedAt": "2026-08-13 20:29:20",
+        "completedAt": "2026-08-13 20:29:20",
         "priority": 3,
         "dueAt": "2026-08-11"
       },
