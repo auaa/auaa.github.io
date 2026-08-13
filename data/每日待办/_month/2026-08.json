@@ -938,8 +938,10 @@
       {
         "id": "lSDlpKVbn2",
         "title": "给鄂红娟提导出易售后的对账数据",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-13 14:35:24",
+        "startedAt": "2026-08-13 20:29:14",
+        "completedAt": "2026-08-13 20:29:14",
         "priority": 3,
         "dueAt": "2026-08-13"
       }
