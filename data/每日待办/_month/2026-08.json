@@ -952,8 +952,10 @@
       {
         "id": "OaAIFBxffj",
         "title": "支付中心增加监控--盛佳俊",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-07-25 15:53:27",
+        "startedAt": "2026-08-14 16:55:43",
+        "completedAt": "2026-08-14 16:55:43",
         "priority": 3
       },
       {
