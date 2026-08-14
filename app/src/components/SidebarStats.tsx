@@ -1,13 +1,13 @@
 import type { SidebarStatsCounts } from '../lib/sidebarStats'
-import { STATUS_LABEL, type TaskStatus } from '../types'
+import { STATUS_LABEL } from '../types'
 
-const STATUS_COLOR: Record<TaskStatus, string> = {
+const STATUS_COLOR: Record<'planned' | 'started' | 'completed', string> = {
   planned: '#8590a2',
   started: '#b38600',
   completed: '#216e4e',
 }
 
-const STATUS_ORDER: TaskStatus[] = ['planned', 'started', 'completed']
+const STATUS_ORDER: Array<'planned' | 'started' | 'completed'> = ['planned', 'started', 'completed']
 
 interface Props {
   loading?: boolean

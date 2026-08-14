@@ -4,6 +4,7 @@ import type { GithubClient } from '../lib/github'
 import { mapPool } from '../lib/github'
 import { dateKeyFromIso, lastNDays, todayYmd } from '../lib/date'
 import { parseMarkdown } from '../lib/markdown'
+import { isTerminalStatus } from '../lib/taskModel'
 import type { Task } from '../types'
 import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
 
@@ -46,7 +47,7 @@ export function GanttPage({ client, category }: Props) {
         const inWindow = files.filter((d) => d >= days[0] && d <= days[days.length - 1])
         const contents = await mapPool(inWindow, 4, async (ymd) => {
           const file = await client.getFile(category, ymd)
-          return { ymd, tasks: file ? parseMarkdown(file.content) : [] }
+          return { ymd, tasks: file ? parseMarkdown(file.content, category) : [] }
         })
         if (cancelled) return
         const byId = new Map<string, Task>()
@@ -61,6 +62,10 @@ export function GanttPage({ client, category }: Props) {
                 plannedAt: prev.plannedAt || t.plannedAt,
                 startedAt: prev.startedAt || t.startedAt,
                 completedAt: t.completedAt || prev.completedAt,
+                assignedAt: prev.assignedAt || t.assignedAt,
+                processedAt: prev.processedAt || t.processedAt,
+                acceptedAt: t.acceptedAt || prev.acceptedAt,
+                assignee: t.assignee || prev.assignee,
               })
             }
           }
@@ -130,12 +135,12 @@ function GanttRow({
   today: string
 }) {
   const planned = dateKeyFromIso(task.plannedAt)
-  const started = dateKeyFromIso(task.startedAt)
-  const completed = dateKeyFromIso(task.completedAt)
+  const started = dateKeyFromIso(task.assignedAt || task.startedAt)
+  const completed = dateKeyFromIso(task.acceptedAt || task.completedAt)
   const plannedIdx = planned ? days.indexOf(planned) : -1
   const startIdx = started ? days.indexOf(started) : -1
   let endIdx = completed ? days.indexOf(completed) : -1
-  if (startIdx >= 0 && task.status !== 'completed') {
+  if (startIdx >= 0 && !isTerminalStatus(task.status)) {
     if (endIdx < 0) endIdx = days.indexOf(today)
     if (endIdx < 0) endIdx = days.length - 1
   }
@@ -152,10 +157,13 @@ function GanttRow({
         ) : null}
         <Tooltip
           title={`${task.title || '（无标题）'}${
-            task.priority ? ` · ${PRIORITY_LABEL[task.priority]}` : ''
-          }`}
+            task.assignee ? ` · ${task.assignee}` : ''
+          }${task.priority ? ` · ${PRIORITY_LABEL[task.priority]}` : ''}`}
         >
-          <span className="gantt-title">{task.title}</span>
+          <span className="gantt-title">
+            {task.assignee ? `${task.assignee} · ` : ''}
+            {task.title}
+          </span>
         </Tooltip>
       </div>
       <div className="gantt-track" style={{ width: days.length * colW, height: 32 }}>
@@ -165,9 +173,11 @@ function GanttRow({
           </Tooltip>
         )}
         {startIdx >= 0 && endIdx >= 0 && (
-          <Tooltip title={`${started ?? ''} → ${completed ?? '进行中'}`}>
+          <Tooltip
+            title={`${started ?? ''} → ${completed ?? (isTerminalStatus(task.status) ? '' : '进行中')}`}
+          >
             <span
-              className={`gantt-bar ${task.status === 'completed' ? 'is-done' : 'is-active'}`}
+              className={`gantt-bar ${isTerminalStatus(task.status) ? 'is-done' : 'is-active'}`}
               style={{
                 left: startIdx * colW + 2,
                 width: Math.max(colW - 4, (endIdx - startIdx + 1) * colW - 4),

@@ -6,15 +6,10 @@ import type { GithubClient, MonthArchive } from '../lib/github'
 import { todayYmd } from '../lib/date'
 import { sortTasksForCalendar } from '../lib/monthArchive'
 import { TaskList } from '../components/TaskList'
-import { PRIORITY_LABEL, STATUS_LABEL, type Task, type TaskStatus } from '../types'
+import { PRIORITY_LABEL, STATUS_LABEL, type Task } from '../types'
+import { statusColor, normalizeTaskForCategory } from '../lib/taskModel'
 
 const CELL_LIMIT = 5
-
-const STATUS_BAR: Record<TaskStatus, string> = {
-  planned: '#8590a2',
-  started: '#b38600',
-  completed: '#216e4e',
-}
 
 interface Props {
   client: GithubClient
@@ -23,11 +18,15 @@ interface Props {
 
 function taskTooltip(task: Task): string {
   const lines = [task.title || '（无标题）', `状态：${STATUS_LABEL[task.status]}`]
+  if (task.assignee) lines.push(`责任人：${task.assignee}`)
   if (task.priority) lines.push(`优先级：${PRIORITY_LABEL[task.priority]}`)
   if (task.dueAt) lines.push(`期望完成：${task.dueAt}`)
   if (task.plannedAt) lines.push(`规划：${task.plannedAt}`)
   if (task.startedAt) lines.push(`开始：${task.startedAt}`)
+  if (task.assignedAt) lines.push(`下发：${task.assignedAt}`)
+  if (task.processedAt) lines.push(`处理：${task.processedAt}`)
   if (task.completedAt) lines.push(`完成：${task.completedAt}`)
+  if (task.acceptedAt) lines.push(`验收：${task.acceptedAt}`)
   if (task.detail) lines.push(`详情：${task.detail}`)
   return lines.join('\n')
 }
@@ -65,8 +64,9 @@ export function CalendarPage({ client, category }: Props) {
 
   const dayTasks = useMemo(() => {
     if (!dayOpen || !archive) return []
-    return sortTasksForCalendar(archive.days[dayOpen] ?? [])
-  }, [archive, dayOpen])
+    const raw = (archive.days[dayOpen] ?? []).map((t) => normalizeTaskForCategory(t, category))
+    return sortTasksForCalendar(raw)
+  }, [archive, dayOpen, category])
 
   function dayHasTasks(ymd: string) {
     return (archive?.days[ymd]?.length ?? 0) > 0
@@ -83,7 +83,7 @@ export function CalendarPage({ client, category }: Props) {
     if (date.format('YYYY-MM') !== monthKey) {
       return <div className="cal-cell is-outside" />
     }
-    const raw = archive?.days[ymd] ?? []
+    const raw = (archive?.days[ymd] ?? []).map((t) => normalizeTaskForCategory(t, category))
     const sorted = sortTasksForCalendar(raw)
     const shown = sorted.slice(0, CELL_LIMIT)
     const more = sorted.length - shown.length
@@ -113,12 +113,15 @@ export function CalendarPage({ client, category }: Props) {
               <div
                 className="cal-task-line"
                 onClick={(e) => e.stopPropagation()}
-                style={{ borderLeftColor: STATUS_BAR[t.status] }}
+                style={{ borderLeftColor: statusColor(t.status) }}
               >
                 {t.priority ? (
                   <span className={`cal-task-priority p${t.priority}`}>{PRIORITY_LABEL[t.priority]}</span>
                 ) : null}
-                <span className="cal-task-title">{t.title || '（无标题）'}</span>
+                <span className="cal-task-title">
+                  {t.assignee ? `【${t.assignee}】` : ''}
+                  {t.title || '（无标题）'}
+                </span>
               </div>
             </Tooltip>
           ))}
@@ -189,7 +192,7 @@ export function CalendarPage({ client, category }: Props) {
         {!dayOpen || !(archive?.days[dayOpen]?.length) ? (
           <p className="empty-state">该日无任务</p>
         ) : (
-          <TaskList tasks={dayTasks} readOnly />
+          <TaskList tasks={dayTasks} category={category} readOnly />
         )}
       </Modal>
     </div>

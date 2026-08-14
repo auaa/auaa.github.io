@@ -3,11 +3,10 @@ import { mapPool } from './github'
 import { lastNDays } from './date'
 import { inheritOpenTasks, parseMarkdown } from './markdown'
 import { monthKeyFromYmd } from './monthArchive'
-import type { Task, TaskStatus } from '../types'
+import { normalizeTaskForCategory, toStatsBucket } from './taskModel'
+import type { Task } from '../types'
 
-export type SidebarStatsCounts = Record<TaskStatus, number>
-
-const STATUS_KEYS: TaskStatus[] = ['planned', 'started', 'completed']
+export type SidebarStatsCounts = { planned: number; started: number; completed: number }
 
 export function emptyStatsCounts(): SidebarStatsCounts {
   return { planned: 0, started: 0, completed: 0 }
@@ -16,7 +15,8 @@ export function emptyStatsCounts(): SidebarStatsCounts {
 export function countByStatus(tasks: Task[]): SidebarStatsCounts {
   const counts = emptyStatsCounts()
   for (const t of tasks) {
-    if (STATUS_KEYS.includes(t.status)) counts[t.status]++
+    const bucket = toStatsBucket(t.status)
+    if (bucket) counts[bucket]++
   }
   return counts
 }
@@ -44,14 +44,14 @@ async function loadCategoryTodayTasks(
   ymd: string,
 ): Promise<Task[]> {
   const file = await client.getFile(category, ymd)
-  if (file) return parseMarkdown(file.content)
+  if (file) return parseMarkdown(file.content, category)
 
   const dates = await client.listDateFiles(category)
   const prev = dates.find((d) => d < ymd)
   if (!prev) return []
   const prevFile = await client.getFile(category, prev)
   if (!prevFile) return []
-  return inheritOpenTasks(parseMarkdown(prevFile.content))
+  return inheritOpenTasks(parseMarkdown(prevFile.content, category), category)
 }
 
 /** 今天：各分类当日 md 聚合；无当日文件时计入未落盘继承任务 */
@@ -77,19 +77,21 @@ export async function loadCompletionRates(
   const monthKeys = [...new Set(days.map(monthKeyFromYmd))]
 
   const perCategory = await mapPool(categories, 3, async (category) => {
-    const byMonth: Record<string, Record<string, Task[]>> = {}
+    const dayTasks: Record<string, Task[]> = {}
     for (const month of monthKeys) {
       const file = await client.getMonthArchive(category, month)
-      byMonth[month] = file?.data.days ?? {}
+      const daysMap = file?.data.days ?? {}
+      for (const [d, list] of Object.entries(daysMap)) {
+        dayTasks[d] = list.map((t) => normalizeTaskForCategory(t, category))
+      }
     }
-    return byMonth
+    return dayTasks
   })
 
   return days.map((ymd) => {
-    const month = monthKeyFromYmd(ymd)
     let counts = emptyStatsCounts()
-    for (const byMonth of perCategory) {
-      counts = mergeCounts(counts, countByStatus(byMonth[month]?.[ymd] ?? []))
+    for (const dayTasks of perCategory) {
+      counts = mergeCounts(counts, countByStatus(dayTasks[ymd] ?? []))
     }
     return completionRate(counts)
   })
@@ -104,7 +106,6 @@ export async function loadSidebarStats(
     loadTodayStatsCounts(client, categories, ymd),
     loadCompletionRates(client, categories, 7, ymd),
   ])
-  // 今日块与 sparkline 末点对齐（含未落盘）
   if (rates.length) rates[rates.length - 1] = completionRate(today)
   return { today, rates }
 }

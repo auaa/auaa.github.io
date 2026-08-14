@@ -4,10 +4,23 @@ import type { GithubClient } from '../lib/github'
 import { GithubConflictError } from '../lib/github'
 import { nowShanghaiIso, todayYmd } from '../lib/date'
 import { newTaskId } from '../lib/id'
-import { applyStatusChange, inheritOpenTasks, parseMarkdown, serializeMarkdown } from '../lib/markdown'
+import {
+  applyStatusChange,
+  assertTeamStatusChange,
+  inheritOpenTasks,
+  parseMarkdown,
+  serializeMarkdown,
+} from '../lib/markdown'
+import {
+  isTeamCategory,
+  PERSONAL_CATEGORY,
+  TEAM_CATEGORY,
+  teamStatusRequiresAssignee,
+} from '../lib/taskModel'
 import { useDebouncedCallback } from '../hooks/useDebouncedCallback'
 import { TaskList } from '../components/TaskList'
 import { TaskDialog } from '../components/TaskDialog'
+import { TransferDialog } from '../components/TransferDialog'
 import type { Task, TaskDraft, TaskStatus } from '../types'
 
 interface Props {
@@ -15,12 +28,11 @@ interface Props {
   category: string
   pendingCreate?: TaskDraft | null
   onPendingCreateHandled?: () => void
-  /** 今日 md（及月归档）保存成功后回调，用于刷新侧栏全分类统计 */
   onSaved?: () => void
 }
 
-function draftToTask(draft: TaskDraft): Task {
-  return {
+function draftToTask(draft: TaskDraft, category: string): Task {
+  const task: Task = {
     id: newTaskId(),
     title: draft.title.trim(),
     status: 'planned',
@@ -29,6 +41,10 @@ function draftToTask(draft: TaskDraft): Task {
     detail: draft.detail?.trim() || undefined,
     dueAt: draft.dueAt || undefined,
   }
+  if (isTeamCategory(category) && draft.assignee) {
+    task.assignee = draft.assignee
+  }
+  return task
 }
 
 export function TodayPage({
@@ -46,6 +62,9 @@ export function TodayPage({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [editTask, setEditTask] = useState<Task | null>(null)
+  const [transferTask, setTransferTask] = useState<Task | null>(null)
+  const [transferring, setTransferring] = useState(false)
+  const [reclaiming, setReclaiming] = useState(false)
   const dirtyRef = useRef(false)
   const savingRef = useRef(false)
   const tasksRef = useRef(tasks)
@@ -64,7 +83,7 @@ export function TodayPage({
         const file = await client.getFile(category, ymd)
         if (cancelled) return
         if (file) {
-          setTasks(parseMarkdown(file.content))
+          setTasks(parseMarkdown(file.content, category))
           setSha(file.sha)
           setExists(true)
         } else {
@@ -73,7 +92,7 @@ export function TodayPage({
           let next: Task[] = []
           if (prev) {
             const prevFile = await client.getFile(category, prev)
-            if (prevFile) next = inheritOpenTasks(parseMarkdown(prevFile.content))
+            if (prevFile) next = inheritOpenTasks(parseMarkdown(prevFile.content, category), category)
           }
           if (cancelled) return
           setTasks(next)
@@ -143,7 +162,6 @@ export function TodayPage({
     return () => window.removeEventListener('beforeunload', onBeforeUnload)
   }, [])
 
-  // 窗口重新可见且无未保存改动时，静默同步远程 md，避免一直握着旧 sha
   useEffect(() => {
     const syncIfIdle = () => {
       if (document.visibilityState && document.visibilityState !== 'visible') return
@@ -154,7 +172,7 @@ export function TodayPage({
           if (dirtyRef.current || savingRef.current) return
           if (file) {
             if (file.sha === shaRef.current) return
-            setTasks(parseMarkdown(file.content))
+            setTasks(parseMarkdown(file.content, category))
             setSha(file.sha)
             setExists(true)
           } else if (existsRef.current) {
@@ -163,7 +181,7 @@ export function TodayPage({
             setExists(false)
           }
         } catch {
-          /* ignore background sync errors */
+          /* ignore */
         }
       })()
     }
@@ -183,7 +201,7 @@ export function TodayPage({
   useEffect(() => {
     if (!pendingCreate || loading) return
     if (pendingCreate.category && pendingCreate.category !== category) return
-    markDirty([...tasksRef.current, draftToTask(pendingCreate)])
+    markDirty([...tasksRef.current, draftToTask(pendingCreate, category)])
     onPendingCreateHandled?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingCreate, loading, category])
@@ -201,6 +219,194 @@ export function TodayPage({
       messageApi.destroy('today-inherit')
     }
   }, [loading, exists, tasks.length, messageApi])
+
+  async function confirmTransfer(assignee: string) {
+    const source = transferTask
+    if (!source || transferring) return
+    if (source.status === 'completed' || source.status === 'transferred') {
+      messageApi.open({ type: 'warning', content: '已完成或已转处理的任务不能转处理', duration: 3 })
+      setTransferTask(null)
+      return
+    }
+    setTransferring(true)
+    messageApi.open({ key: 'transfer', type: 'loading', content: '转处理中…', duration: 0 })
+    try {
+      const teamFile = await client.getFile(TEAM_CATEGORY, ymd)
+      let teamTasks = teamFile ? parseMarkdown(teamFile.content, TEAM_CATEGORY) : []
+      let teamSha = teamFile?.sha
+      if (!teamFile) {
+        const dates = await client.listDateFiles(TEAM_CATEGORY)
+        const prev = dates.find((d) => d < ymd)
+        if (prev) {
+          const prevFile = await client.getFile(TEAM_CATEGORY, prev)
+          if (prevFile) {
+            teamTasks = inheritOpenTasks(parseMarkdown(prevFile.content, TEAM_CATEGORY), TEAM_CATEGORY)
+          }
+        }
+      }
+
+      const now = nowShanghaiIso()
+      // 同 id 关联：团队任务 id = 个人任务 id
+      const teamTask: Task = {
+        id: source.id,
+        title: source.title,
+        status: 'assigned',
+        plannedAt: source.plannedAt || now,
+        assignedAt: now,
+        priority: source.priority ?? 3,
+        detail: source.detail,
+        dueAt: source.dueAt,
+        assignee,
+      }
+      const existingIdx = teamTasks.findIndex((t) => t.id === source.id)
+      if (existingIdx >= 0) teamTasks[existingIdx] = teamTask
+      else teamTasks = [...teamTasks, teamTask]
+
+      const teamMd = serializeMarkdown(teamTasks, `${ymd} · ${TEAM_CATEGORY}`)
+      await client.putFile(TEAM_CATEGORY, ymd, teamMd, teamSha)
+      await client.syncMonthDay(TEAM_CATEGORY, ymd, teamTasks)
+
+      const nextPersonal = tasksRef.current.map((t) => {
+        if (t.id !== source.id) return t
+        let next = applyStatusChange(t, 'transferred', now)
+        next = { ...next, assignee }
+        return next
+      })
+      markDirty(nextPersonal)
+      setTransferTask(null)
+      messageApi.open({ key: 'transfer', type: 'success', content: '已转处理', duration: 3 })
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      messageApi.open({ key: 'transfer', type: 'error', content: msg, duration: 6 })
+    } finally {
+      setTransferring(false)
+    }
+  }
+
+  async function confirmReclaim(source: Task) {
+    if (reclaiming || transferring) return
+    setReclaiming(true)
+    messageApi.open({ key: 'reclaim', type: 'loading', content: '收回中…', duration: 0 })
+    try {
+      const now = nowShanghaiIso()
+      let teamUpdated = false
+      let teamMissing = true
+
+      const teamFile = await client.getFile(TEAM_CATEGORY, ymd)
+      if (teamFile) {
+        const teamTasks = parseMarkdown(teamFile.content, TEAM_CATEGORY)
+        const idx = teamTasks.findIndex((t) => t.id === source.id)
+        if (idx >= 0) {
+          if (teamTasks[idx].status === 'accepted') {
+            messageApi.open({
+              key: 'reclaim',
+              type: 'warning',
+              content: '团队任务已验收，不能收回',
+              duration: 4,
+            })
+            return
+          }
+          teamTasks[idx] = applyStatusChange(teamTasks[idx], 'cancelled', now)
+          const teamMd = serializeMarkdown(teamTasks, `${ymd} · ${TEAM_CATEGORY}`)
+          await client.putFile(TEAM_CATEGORY, ymd, teamMd, teamFile.sha)
+          await client.syncMonthDay(TEAM_CATEGORY, ymd, teamTasks)
+          teamUpdated = true
+          teamMissing = false
+        }
+      }
+
+      const nextPersonal = tasksRef.current.map((t) => {
+        if (t.id !== source.id) return t
+        let next = applyStatusChange(t, 'planned', now)
+        delete next.assignee
+        delete next.completedAt
+        return next
+      })
+      markDirty(nextPersonal)
+
+      if (teamMissing && !teamUpdated) {
+        messageApi.open({
+          key: 'reclaim',
+          type: 'warning',
+          content: '已收回；未找到对应团队任务',
+          duration: 5,
+        })
+      } else {
+        messageApi.open({ key: 'reclaim', type: 'success', content: '已收回', duration: 3 })
+      }
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      messageApi.open({ key: 'reclaim', type: 'error', content: msg, duration: 6 })
+    } finally {
+      setReclaiming(false)
+    }
+  }
+
+  async function confirmTakeToSelf(source: Task) {
+    if (reclaiming || transferring) return
+    setReclaiming(true)
+    messageApi.open({ key: 'takeToSelf', type: 'loading', content: '转给我…', duration: 0 })
+    try {
+      const now = nowShanghaiIso()
+
+      // 1) 团队标已取消
+      const teamNext = tasksRef.current.map((t) =>
+        t.id === source.id ? applyStatusChange(t, 'cancelled', now) : t,
+      )
+      const teamMd = serializeMarkdown(teamNext, `${ymd} · ${category}`)
+      const teamPut = await client.putFile(category, ymd, teamMd, shaRef.current)
+      setSha(teamPut.sha)
+      setExists(true)
+      await client.syncMonthDay(category, ymd, teamNext)
+      setTasks(teamNext)
+      dirtyRef.current = false
+
+      // 2) 每日待办：同 id 规划中
+      const personalFile = await client.getFile(PERSONAL_CATEGORY, ymd)
+      let personalTasks = personalFile ? parseMarkdown(personalFile.content, PERSONAL_CATEGORY) : []
+      let personalSha = personalFile?.sha
+      if (!personalFile) {
+        const dates = await client.listDateFiles(PERSONAL_CATEGORY)
+        const prev = dates.find((d) => d < ymd)
+        if (prev) {
+          const prevFile = await client.getFile(PERSONAL_CATEGORY, prev)
+          if (prevFile) {
+            personalTasks = inheritOpenTasks(
+              parseMarkdown(prevFile.content, PERSONAL_CATEGORY),
+              PERSONAL_CATEGORY,
+            )
+          }
+        }
+      }
+
+      const personalTask: Task = {
+        id: source.id,
+        title: source.title,
+        status: 'planned',
+        plannedAt: source.plannedAt || now,
+        priority: source.priority ?? 3,
+        detail: source.detail,
+        dueAt: source.dueAt,
+      }
+      const pIdx = personalTasks.findIndex((t) => t.id === source.id)
+      if (pIdx >= 0) {
+        personalTasks[pIdx] = personalTask
+      } else {
+        personalTasks = [...personalTasks, personalTask]
+      }
+      const personalMd = serializeMarkdown(personalTasks, `${ymd} · ${PERSONAL_CATEGORY}`)
+      await client.putFile(PERSONAL_CATEGORY, ymd, personalMd, personalSha)
+      await client.syncMonthDay(PERSONAL_CATEGORY, ymd, personalTasks)
+
+      messageApi.open({ key: 'takeToSelf', type: 'success', content: '已转到每日待办', duration: 3 })
+      onSaved?.()
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      messageApi.open({ key: 'takeToSelf', type: 'error', content: msg, duration: 6 })
+    } finally {
+      setReclaiming(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -225,21 +431,59 @@ export function TodayPage({
 
       <TaskList
         tasks={tasks}
+        category={category}
         editable
         onReorder={markDirty}
         onTitleClick={(t) => setEditTask(t)}
-        onStatusChange={(id, status: TaskStatus) =>
-          markDirty(tasks.map((t) => (t.id === id ? applyStatusChange(t, status, nowShanghaiIso()) : t)))
+        onTransfer={isTeamCategory(category) ? undefined : (t) => setTransferTask(t)}
+        onReclaim={isTeamCategory(category) ? undefined : (t) => void confirmReclaim(t)}
+        onTakeToSelf={isTeamCategory(category) ? (t) => void confirmTakeToSelf(t) : undefined}
+        onAssigneeChange={
+          isTeamCategory(category)
+            ? (id, assignee) => {
+                const row = tasks.find((t) => t.id === id)
+                if (!row) return
+                if (!assignee && teamStatusRequiresAssignee(row.status)) {
+                  messageApi.open({ type: 'warning', content: '已下发及之后不能清空责任人', duration: 3 })
+                  return
+                }
+                markDirty(
+                  tasks.map((t) => {
+                    if (t.id !== id) return t
+                    const next = { ...t }
+                    if (assignee) next.assignee = assignee
+                    else delete next.assignee
+                    return next
+                  }),
+                )
+              }
+            : undefined
         }
+        onStatusChange={(id, status: TaskStatus) => {
+          const row = tasks.find((t) => t.id === id)
+          if (!row || row.status === 'transferred' || row.status === 'cancelled') return
+          if (isTeamCategory(category)) {
+            const err = assertTeamStatusChange({ ...row, assignee: row.assignee }, status)
+            if (err) {
+              messageApi.open({ type: 'warning', content: err, duration: 3 })
+              return
+            }
+          }
+          markDirty(
+            tasks.map((t) => (t.id === id ? applyStatusChange(t, status, nowShanghaiIso()) : t)),
+          )
+        }}
       />
 
       <TaskDialog
         mode="edit"
         open={!!editTask}
         task={editTask}
+        category={category}
+        readOnly={editTask?.status === 'transferred' || editTask?.status === 'cancelled'}
         onClose={() => setEditTask(null)}
-        onSubmit={({ title, detail, priority, status }) => {
-          if (!editTask) return
+        onSubmit={({ title, detail, priority, status, assignee }) => {
+          if (!editTask || editTask.status === 'transferred' || editTask.status === 'cancelled') return
           const id = editTask.id
           markDirty(
             tasksRef.current.map((t) => {
@@ -247,11 +491,31 @@ export function TodayPage({
               let next: Task = { ...t, title, priority }
               if (detail) next.detail = detail
               else delete next.detail
-              if (status) next = applyStatusChange(next, status, nowShanghaiIso())
+              if (isTeamCategory(category)) {
+                if (assignee) next.assignee = assignee
+                else delete next.assignee
+              }
+              if (status) {
+                if (isTeamCategory(category)) {
+                  const err = assertTeamStatusChange(next, status)
+                  if (err) {
+                    messageApi.open({ type: 'warning', content: err, duration: 3 })
+                    return t
+                  }
+                }
+                next = applyStatusChange(next, status, nowShanghaiIso())
+              }
               return next
             }),
           )
         }}
+      />
+
+      <TransferDialog
+        open={!!transferTask}
+        taskTitle={transferTask?.title}
+        onClose={() => setTransferTask(null)}
+        onConfirm={(assignee) => void confirmTransfer(assignee)}
       />
     </div>
   )

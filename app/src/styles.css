@@ -800,6 +800,25 @@ select {
   font-weight: 600;
 }
 
+.task-title-with-assignee {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-width: 0;
+  gap: 8px;
+}
+
+.task-assignee-tag {
+  flex: none;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: #d97008;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
 .due-warn {
   color: var(--warn);
   font-weight: 600;
@@ -1122,8 +1141,22 @@ select {
   background: var(--accent);
 }
 
-.gantt-dot.status-completed {
+.gantt-dot.status-assigned {
+  background: var(--warn);
+}
+
+.gantt-dot.status-processed {
+  background: var(--accent);
+}
+
+.gantt-dot.status-completed,
+.gantt-dot.status-accepted {
   background: var(--ok);
+}
+
+.gantt-dot.status-transferred,
+.gantt-dot.status-cancelled {
+  background: var(--subtle);
 }
 
 .gantt-track {

@@ -25,9 +25,13 @@ export function parseMonthArchive(raw: unknown): MonthArchive {
   return { v: 1, month: obj.month, days: obj.days as Record<string, Task[]> }
 }
 
-/** 未完成优先（进行中 → 规划中 → 已完成），同组按优先级 1→3 */
+/** 未完成优先（进行中类 → 规划中 → 已完成类），同组按优先级 1→3 */
 export function sortTasksForCalendar(tasks: Task[]): Task[] {
-  const statusRank = (s: TaskStatus) => (s === 'started' ? 0 : s === 'planned' ? 1 : 2)
+  const statusRank = (s: TaskStatus) => {
+    if (s === 'started' || s === 'assigned' || s === 'processed') return 0
+    if (s === 'planned') return 1
+    return 2
+  }
   return [...tasks].sort((a, b) => {
     const sr = statusRank(a.status) - statusRank(b.status)
     if (sr !== 0) return sr

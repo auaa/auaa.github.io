@@ -98,7 +98,7 @@ export function HistoryPage({ client, category }: Props) {
             <ScheduleOutlined className="day-label-icon" aria-hidden />
             {b.ymd}
           </h3>
-          <TaskList tasks={b.tasks} readOnly />
+          <TaskList tasks={b.tasks} category={category} readOnly />
         </section>
       ))}
       <div ref={sentinel} className="sentinel">
@@ -119,7 +119,7 @@ async function loadBatch(
   const out: DayBlock[] = []
   for (const ymd of slice) {
     const file = await client.getFile(category, ymd)
-    out.push({ ymd, tasks: file ? parseMarkdown(file.content) : [] })
+    out.push({ ymd, tasks: file ? parseMarkdown(file.content, category) : [] })
   }
   return out
 }
