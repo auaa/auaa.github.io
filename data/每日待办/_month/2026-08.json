@@ -1015,10 +1015,12 @@
       {
         "id": "7p0EJ2SCqm",
         "title": "排查支付中心获取到的IP是alb的ip问题",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-14 17:06:26",
         "priority": 3,
-        "dueAt": "2026-08-14"
+        "dueAt": "2026-08-14",
+        "startedAt": "2026-08-14 17:46:27",
+        "completedAt": "2026-08-14 17:46:27"
       }
     ]
   }
