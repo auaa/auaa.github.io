@@ -83,8 +83,9 @@
       {
         "id": "2uj4BGwTb3",
         "title": "测试转处理任务",
-        "status": "assigned",
+        "status": "cancelled",
         "plannedAt": "2026-08-14 19:10:07",
+        "completedAt": "2026-08-14 19:54:36",
         "assignedAt": "2026-08-14 19:43:20",
         "priority": 3,
         "detail": "e卡",
