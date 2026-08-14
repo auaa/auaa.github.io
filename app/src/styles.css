@@ -956,6 +956,11 @@ select {
   min-height: 24px;
 }
 
+.unlock-hint {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
 .unlock-verifying {
   color: var(--muted);
   font-size: 0.875rem;

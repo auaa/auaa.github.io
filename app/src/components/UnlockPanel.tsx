@@ -1,8 +1,48 @@
 import { useRef, useState } from 'react'
-import { Alert, Checkbox, Input, Modal } from 'antd'
+import { Alert, Input, Modal } from 'antd'
 import { decryptTokenWithPassword, type TokenVault } from '../lib/crypto'
 
 export const UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+
+type StoredUnlock = { password: string; expiresAt: number }
+
+export function loadStoredUnlockPassword(): string | null {
+  try {
+    const raw = localStorage.getItem(UNLOCK_PASSWORD_LS)
+    if (!raw) return null
+
+    const parsed = JSON.parse(raw) as StoredUnlock
+    if (!parsed?.password || typeof parsed.expiresAt !== 'number') {
+      localStorage.removeItem(UNLOCK_PASSWORD_LS)
+      return null
+    }
+    if (Date.now() >= parsed.expiresAt) {
+      localStorage.removeItem(UNLOCK_PASSWORD_LS)
+      return null
+    }
+    return parsed.password
+  } catch {
+    try {
+      localStorage.removeItem(UNLOCK_PASSWORD_LS)
+    } catch {
+      /* ignore */
+    }
+    return null
+  }
+}
+
+export function saveUnlockPassword(password: string): void {
+  const payload: StoredUnlock = {
+    password,
+    expiresAt: Date.now() + WEEK_MS,
+  }
+  localStorage.setItem(UNLOCK_PASSWORD_LS, JSON.stringify(payload))
+}
+
+export function clearUnlockPassword(): void {
+  localStorage.removeItem(UNLOCK_PASSWORD_LS)
+}
 
 interface Props {
   vault: TokenVault
@@ -11,7 +51,6 @@ interface Props {
 
 export function UnlockPanel({ vault, onUnlocked }: Props) {
   const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const unlocking = useRef(false)
@@ -24,8 +63,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
     try {
       const token = await decryptTokenWithPassword(code, vault)
       try {
-        if (remember) localStorage.setItem(UNLOCK_PASSWORD_LS, code)
-        else localStorage.removeItem(UNLOCK_PASSWORD_LS)
+        saveUnlockPassword(code)
       } catch {
         /* ignore */
       }
@@ -69,9 +107,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
         style={{ display: 'flex', justifyContent: 'center' }}
       />
       <div className="unlock-remember-row">
-        <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} disabled={busy}>
-          记住我
-        </Checkbox>
+        <span className="unlock-hint">验证通过后本机记住 1 周</span>
         {busy && <span className="unlock-verifying">验证中…</span>}
       </div>
       {error && <Alert type="error" showIcon message={error} style={{ marginTop: 12 }} />}
