@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Alert, Input, Modal } from 'antd'
+import { Alert, Checkbox, Input, Modal } from 'antd'
 import { decryptTokenWithPassword, type TokenVault } from '../lib/crypto'
 
 export const UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
@@ -51,6 +51,7 @@ interface Props {
 
 export function UnlockPanel({ vault, onUnlocked }: Props) {
   const [password, setPassword] = useState('')
+  const [remember, setRemember] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const unlocking = useRef(false)
@@ -63,7 +64,8 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
     try {
       const token = await decryptTokenWithPassword(code, vault)
       try {
-        saveUnlockPassword(code)
+        if (remember) saveUnlockPassword(code)
+        else clearUnlockPassword()
       } catch {
         /* ignore */
       }
@@ -107,7 +109,9 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
         style={{ display: 'flex', justifyContent: 'center' }}
       />
       <div className="unlock-remember-row">
-        <span className="unlock-hint">验证通过后本机记住 1 周</span>
+        <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} disabled={busy}>
+          记住密码（7 天）
+        </Checkbox>
         {busy && <span className="unlock-verifying">验证中…</span>}
       </div>
       {error && <Alert type="error" showIcon message={error} style={{ marginTop: 12 }} />}
