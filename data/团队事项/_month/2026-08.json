@@ -55,43 +55,6 @@
         "detail": "https://cd2.lufff.com/zentao/bug-view-5749.html",
         "dueAt": "2026-08-07"
       }
-    ],
-    "2026-08-14": [
-      {
-        "id": "o7XujNAnDC",
-        "title": "测试转处理任务123",
-        "status": "cancelled",
-        "plannedAt": "2026-08-14 19:10:07",
-        "completedAt": "2026-08-14 19:43:36",
-        "assignedAt": "2026-08-14 19:42:24",
-        "priority": 3,
-        "detail": "e卡dasd粉丝扽懂",
-        "dueAt": "2026-08-15",
-        "assignee": "邱晓晗"
-      },
-      {
-        "id": "1AruiYc900",
-        "title": "测试转处理任务234",
-        "status": "assigned",
-        "plannedAt": "2026-08-14 19:10:07",
-        "assignedAt": "2026-08-14 19:41:43",
-        "priority": 3,
-        "detail": "e卡",
-        "dueAt": "2026-08-15",
-        "assignee": "桂礼显"
-      },
-      {
-        "id": "2uj4BGwTb3",
-        "title": "测试转处理任务",
-        "status": "cancelled",
-        "plannedAt": "2026-08-14 19:10:07",
-        "completedAt": "2026-08-14 19:54:36",
-        "assignedAt": "2026-08-14 19:43:20",
-        "priority": 3,
-        "detail": "e卡",
-        "dueAt": "2026-08-15",
-        "assignee": "周伟"
-      }
     ]
   }
 }
