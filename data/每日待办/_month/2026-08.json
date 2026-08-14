@@ -1011,6 +1011,14 @@
         "startedAt": "2026-08-14 11:33:32",
         "completedAt": "2026-08-14 11:33:32",
         "priority": 3
+      },
+      {
+        "id": "7p0EJ2SCqm",
+        "title": "排查支付中心获取到的IP是alb的ip问题",
+        "status": "planned",
+        "plannedAt": "2026-08-14 17:06:26",
+        "priority": 3,
+        "dueAt": "2026-08-14"
       }
     ]
   }
