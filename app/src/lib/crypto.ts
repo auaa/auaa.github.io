@@ -88,3 +88,47 @@ export async function encryptTokenWithPassword(
     iterations,
   }
 }
+
+/** 本机会话：随机 AES 密钥包装明文（避免 localStorage 存明文口令/Token） */
+export type WrappedSecret = {
+  key: string
+  iv: string
+  ciphertext: string
+}
+
+export async function wrapSecret(plain: string): Promise<WrappedSecret> {
+  const subtle = getSubtle()
+  const keyBytes = globalThis.crypto.getRandomValues(new Uint8Array(32))
+  const iv = globalThis.crypto.getRandomValues(new Uint8Array(12))
+  const key = await subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt'])
+  const cipher = await subtle.encrypt(
+    { name: 'AES-GCM', iv: iv as BufferSource },
+    key,
+    new TextEncoder().encode(plain),
+  )
+  return {
+    key: bytesToB64(keyBytes),
+    iv: bytesToB64(iv),
+    ciphertext: bytesToB64(new Uint8Array(cipher)),
+  }
+}
+
+export async function unwrapSecret(wrapped: WrappedSecret): Promise<string> {
+  const subtle = getSubtle()
+  const keyBytes = b64ToBytes(wrapped.key)
+  const iv = b64ToBytes(wrapped.iv)
+  const data = b64ToBytes(wrapped.ciphertext)
+  const key = await subtle.importKey('raw', keyBytes as BufferSource, { name: 'AES-GCM' }, false, [
+    'decrypt',
+  ])
+  try {
+    const plain = await subtle.decrypt(
+      { name: 'AES-GCM', iv: iv as BufferSource },
+      key,
+      data as BufferSource,
+    )
+    return new TextDecoder().decode(plain)
+  } catch {
+    throw new Error('本机会话已失效')
+  }
+}

@@ -1,47 +1,73 @@
 import { useRef, useState } from 'react'
 import { Alert, Checkbox, Input, Modal } from 'antd'
-import { decryptTokenWithPassword, type TokenVault } from '../lib/crypto'
+import {
+  decryptTokenWithPassword,
+  unwrapSecret,
+  wrapSecret,
+  type TokenVault,
+  type WrappedSecret,
+} from '../lib/crypto'
 
-export const UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
+const UNLOCK_SESSION_LS = 'daily.unlockSession'
+const LEGACY_UNLOCK_PASSWORD_LS = 'daily.unlockPassword'
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000
 
-type StoredUnlock = { password: string; expiresAt: number }
+type StoredSession = WrappedSecret & { v: 1; expiresAt: number }
 
-export function loadStoredUnlockPassword(): string | null {
+function clearLegacyUnlockPassword(): void {
   try {
-    const raw = localStorage.getItem(UNLOCK_PASSWORD_LS)
+    localStorage.removeItem(LEGACY_UNLOCK_PASSWORD_LS)
+  } catch {
+    /* ignore */
+  }
+}
+
+export function clearUnlockSession(): void {
+  try {
+    localStorage.removeItem(UNLOCK_SESSION_LS)
+  } catch {
+    /* ignore */
+  }
+  clearLegacyUnlockPassword()
+}
+
+export async function loadUnlockSessionToken(): Promise<string | null> {
+  clearLegacyUnlockPassword()
+  try {
+    const raw = localStorage.getItem(UNLOCK_SESSION_LS)
     if (!raw) return null
 
-    const parsed = JSON.parse(raw) as StoredUnlock
-    if (!parsed?.password || typeof parsed.expiresAt !== 'number') {
-      localStorage.removeItem(UNLOCK_PASSWORD_LS)
+    const parsed = JSON.parse(raw) as StoredSession
+    if (
+      parsed?.v !== 1 ||
+      typeof parsed.expiresAt !== 'number' ||
+      !parsed.key ||
+      !parsed.iv ||
+      !parsed.ciphertext
+    ) {
+      clearUnlockSession()
       return null
     }
     if (Date.now() >= parsed.expiresAt) {
-      localStorage.removeItem(UNLOCK_PASSWORD_LS)
+      clearUnlockSession()
       return null
     }
-    return parsed.password
+    return await unwrapSecret(parsed)
   } catch {
-    try {
-      localStorage.removeItem(UNLOCK_PASSWORD_LS)
-    } catch {
-      /* ignore */
-    }
+    clearUnlockSession()
     return null
   }
 }
 
-export function saveUnlockPassword(password: string): void {
-  const payload: StoredUnlock = {
-    password,
+export async function saveUnlockSessionToken(token: string): Promise<void> {
+  const wrapped = await wrapSecret(token)
+  const payload: StoredSession = {
+    v: 1,
     expiresAt: Date.now() + WEEK_MS,
+    ...wrapped,
   }
-  localStorage.setItem(UNLOCK_PASSWORD_LS, JSON.stringify(payload))
-}
-
-export function clearUnlockPassword(): void {
-  localStorage.removeItem(UNLOCK_PASSWORD_LS)
+  localStorage.setItem(UNLOCK_SESSION_LS, JSON.stringify(payload))
+  clearLegacyUnlockPassword()
 }
 
 interface Props {
@@ -64,10 +90,10 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
     try {
       const token = await decryptTokenWithPassword(code, vault)
       try {
-        if (remember) saveUnlockPassword(code)
-        else clearUnlockPassword()
+        if (remember) await saveUnlockSessionToken(token)
+        else clearUnlockSession()
       } catch {
-        /* ignore */
+        /* ignore storage failures */
       }
       onUnlocked(token)
     } catch {
@@ -87,7 +113,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
 
   return (
     <Modal
-      title="输入4位数字口令"
+      title="请输入口令"
       open
       centered
       closable={false}
@@ -110,7 +136,7 @@ export function UnlockPanel({ vault, onUnlocked }: Props) {
       />
       <div className="unlock-remember-row">
         <Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} disabled={busy}>
-          记住密码（7 天）
+          记住密码
         </Checkbox>
         {busy && <span className="unlock-verifying">验证中…</span>}
       </div>

@@ -937,7 +937,12 @@ select {
   color: var(--subtle);
 }
 
-/* 解锁 OTP：去掉 number 类型上下箭头；格子为正方形 */
+/* 解锁弹窗标题居中；OTP 去箭头、正方形格子 */
+.unlock-modal .ant-modal-title {
+  text-align: center;
+  width: 100%;
+}
+
 .unlock-modal input[type='number']::-webkit-outer-spin-button,
 .unlock-modal input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -953,12 +958,17 @@ select {
 }
 
 .unlock-modal .ant-otp-input {
-  width: 48px !important;
-  height: 48px !important;
+  width: 40px !important;
+  height: 40px !important;
   padding: 0 !important;
-  font-size: 1.25rem;
-  line-height: 48px;
+  font-size: 1.125rem;
+  line-height: 40px;
   border-radius: var(--radius);
+}
+
+.unlock-modal .ant-otp-mask-icon {
+  font-size: 1.375rem;
+  line-height: 1;
 }
 
 .unlock-remember-row {

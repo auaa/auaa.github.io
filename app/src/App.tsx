@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Spin } from 'antd'
 import { GithubClient, loadConfig } from './lib/github'
-import { decryptTokenWithPassword } from './lib/crypto'
 import { LANDING_KEY, todayYmd } from './lib/date'
 import {
   completionRate,
@@ -12,8 +11,8 @@ import {
 import { Sidebar } from './components/Sidebar'
 import {
   UnlockPanel,
-  clearUnlockPassword,
-  loadStoredUnlockPassword,
+  clearUnlockSession,
+  loadUnlockSessionToken,
 } from './components/UnlockPanel'
 import { TaskDialog } from './components/TaskDialog'
 import { TodayPage } from './pages/TodayPage'
@@ -101,15 +100,14 @@ export default function App() {
         if (cancelled) return
         setFileCfg(cfg)
 
-        const stored = loadStoredUnlockPassword()
-        if (stored) {
+        const storedToken = await loadUnlockSessionToken()
+        if (storedToken) {
           try {
-            const token = await decryptTokenWithPassword(stored, cfg.github.tokenVault)
             if (cancelled) return
-            await bootWithToken(cfg, token)
+            await bootWithToken(cfg, storedToken)
             return
           } catch {
-            clearUnlockPassword()
+            clearUnlockSession()
           }
         }
         if (!cancelled) setNeedUnlock(true)
