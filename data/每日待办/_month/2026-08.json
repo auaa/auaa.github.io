@@ -1025,11 +1025,13 @@
       {
         "id": "2uj4BGwTb3",
         "title": "测试转处理任务",
-        "status": "planned",
+        "status": "transferred",
         "plannedAt": "2026-08-14 19:10:07",
         "priority": 3,
         "detail": "e卡",
-        "dueAt": "2026-08-15"
+        "dueAt": "2026-08-15",
+        "completedAt": "2026-08-14 19:10:20",
+        "assignee": "马力"
       }
     ]
   }
