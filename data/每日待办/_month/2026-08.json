@@ -1034,11 +1034,13 @@
       {
         "id": "1AruiYc900",
         "title": "测试转处理任务234",
-        "status": "planned",
+        "status": "transferred",
         "plannedAt": "2026-08-14 19:10:07",
+        "completedAt": "2026-08-14 19:41:43",
         "priority": 3,
         "detail": "e卡",
-        "dueAt": "2026-08-15"
+        "dueAt": "2026-08-15",
+        "assignee": "桂礼显"
       }
     ]
   }
