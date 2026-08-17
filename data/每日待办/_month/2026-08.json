@@ -1088,6 +1088,14 @@
         "detail": "已确认有6935个商户配置了联系电话",
         "startedAt": "2026-08-17 14:14:38",
         "completedAt": "2026-08-17 14:20:07"
+      },
+      {
+        "id": "Ehf3IwKY3P",
+        "title": "配置APP上的banner广告",
+        "status": "planned",
+        "plannedAt": "2026-08-17 15:12:03",
+        "priority": 3,
+        "dueAt": "2026-08-17"
       }
     ]
   }
