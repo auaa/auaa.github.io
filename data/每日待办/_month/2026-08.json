@@ -1076,28 +1076,29 @@
         "status": "completed",
         "plannedAt": "2026-08-17 14:12:15",
         "startedAt": "2026-08-17 14:14:36",
+        "completedAt": "2026-08-17 14:18:51",
         "priority": 3,
-        "detail": "刷脸设备不再生产了。\n刷脸设备是可以正常开门的，跟是否开启支付宝收款无关",
-        "completedAt": "2026-08-17 14:18:51"
+        "detail": "刷脸设备不再生产了。\n刷脸设备是可以正常开门的，跟是否开启支付宝收款无关"
       },
       {
         "id": "bZHP0ucJOR",
         "title": "排查有多少商户配置了联系电话的？",
         "status": "completed",
         "plannedAt": "2026-08-17 14:14:33",
-        "priority": 3,
-        "detail": "已确认有6935个商户配置了联系电话",
         "startedAt": "2026-08-17 14:14:38",
-        "completedAt": "2026-08-17 14:20:07"
+        "completedAt": "2026-08-17 14:20:07",
+        "priority": 3,
+        "detail": "已确认有6935个商户配置了联系电话"
       },
       {
         "id": "Ehf3IwKY3P",
         "title": "配置APP上的banner广告",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-17 15:12:03",
+        "startedAt": "2026-08-17 15:12:07",
+        "completedAt": "2026-08-17 15:21:53",
         "priority": 3,
-        "dueAt": "2026-08-17",
-        "startedAt": "2026-08-17 15:12:07"
+        "dueAt": "2026-08-17"
       }
     ]
   }
