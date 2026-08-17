@@ -1027,9 +1027,10 @@
       {
         "id": "y963e0WyTv",
         "title": "升级开发环境的fastjson",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-04 10:02:19",
         "startedAt": "2026-08-04 11:06:35",
+        "completedAt": "2026-08-17 15:12:11",
         "priority": 3,
         "detail": "fastjson1.2.83 包升级为1.2.84。\n测试分支已修改。本次迭代可以上线",
         "dueAt": "2026-08-18"
@@ -1092,10 +1093,11 @@
       {
         "id": "Ehf3IwKY3P",
         "title": "配置APP上的banner广告",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-17 15:12:03",
         "priority": 3,
-        "dueAt": "2026-08-17"
+        "dueAt": "2026-08-17",
+        "startedAt": "2026-08-17 15:12:07"
       }
     ]
   }
