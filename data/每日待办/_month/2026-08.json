@@ -1061,12 +1061,13 @@
       {
         "id": "laDBrmICd6",
         "title": "将海外的渠道为空的设备统一设置为PAX",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-17 10:07:31",
         "priority": 3,
         "detail": "update `hibox_device`.`device_pos`  set acquiring_channel='PAX' where device_id in (1663839, 1663800, 1663809, 1663816, 1663820, 1663817, 1663835, 1663836, 1663814, 1663797, 1663825, 1663808, 1663777, 1663828, 1663804) and is_deleted=0;",
         "dueAt": "2026-08-17",
-        "startedAt": "2026-08-17 10:08:09"
+        "startedAt": "2026-08-17 10:08:09",
+        "completedAt": "2026-08-17 11:55:17"
       }
     ]
   }
