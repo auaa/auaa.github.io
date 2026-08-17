@@ -1109,6 +1109,14 @@
         "completedAt": "2026-08-17 20:55:01",
         "priority": 3,
         "dueAt": "2026-08-18"
+      },
+      {
+        "id": "7GuRMu4uRw",
+        "title": "设备过户不一定有作废时间字段",
+        "status": "planned",
+        "plannedAt": "2026-08-17 20:55:34",
+        "priority": 3,
+        "dueAt": "2026-08-18"
       }
     ]
   }
