@@ -1082,11 +1082,12 @@
       {
         "id": "bZHP0ucJOR",
         "title": "排查有多少商户配置了联系电话的？",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-17 14:14:33",
         "priority": 3,
         "detail": "已确认有6935个商户配置了联系电话",
-        "startedAt": "2026-08-17 14:14:38"
+        "startedAt": "2026-08-17 14:14:38",
+        "completedAt": "2026-08-17 14:20:07"
       }
     ]
   }
