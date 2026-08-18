@@ -1140,10 +1140,12 @@
       {
         "id": "nhET32gTS6",
         "title": "UP大商户模式需求插入",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-10 15:14:47",
         "startedAt": "2026-08-18 11:40:39",
-        "priority": 3
+        "priority": 3,
+        "detail": "需求已交接",
+        "completedAt": "2026-08-18 13:37:29"
       },
       {
         "id": "7GuRMu4uRw",
