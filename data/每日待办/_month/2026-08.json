@@ -1123,9 +1123,8 @@
       {
         "id": "MtcqfsIdUI",
         "title": "【费用中心】费用和余额接口合并为1个",
-        "status": "started",
+        "status": "planned",
         "plannedAt": "2026-08-04 14:22:12",
-        "startedAt": "2026-08-18 11:40:31",
         "priority": 3,
         "detail": "待和杨阳的代码合入到1个分支",
         "dueAt": "2026-08-18"
