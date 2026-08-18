@@ -1123,8 +1123,9 @@
       {
         "id": "MtcqfsIdUI",
         "title": "【费用中心】费用和余额接口合并为1个",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-04 14:22:12",
+        "startedAt": "2026-08-18 11:40:31",
         "priority": 3,
         "detail": "待和杨阳的代码合入到1个分支",
         "dueAt": "2026-08-18"
@@ -1150,10 +1151,10 @@
         "status": "completed",
         "plannedAt": "2026-08-17 20:55:34",
         "startedAt": "2026-08-18 08:47:45",
+        "completedAt": "2026-08-18 08:48:33",
         "priority": 3,
         "detail": "设备返厂/过户都不写withdrawTime。\n撤回仓库才会写withdrawTime",
-        "dueAt": "2026-08-18",
-        "completedAt": "2026-08-18 08:48:33"
+        "dueAt": "2026-08-18"
       }
     ]
   }
