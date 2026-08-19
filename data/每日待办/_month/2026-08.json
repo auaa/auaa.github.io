@@ -1208,6 +1208,15 @@
         "priority": 3,
         "detail": "预发环境发版之后，检查\ndesc hibox_pay.`unionpay_merchant_account`",
         "dueAt": "2026-08-20"
+      },
+      {
+        "id": "lE3koFev2V",
+        "title": "统计现在有多少台在线的8600A的设备",
+        "status": "planned",
+        "plannedAt": "2026-08-19 09:42:01",
+        "priority": 3,
+        "detail": "陈如心",
+        "dueAt": "2026-08-19"
       }
     ]
   }
