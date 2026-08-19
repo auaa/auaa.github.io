@@ -1254,10 +1254,11 @@
       {
         "id": "0WjqRPMDip",
         "title": "删除主系统中的System.out.println",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-19 21:27:37",
         "priority": 3,
-        "dueAt": "2026-08-21"
+        "dueAt": "2026-08-21",
+        "startedAt": "2026-08-19 22:53:37"
       }
     ]
   }
