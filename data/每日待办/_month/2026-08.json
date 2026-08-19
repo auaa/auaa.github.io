@@ -1232,11 +1232,13 @@
       {
         "id": "izs2fOLH4l",
         "title": "支付中心测试环境完成一次发版",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-19 14:18:10",
         "priority": 2,
+        "detail": "已测试多次。也更新了lib",
         "dueAt": "2026-08-19",
-        "startedAt": "2026-08-19 14:37:32"
+        "startedAt": "2026-08-19 14:37:32",
+        "completedAt": "2026-08-19 14:37:44"
       }
     ]
   }
