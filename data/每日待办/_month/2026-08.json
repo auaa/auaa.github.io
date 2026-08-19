@@ -1224,8 +1224,10 @@
       {
         "id": "ZgUkjs6GEg",
         "title": "代码合并后检查oss.roleId配置项",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-19 11:50:58",
+        "startedAt": "2026-08-19 19:20:37",
+        "completedAt": "2026-08-19 19:20:37",
         "priority": 2,
         "dueAt": "2026-08-20"
       },
