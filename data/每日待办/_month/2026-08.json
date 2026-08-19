@@ -1213,12 +1213,13 @@
       {
         "id": "lE3koFev2V",
         "title": "统计现在有多少台在线的8600A的设备",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-19 09:42:01",
         "priority": 3,
-        "detail": "陈如心",
+        "detail": "陈如心\n\nSELECT count(*) FROM hibox_device.device d inner join hibox_monitor.device_apk_info dai on d.id=dai.`deviceId` JOIN `hibox_device`.`device_merchant` dm on d.id=dm.`deviceId` \nWHERE (apkInfo LIKE '%8600A%' OR apkInfo LIKE '%8600-A%') and d.`lastKeepAliveTime` > '2026-08-19 09:00:00' and d.`isDeleted` =0 and dm.`merchantId`  != 5;",
         "dueAt": "2026-08-19",
-        "startedAt": "2026-08-19 10:12:23"
+        "startedAt": "2026-08-19 10:12:23",
+        "completedAt": "2026-08-19 10:12:40"
       }
     ]
   }
