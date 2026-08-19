@@ -1239,6 +1239,15 @@
         "dueAt": "2026-08-19",
         "startedAt": "2026-08-19 14:37:32",
         "completedAt": "2026-08-19 14:37:44"
+      },
+      {
+        "id": "GBHGTYZf10",
+        "title": "设备离线问题查看",
+        "status": "planned",
+        "plannedAt": "2026-08-19 14:59:27",
+        "priority": 3,
+        "detail": "陈如心",
+        "dueAt": "2026-08-20"
       }
     ]
   }
