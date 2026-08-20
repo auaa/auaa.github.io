@@ -63,6 +63,14 @@
         "plannedAt": "2026-08-20 21:27:16",
         "priority": 2,
         "dueAt": "2026-08-21"
+      },
+      {
+        "id": "cOuHtHkG1N",
+        "title": "提现申请有哪些状态？",
+        "status": "planned",
+        "plannedAt": "2026-08-20 21:28:48",
+        "priority": 2,
+        "detail": "现在的提现申请，提交后是审核中的状态"
       }
     ]
   }
