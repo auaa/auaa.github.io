@@ -70,15 +70,23 @@ export function TodayPage({
   const tasksRef = useRef(tasks)
   const shaRef = useRef(sha)
   const existsRef = useRef(exists)
+  /** 当前列表已成功加载到的分类+日期，避免跨分类新建时把旧列表写进新分类 */
+  const loadedKeyRef = useRef('')
   tasksRef.current = tasks
   shaRef.current = sha
   existsRef.current = exists
 
   useEffect(() => {
     let cancelled = false
+    const loadKey = `${category}:${ymd}`
+    loadedKeyRef.current = ''
+    dirtyRef.current = false
+    setLoading(true)
+    setError(null)
+    setTasks([])
+    setSha(undefined)
+    setExists(false)
     ;(async () => {
-      setLoading(true)
-      setError(null)
       try {
         const file = await client.getFile(category, ymd)
         if (cancelled) return
@@ -99,6 +107,7 @@ export function TodayPage({
           setSha(undefined)
           setExists(false)
         }
+        loadedKeyRef.current = loadKey
         dirtyRef.current = false
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e))
@@ -201,10 +210,12 @@ export function TodayPage({
   useEffect(() => {
     if (!pendingCreate || loading) return
     if (pendingCreate.category && pendingCreate.category !== category) return
+    // 必须等当前分类今日列表加载完成，否则会把上一分类的 tasks 误写入
+    if (loadedKeyRef.current !== `${category}:${ymd}`) return
     markDirty([...tasksRef.current, draftToTask(pendingCreate, category)])
     onPendingCreateHandled?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingCreate, loading, category])
+  }, [pendingCreate, loading, category, ymd])
 
   useEffect(() => {
     if (loading) return
