@@ -1304,6 +1304,15 @@
         "plannedAt": "2026-08-20 14:32:01",
         "priority": 2,
         "dueAt": "2026-08-21"
+      },
+      {
+        "id": "rvdgY1ydla",
+        "title": "查看800866为什么没有上报温度",
+        "status": "planned",
+        "plannedAt": "2026-08-20 23:41:56",
+        "priority": 3,
+        "detail": "海外其他的设备是有上报温度的",
+        "dueAt": "2026-08-21"
       }
     ]
   }
