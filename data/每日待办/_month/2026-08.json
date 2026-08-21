@@ -1389,9 +1389,12 @@
       {
         "id": "5IIzHdD0Jt",
         "title": "POS机版本是如何推送到后端的",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-21 14:23:29",
-        "priority": 3
+        "startedAt": "2026-08-21 18:20:19",
+        "completedAt": "2026-08-21 18:20:19",
+        "priority": 3,
+        "detail": "由陈宇确认 如何推送POS机版本给到后端"
       }
     ]
   }
