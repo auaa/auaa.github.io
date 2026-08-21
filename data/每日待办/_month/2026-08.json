@@ -1371,10 +1371,12 @@
       {
         "id": "rvdgY1ydla",
         "title": "查看800866为什么没有上报温度",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-20 23:41:56",
+        "startedAt": "2026-08-21 21:51:24",
+        "completedAt": "2026-08-21 21:51:24",
         "priority": 3,
-        "detail": "海外其他的设备是有上报温度的",
+        "detail": "海外其他的设备是有上报温度的\n温度组件未接入。现已OK",
         "dueAt": "2026-08-21"
       },
       {
