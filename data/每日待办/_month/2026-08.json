@@ -1400,6 +1400,15 @@
         "completedAt": "2026-08-21 18:20:19",
         "priority": 3,
         "detail": "由陈宇确认 如何推送POS机版本给到后端"
+      },
+      {
+        "id": "ck638deWeb",
+        "title": "POS从Demo切换到正式版本，同步时间过长",
+        "status": "planned",
+        "plannedAt": "2026-08-21 21:58:36",
+        "priority": 3,
+        "detail": "已排查到只有在主控重启时，才会同步POS机版本。已和陈宇沟通方案，待陈宇验证",
+        "dueAt": "2026-08-21"
       }
     ]
   }
