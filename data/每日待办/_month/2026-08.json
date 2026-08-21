@@ -1404,8 +1404,9 @@
       {
         "id": "ck638deWeb",
         "title": "POS从Demo切换到正式版本，同步时间过长",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-21 21:58:36",
+        "startedAt": "2026-08-21 22:04:08",
         "priority": 3,
         "detail": "已排查到只有在主控重启时，才会同步POS机版本。已和陈宇沟通方案，待陈宇验证",
         "dueAt": "2026-08-21"
