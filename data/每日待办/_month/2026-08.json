@@ -1465,6 +1465,14 @@
         "status": "planned",
         "plannedAt": "2026-08-24 15:03:54",
         "priority": 2
+      },
+      {
+        "id": "0BIZU57D1Y",
+        "title": "和陈吉豪确认中信银行提现新增的报错是否翻译",
+        "status": "planned",
+        "plannedAt": "2026-08-24 15:23:46",
+        "priority": 2,
+        "dueAt": "2026-08-24"
       }
     ]
   }
