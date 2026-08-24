@@ -1458,6 +1458,13 @@
         "priority": 3,
         "detail": "已排查到只有在主控重启时，才会同步POS机版本。已和陈宇沟通方案，待陈宇验证",
         "dueAt": "2026-08-21"
+      },
+      {
+        "id": "PntLowuAzV",
+        "title": "排查海外两个商户每天都会拉黑识别",
+        "status": "planned",
+        "plannedAt": "2026-08-24 15:03:54",
+        "priority": 2
       }
     ]
   }
