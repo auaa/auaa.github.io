@@ -1462,11 +1462,12 @@
       {
         "id": "PntLowuAzV",
         "title": "排查海外两个商户每天都会拉黑识别",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-24 15:03:54",
         "startedAt": "2026-08-24 16:26:19",
+        "completedAt": "2026-08-24 18:43:20",
         "priority": 2,
-        "detail": "804554344/1412200733"
+        "detail": "804554344/1412200733\n逾期账单超过60天，导致拉黑"
       },
       {
         "id": "0BIZU57D1Y",
