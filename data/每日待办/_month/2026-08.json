@@ -1462,10 +1462,9 @@
       {
         "id": "PntLowuAzV",
         "title": "排查海外两个商户每天都会拉黑识别",
-        "status": "completed",
+        "status": "started",
         "plannedAt": "2026-08-24 15:03:54",
         "startedAt": "2026-08-24 16:26:19",
-        "completedAt": "2026-08-24 16:26:19",
         "priority": 2,
         "detail": "804554344/1412200733"
       },
