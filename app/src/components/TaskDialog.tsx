@@ -58,7 +58,6 @@ const DEFAULT_CREATE_CATEGORY = '每日待办'
 const CATEGORY_SHORT_LABEL: Record<string, string> = {
   每日待办: '每日',
   团队事项: '团队',
-  与产品沟通事项: '产品',
 }
 
 function categoryRadioLabel(category: string): string {
