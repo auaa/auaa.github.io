@@ -1495,6 +1495,61 @@
         "priority": 3,
         "dueAt": "2026-08-25"
       }
+    ],
+    "2026-08-25": [
+      {
+        "id": "6rU7lKZuup",
+        "title": "确认账户余额报表中的各个账户余额是否正确",
+        "status": "planned",
+        "plannedAt": "2026-08-06 10:52:47",
+        "priority": 3,
+        "dueAt": "2026-08-06"
+      },
+      {
+        "id": "GBHGTYZf10",
+        "title": "设备离线问题查看",
+        "status": "planned",
+        "plannedAt": "2026-08-19 14:59:27",
+        "priority": 3,
+        "detail": "陈如心",
+        "dueAt": "2026-08-20"
+      },
+      {
+        "id": "tbniGIQDEb",
+        "title": "4250台设备更换商务政策",
+        "status": "planned",
+        "plannedAt": "2026-08-20 14:32:01",
+        "priority": 2,
+        "dueAt": "2026-08-21"
+      },
+      {
+        "id": "ck638deWeb",
+        "title": "POS从Demo切换到正式版本，同步时间过长",
+        "status": "started",
+        "plannedAt": "2026-08-21 21:58:36",
+        "startedAt": "2026-08-21 22:04:08",
+        "priority": 3,
+        "detail": "已排查到只有在主控重启时，才会同步POS机版本。已和陈宇沟通方案，待陈宇验证",
+        "dueAt": "2026-08-21"
+      },
+      {
+        "id": "M0laHoROwe",
+        "title": "上海家佳亲企业下的商户延迟交费宽限期",
+        "status": "completed",
+        "plannedAt": "2026-08-24 19:14:43",
+        "startedAt": "2026-08-25 16:16:15",
+        "completedAt": "2026-08-25 16:16:15",
+        "priority": 2,
+        "dueAt": "2026-08-25"
+      },
+      {
+        "id": "8XrIstxbhI",
+        "title": "确认用户余额不足时，优先扣除预授权金额功能是否上线，如何排查？",
+        "status": "planned",
+        "plannedAt": "2026-08-24 23:52:45",
+        "priority": 3,
+        "dueAt": "2026-08-25"
+      }
     ]
   }
 }
