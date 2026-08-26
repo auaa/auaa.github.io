@@ -1590,8 +1590,10 @@
       {
         "id": "8XrIstxbhI",
         "title": "确认用户余额不足时，优先扣除预授权金额功能是否上线，如何排查？",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-24 23:52:45",
+        "startedAt": "2026-08-26 22:14:48",
+        "completedAt": "2026-08-26 22:14:48",
         "priority": 3,
         "detail": "此功能没有上线。如果扣款不成功，直接取消扣款",
         "dueAt": "2026-08-25"
