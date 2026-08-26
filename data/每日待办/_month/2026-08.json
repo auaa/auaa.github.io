@@ -1599,8 +1599,10 @@
       {
         "id": "3JiFNOCvj0",
         "title": "APP消息通知测试",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-26 14:55:11",
+        "startedAt": "2026-08-26 22:14:34",
+        "completedAt": "2026-08-26 22:14:34",
         "priority": 3
       },
       {
