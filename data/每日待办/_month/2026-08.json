@@ -1614,6 +1614,53 @@
         "plannedAt": "2026-08-26 14:55:41",
         "priority": 2
       }
+    ],
+    "2026-08-27": [
+      {
+        "id": "6rU7lKZuup",
+        "title": "确认账户余额报表中的各个账户余额是否正确",
+        "status": "planned",
+        "plannedAt": "2026-08-06 10:52:47",
+        "priority": 3,
+        "dueAt": "2026-08-06"
+      },
+      {
+        "id": "GBHGTYZf10",
+        "title": "设备离线问题查看",
+        "status": "planned",
+        "plannedAt": "2026-08-19 14:59:27",
+        "priority": 3,
+        "detail": "陈如心",
+        "dueAt": "2026-08-20"
+      },
+      {
+        "id": "tbniGIQDEb",
+        "title": "4250台设备更换商务政策",
+        "status": "completed",
+        "plannedAt": "2026-08-20 14:32:01",
+        "startedAt": "2026-08-27 15:18:58",
+        "completedAt": "2026-08-27 15:18:58",
+        "priority": 2,
+        "detail": "由财务导入后，根据Excel备份的到期时间进行修改回去",
+        "dueAt": "2026-08-21"
+      },
+      {
+        "id": "ck638deWeb",
+        "title": "POS从Demo切换到正式版本，同步时间过长",
+        "status": "started",
+        "plannedAt": "2026-08-21 21:58:36",
+        "startedAt": "2026-08-21 22:04:08",
+        "priority": 3,
+        "detail": "已排查到只有在主控重启时，才会同步POS机版本。已和陈宇沟通方案，待陈宇验证",
+        "dueAt": "2026-08-21"
+      },
+      {
+        "id": "1g5SkhkcQs",
+        "title": "微信订单报错近些天比较频繁",
+        "status": "planned",
+        "plannedAt": "2026-08-26 14:55:41",
+        "priority": 2
+      }
     ]
   }
 }
