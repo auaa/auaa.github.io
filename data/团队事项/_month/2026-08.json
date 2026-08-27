@@ -55,6 +55,18 @@
         "detail": "https://cd2.lufff.com/zentao/bug-view-5749.html",
         "dueAt": "2026-08-07"
       }
+    ],
+    "2026-08-27": [
+      {
+        "id": "LcEIjrYjo1",
+        "title": "排查海外POS支付为什么会下发两次扣除预授权金额",
+        "status": "planned",
+        "plannedAt": "2026-08-27 15:42:42",
+        "priority": 2,
+        "detail": "6415419589 and content: posAction",
+        "dueAt": "2026-09-01",
+        "assignee": "杨阳"
+      }
     ]
   }
 }
