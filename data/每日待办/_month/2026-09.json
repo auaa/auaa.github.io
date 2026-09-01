@@ -49,8 +49,10 @@
       {
         "id": "4mHHPKVwoS",
         "title": "微信掌纹支付订购了500台，需要确认是否小麦下单",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-31 18:19:01",
+        "startedAt": "2026-09-01 22:16:37",
+        "completedAt": "2026-09-01 22:16:37",
         "priority": 3,
         "dueAt": "2026-09-01"
       }
