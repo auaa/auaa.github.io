@@ -41,8 +41,9 @@
       {
         "id": "aMHnIHJKGC",
         "title": "【陈宇】排查发起扣除预授权金额请求成功后，为什么没有通知到后端",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-08-27 15:43:27",
+        "startedAt": "2026-09-01 22:16:45",
         "priority": 2,
         "dueAt": "2026-09-01"
       },
