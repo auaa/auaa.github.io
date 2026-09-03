@@ -4,13 +4,22 @@ import type { GithubClient } from '../lib/github'
 import { mapPool } from '../lib/github'
 import { dateKeyFromIso, lastNDays, todayYmd } from '../lib/date'
 import { parseMarkdown } from '../lib/markdown'
-import { isTerminalStatus } from '../lib/taskModel'
+import { isTerminalStatus, toStatsBucket } from '../lib/taskModel'
 import type { Task } from '../types'
 import { PRIORITY_LABEL, STATUS_LABEL } from '../types'
 
 interface Props {
   client: GithubClient
   category: string
+}
+
+/** 仅展示：进行中，或时间窗内有开始/完成；窗外已完成的不展示 */
+function isGanttVisible(task: Task, windowStart: string, windowEnd: string): boolean {
+  if (toStatsBucket(task.status) === 'started') return true
+  const started = dateKeyFromIso(task.assignedAt || task.startedAt)
+  const completed = dateKeyFromIso(task.acceptedAt || task.completedAt)
+  const inWindow = (d: string | null) => !!d && d >= windowStart && d <= windowEnd
+  return inWindow(started) || inWindow(completed)
 }
 
 function useGanttColWidth(labelW: number, dayCount: number) {
@@ -82,6 +91,13 @@ export function GanttPage({ client, category }: Props) {
     }
   }, [client, category, days])
 
+  const windowStart = days[0]
+  const windowEnd = days[days.length - 1]
+  const visibleTasks = useMemo(
+    () => tasks.filter((t) => isGanttVisible(t, windowStart, windowEnd)),
+    [tasks, windowStart, windowEnd],
+  )
+
   if (loading) {
     return (
       <div className="panel panel-loading">
@@ -95,7 +111,7 @@ export function GanttPage({ client, category }: Props) {
 
   return (
     <div className="panel gantt-panel">
-      {!tasks.length && <p className="empty-state">窗口内暂无任务</p>}
+      {!visibleTasks.length && <p className="empty-state">窗口内暂无任务</p>}
       <div className="gantt-scroll">
         <div style={{ width: labelW + trackW }}>
           <div className="gantt-head-row">
@@ -112,7 +128,7 @@ export function GanttPage({ client, category }: Props) {
               ))}
             </div>
           </div>
-          {tasks.map((task) => (
+          {visibleTasks.map((task) => (
             <GanttRow key={task.id} task={task} days={days} labelW={labelW} colW={colW} today={today} />
           ))}
         </div>
@@ -138,7 +154,9 @@ function GanttRow({
   const started = dateKeyFromIso(task.assignedAt || task.startedAt)
   const completed = dateKeyFromIso(task.acceptedAt || task.completedAt)
   const plannedIdx = planned ? days.indexOf(planned) : -1
-  const startIdx = started ? days.indexOf(started) : -1
+  let startIdx = started ? days.indexOf(started) : -1
+  // 开始早于窗口时，条从左缘起画，避免进行中任务无条
+  if (startIdx < 0 && started && started < days[0]) startIdx = 0
   let endIdx = completed ? days.indexOf(completed) : -1
   if (startIdx >= 0 && !isTerminalStatus(task.status)) {
     if (endIdx < 0) endIdx = days.indexOf(today)
