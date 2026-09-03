@@ -80,8 +80,10 @@
       {
         "id": "GBHGTYZf10",
         "title": "设备离线问题查看",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-08-19 14:59:27",
+        "startedAt": "2026-09-03 19:46:48",
+        "completedAt": "2026-09-03 19:46:48",
         "priority": 3,
         "detail": "陈如心",
         "dueAt": "2026-08-20"
