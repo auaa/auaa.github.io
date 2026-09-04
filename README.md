@@ -12,6 +12,9 @@
 注册账号: qiuyg_yc@163.com
 
 
+二级域名账户： https://reg.7e.ink/dashboard/domains/3464
+
+
 ## 加密 Token
 
 ```bash
