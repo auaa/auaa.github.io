@@ -138,11 +138,13 @@
       {
         "id": "0sLGPZvEOI",
         "title": "排查1545374178723819520被支付了两次的原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-04 20:08:06",
         "priority": 3,
         "detail": "1. 用户的nfc订单第一次推送支付后，在支付中的状态\n2. 用户在小程序中重新生成支付链接\n3. 用户支付后，nfc的回调也到达了。没有记账\n导致根据visionpayF4BFD23D042615F60147E002并不能查询到这一笔订单。但是这种关联关系记录在`hibox_pay`.`nfc_order`表中",
-        "dueAt": "2026-09-04"
+        "dueAt": "2026-09-04",
+        "startedAt": "2026-09-04 20:08:13",
+        "completedAt": "2026-09-04 20:08:13"
       }
     ]
   }
