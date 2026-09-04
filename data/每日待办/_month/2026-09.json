@@ -128,11 +128,12 @@
       {
         "id": "yVRzbabLNz",
         "title": "设备对应的POS机类型最新的也是上传的空",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-09-04 00:41:08",
         "startedAt": "2026-09-04 15:33:58",
+        "completedAt": "2026-09-04 20:19:28",
         "priority": 3,
-        "detail": "原因是 主控的版本未升级。需要排查主控的版本",
+        "detail": "原因是 主控的版本未升级。需要排查主控的版本。\n已确认主控升级了。https://cd2.lufff.com/zentao/bug-view-6344.html",
         "dueAt": "2026-09-04"
       },
       {
