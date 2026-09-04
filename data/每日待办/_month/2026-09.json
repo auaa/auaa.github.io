@@ -128,9 +128,11 @@
       {
         "id": "yVRzbabLNz",
         "title": "设备对应的POS机类型最新的也是上传的空",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-09-04 00:41:08",
+        "startedAt": "2026-09-04 15:33:58",
         "priority": 3,
+        "detail": "原因是 主控的版本未升级。需要排查主控的版本",
         "dueAt": "2026-09-04"
       }
     ]
