@@ -147,6 +147,34 @@
         "startedAt": "2026-09-04 20:08:13",
         "completedAt": "2026-09-04 20:08:13"
       }
+    ],
+    "2026-09-05": [
+      {
+        "id": "6rU7lKZuup",
+        "title": "确认账户余额报表中的各个账户余额是否正确",
+        "status": "planned",
+        "plannedAt": "2026-08-06 10:52:47",
+        "priority": 3,
+        "dueAt": "2026-08-06"
+      },
+      {
+        "id": "aMHnIHJKGC",
+        "title": "【陈宇】排查发起扣除预授权金额请求成功后，为什么没有通知到后端",
+        "status": "started",
+        "plannedAt": "2026-08-27 15:43:27",
+        "startedAt": "2026-09-01 22:16:45",
+        "priority": 2,
+        "dueAt": "2026-09-01"
+      },
+      {
+        "id": "l4eXgLAjRP",
+        "title": "PAX支付订单追加授权金额失败超出限制",
+        "status": "planned",
+        "plannedAt": "2026-09-05 00:34:07",
+        "priority": 2,
+        "detail": "1544932829422219264",
+        "dueAt": "2026-09-07"
+      }
     ]
   }
 }
