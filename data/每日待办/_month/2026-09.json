@@ -228,9 +228,10 @@
       {
         "id": "HnR137Hd2R",
         "title": "海外生产环境正式收费",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-09-07 16:35:22",
         "startedAt": "2026-09-07 18:17:36",
+        "completedAt": "2026-09-07 19:40:59",
         "priority": 3,
         "dueAt": "2026-09-07"
       },
