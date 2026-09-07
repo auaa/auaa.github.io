@@ -274,6 +274,42 @@
         "priority": 3,
         "dueAt": "2026-09-08"
       }
+    ],
+    "2026-09-08": [
+      {
+        "id": "aMHnIHJKGC",
+        "title": "【陈宇】排查发起扣除预授权金额请求成功后，为什么没有通知到后端",
+        "status": "started",
+        "plannedAt": "2026-08-27 15:43:27",
+        "startedAt": "2026-09-01 22:16:45",
+        "priority": 2,
+        "dueAt": "2026-09-01"
+      },
+      {
+        "id": "Szub0ArOqK",
+        "title": "排查海外订单是谁取消的授权1545925088640823296",
+        "status": "planned",
+        "plannedAt": "2026-09-07 18:17:30",
+        "priority": 2,
+        "dueAt": "2026-09-08"
+      },
+      {
+        "id": "u3ZhBjbgfx",
+        "title": "排查device_pos表的数据重复的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-07 19:47:46",
+        "priority": 3,
+        "dueAt": "2026-09-08"
+      },
+      {
+        "id": "jZeVxrLV3A",
+        "title": "用户有将设备精确到0～5度的需求",
+        "status": "planned",
+        "plannedAt": "2026-09-08 01:03:50",
+        "priority": 3,
+        "detail": "用户有将设备精确到0～5度的需求。需要在出厂测试怎么设置？",
+        "dueAt": "2026-09-08"
+      }
     ]
   }
 }
