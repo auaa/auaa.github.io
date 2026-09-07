@@ -309,6 +309,14 @@
         "priority": 3,
         "detail": "用户有将设备精确到0～5度的需求。需要在出厂测试怎么设置？190095",
         "dueAt": "2026-09-08"
+      },
+      {
+        "id": "MDsdAWPjVi",
+        "title": "安卓设备无法跳转到升级app界面",
+        "status": "planned",
+        "plannedAt": "2026-09-08 01:12:51",
+        "priority": 2,
+        "dueAt": "2026-09-09"
       }
     ]
   }
