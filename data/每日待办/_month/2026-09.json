@@ -246,9 +246,12 @@
       {
         "id": "NyYPDhA2rX",
         "title": "排查朱胜群反馈的广告关闭开启数量不对的问题",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-07 19:46:44",
-        "priority": 3
+        "priority": 3,
+        "detail": "实测，未发现问题",
+        "startedAt": "2026-09-07 20:30:27",
+        "completedAt": "2026-09-07 20:30:27"
       },
       {
         "id": "jKymMlxzYU",
