@@ -206,10 +206,12 @@
       {
         "id": "l4eXgLAjRP",
         "title": "PAX支付订单追加授权金额失败超出限制",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-05 00:34:07",
+        "startedAt": "2026-09-07 16:13:37",
+        "completedAt": "2026-09-07 16:13:37",
         "priority": 2,
-        "detail": "1544932829422219264",
+        "detail": "1544932829422219264\n已转给产品高昂给方案",
         "dueAt": "2026-09-07"
       },
       {
