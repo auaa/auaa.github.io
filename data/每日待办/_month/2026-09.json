@@ -197,9 +197,10 @@
       {
         "id": "aMHnIHJKGC",
         "title": "【陈宇】排查发起扣除预授权金额请求成功后，为什么没有通知到后端",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-08-27 15:43:27",
         "startedAt": "2026-09-01 22:16:45",
+        "completedAt": "2026-09-07 20:37:21",
         "priority": 2,
         "dueAt": "2026-09-01"
       },
@@ -248,21 +249,21 @@
         "title": "排查朱胜群反馈的广告关闭开启数量不对的问题",
         "status": "completed",
         "plannedAt": "2026-09-07 19:46:44",
-        "priority": 3,
-        "detail": "实测，未发现问题",
         "startedAt": "2026-09-07 20:30:27",
-        "completedAt": "2026-09-07 20:30:27"
+        "completedAt": "2026-09-07 20:30:27",
+        "priority": 3,
+        "detail": "实测，未发现问题"
       },
       {
         "id": "jKymMlxzYU",
         "title": "排查鄂红娟反馈的sim卡充值流水对不上的问题",
         "status": "completed",
         "plannedAt": "2026-09-07 19:47:25",
+        "startedAt": "2026-09-07 20:36:33",
+        "completedAt": "2026-09-07 20:36:33",
         "priority": 3,
         "detail": "商户id\t商户名称\n417005568\t嘉兴乐乐多\n1310575691\tAi酷KTV中山店\n1747674112\t武汉市福达万品批发城有限公司",
-        "dueAt": "2026-09-08",
-        "startedAt": "2026-09-07 20:36:33",
-        "completedAt": "2026-09-07 20:36:33"
+        "dueAt": "2026-09-08"
       },
       {
         "id": "u3ZhBjbgfx",
