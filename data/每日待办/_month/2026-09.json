@@ -258,6 +258,14 @@
         "priority": 3,
         "detail": "商户id\t商户名称\n417005568\t嘉兴乐乐多\n1310575691\tAi酷KTV中山店\n1747674112\t武汉市福达万品批发城有限公司",
         "dueAt": "2026-09-08"
+      },
+      {
+        "id": "u3ZhBjbgfx",
+        "title": "排查device_pos表的数据重复的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-07 19:47:46",
+        "priority": 3,
+        "dueAt": "2026-09-08"
       }
     ]
   }
