@@ -336,10 +336,12 @@
       {
         "id": "tfjA3iwyYN",
         "title": "找产品确认商务政策继承的相关问题项",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-08 14:38:24",
         "priority": 2,
-        "dueAt": "2026-09-08"
+        "dueAt": "2026-09-08",
+        "startedAt": "2026-09-08 17:26:30",
+        "completedAt": "2026-09-08 17:26:30"
       },
       {
         "id": "FHurUt5nbM",
