@@ -1,0 +1,21 @@
+{
+  "v": 1,
+  "month": "2026-09",
+  "days": {
+    "2026-09-08": [
+      {
+        "id": "LcEIjrYjo1",
+        "title": "排查海外POS支付为什么会下发两次扣除预授权金额",
+        "status": "accepted",
+        "plannedAt": "2026-08-27 15:42:42",
+        "assignedAt": "2026-09-08 22:25:19",
+        "processedAt": "2026-09-08 22:25:19",
+        "acceptedAt": "2026-09-08 22:25:19",
+        "priority": 2,
+        "detail": "6415419589 and content: posAction",
+        "dueAt": "2026-09-01",
+        "assignee": "杨阳"
+      }
+    ]
+  }
+}
