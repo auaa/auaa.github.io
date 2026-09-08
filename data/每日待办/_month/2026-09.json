@@ -333,6 +333,14 @@
         "plannedAt": "2026-09-08 14:38:24",
         "priority": 2,
         "dueAt": "2026-09-08"
+      },
+      {
+        "id": "FHurUt5nbM",
+        "title": "排查NFC订单生成的user表中的数据支付方式是否一致",
+        "status": "planned",
+        "plannedAt": "2026-09-08 14:38:59",
+        "priority": 2,
+        "dueAt": "2026-09-09"
       }
     ]
   }
