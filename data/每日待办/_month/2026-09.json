@@ -328,10 +328,12 @@
       {
         "id": "aH2qbxE9NH",
         "title": "排查PAX自收模式生成账单的逻辑",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-08 14:34:10",
         "priority": 2,
-        "dueAt": "2026-09-08"
+        "dueAt": "2026-09-08",
+        "startedAt": "2026-09-08 17:26:34",
+        "completedAt": "2026-09-08 17:26:34"
       },
       {
         "id": "tfjA3iwyYN",
@@ -350,6 +352,14 @@
         "plannedAt": "2026-09-08 14:38:59",
         "priority": 2,
         "dueAt": "2026-09-09"
+      },
+      {
+        "id": "m9e7b313Jw",
+        "title": "排查康邻的订单没有出的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-08 19:35:23",
+        "priority": 3,
+        "detail": "oXDBs5Wf4F3tDkJ3obAYyRijftfQ    18808386085    2026-09-08 08:37:51\noXDBs5WFVYMGFW6eHLBS4b11Rjcc    13788550571    2026-09-08 08:36:05\nuserId：oXDBs5Zn-fKWZ1Sn9NLFJtNjet9Q     19961787707"
       }
     ]
   }
