@@ -317,6 +317,14 @@
         "plannedAt": "2026-09-08 01:12:51",
         "priority": 2,
         "dueAt": "2026-09-09"
+      },
+      {
+        "id": "aH2qbxE9NH",
+        "title": "排查PAX自收模式生成账单的逻辑",
+        "status": "planned",
+        "plannedAt": "2026-09-08 14:34:10",
+        "priority": 2,
+        "dueAt": "2026-09-08"
       }
     ]
   }
