@@ -317,9 +317,12 @@
       {
         "id": "MDsdAWPjVi",
         "title": "安卓设备无法跳转到升级app界面",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-08 01:12:51",
+        "startedAt": "2026-09-08 16:46:31",
+        "completedAt": "2026-09-08 16:46:31",
         "priority": 2,
+        "detail": "已安排周爽跟进该问题",
         "dueAt": "2026-09-09"
       },
       {
