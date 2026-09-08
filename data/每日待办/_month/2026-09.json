@@ -307,9 +307,10 @@
       {
         "id": "jZeVxrLV3A",
         "title": "用户有将设备精确到0～5度的需求",
-        "status": "started",
+        "status": "completed",
         "plannedAt": "2026-09-08 01:03:50",
         "startedAt": "2026-09-08 14:41:53",
+        "completedAt": "2026-09-08 22:07:06",
         "priority": 3,
         "detail": "用户有将设备精确到0～5度的需求。需要在出厂测试怎么设置？190095\n\n实际接口是可以传入用户设定的温度的",
         "dueAt": "2026-09-08"
@@ -330,20 +331,20 @@
         "title": "排查PAX自收模式生成账单的逻辑",
         "status": "completed",
         "plannedAt": "2026-09-08 14:34:10",
-        "priority": 2,
-        "dueAt": "2026-09-08",
         "startedAt": "2026-09-08 17:26:34",
-        "completedAt": "2026-09-08 17:26:34"
+        "completedAt": "2026-09-08 17:26:34",
+        "priority": 2,
+        "dueAt": "2026-09-08"
       },
       {
         "id": "tfjA3iwyYN",
         "title": "找产品确认商务政策继承的相关问题项",
         "status": "completed",
         "plannedAt": "2026-09-08 14:38:24",
-        "priority": 2,
-        "dueAt": "2026-09-08",
         "startedAt": "2026-09-08 17:26:30",
-        "completedAt": "2026-09-08 17:26:30"
+        "completedAt": "2026-09-08 17:26:30",
+        "priority": 2,
+        "dueAt": "2026-09-08"
       },
       {
         "id": "FHurUt5nbM",
@@ -358,10 +359,10 @@
         "title": "排查康邻的订单没有出的原因",
         "status": "completed",
         "plannedAt": "2026-09-08 19:35:23",
-        "priority": 3,
-        "detail": "oXDBs5Wf4F3tDkJ3obAYyRijftfQ    18808386085    2026-09-08 08:37:51\noXDBs5WFVYMGFW6eHLBS4b11Rjcc    13788550571    2026-09-08 08:36:05\nuserId：oXDBs5Zn-fKWZ1Sn9NLFJtNjet9Q     19961787707",
         "startedAt": "2026-09-08 20:21:08",
-        "completedAt": "2026-09-08 20:21:08"
+        "completedAt": "2026-09-08 20:21:08",
+        "priority": 3,
+        "detail": "oXDBs5Wf4F3tDkJ3obAYyRijftfQ    18808386085    2026-09-08 08:37:51\noXDBs5WFVYMGFW6eHLBS4b11Rjcc    13788550571    2026-09-08 08:36:05\nuserId：oXDBs5Zn-fKWZ1Sn9NLFJtNjet9Q     19961787707"
       }
     ]
   }
