@@ -425,6 +425,43 @@
         "detail": "新增 -> 点击“取消” ->重新点击“新增” -> 填写【模板名称】、【适用设备类型】",
         "dueAt": "2026-09-10"
       }
+    ],
+    "2026-09-10": [
+      {
+        "id": "FHurUt5nbM",
+        "title": "排查NFC订单生成的user表中的数据支付方式是否一致",
+        "status": "planned",
+        "plannedAt": "2026-09-08 14:38:59",
+        "priority": 2,
+        "dueAt": "2026-09-09"
+      },
+      {
+        "id": "38CBo1MFFw",
+        "title": "排查国内环境登录失败的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-09 18:22:21",
+        "priority": 3,
+        "detail": "15178002200",
+        "dueAt": "2026-09-10"
+      },
+      {
+        "id": "8q6nwmdkPl",
+        "title": "单商户新建商品模板时报错",
+        "status": "planned",
+        "plannedAt": "2026-09-09 23:15:51",
+        "priority": 2,
+        "detail": "新增 -> 点击“取消” ->重新点击“新增” -> 填写【模板名称】、【适用设备类型】",
+        "dueAt": "2026-09-10"
+      },
+      {
+        "id": "S3zIl7IIuY",
+        "title": "海外设备离线190130",
+        "status": "planned",
+        "plannedAt": "2026-09-10 01:00:01",
+        "priority": 3,
+        "detail": "持续观察海外设备离线原因。现在是断电状态",
+        "dueAt": "2026-09-17"
+      }
     ]
   }
 }
