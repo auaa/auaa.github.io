@@ -370,8 +370,10 @@
       {
         "id": "u3ZhBjbgfx",
         "title": "排查device_pos表的数据重复的原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-07 19:47:46",
+        "startedAt": "2026-09-09 20:44:57",
+        "completedAt": "2026-09-09 20:44:57",
         "priority": 3,
         "dueAt": "2026-09-08"
       },
