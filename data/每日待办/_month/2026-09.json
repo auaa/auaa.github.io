@@ -397,11 +397,13 @@
       {
         "id": "fFsmIDkB6w",
         "title": "丰宜问题分析",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-09 18:21:40",
         "priority": 1,
         "detail": "https://alidocs.dingtalk.com/spreadsheetv2/jaDqVZ0vCGP3ZYJB/edit?dontjump=true&onlineEdit=true&type=s&docKey=eYVOL5oxp5VXmlpz&ext=xlsx&dentryKey=jaDqVZ0vCGP3ZYJB",
-        "dueAt": "2026-09-09"
+        "dueAt": "2026-09-09",
+        "startedAt": "2026-09-09 20:44:51",
+        "completedAt": "2026-09-09 20:44:51"
       },
       {
         "id": "38CBo1MFFw",
