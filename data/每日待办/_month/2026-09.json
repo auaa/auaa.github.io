@@ -391,6 +391,15 @@
         "priority": 3,
         "detail": "按照e管家业务相关文件规定，我行特组织开展2026年上半年和2026年下半年业务巡检工作，请提供以下交易截图用于巡检核对：\ne管家业务巡检资料清单-小麦科技。\n1、入金流水明细的原始业务订单或者支付订单截图\n2、清分数据明细原始业务订单或者支付订单截图\n3、登记簿资金划转明细平台原始业务订单截图\n4、提现明细平台前端提现交易流水截图\n5、收银台核查：线下平台收银台pos小票或收银台收款记录；线上美团饿了么三方支付渠道收款记录截图\n以上资料清单：请提供交易日期在2026年上半年和2026年下半年的各一笔。",
         "dueAt": "2026-09-09"
+      },
+      {
+        "id": "fFsmIDkB6w",
+        "title": "丰宜问题分析",
+        "status": "planned",
+        "plannedAt": "2026-09-09 18:21:40",
+        "priority": 1,
+        "detail": "https://alidocs.dingtalk.com/spreadsheetv2/jaDqVZ0vCGP3ZYJB/edit?dontjump=true&onlineEdit=true&type=s&docKey=eYVOL5oxp5VXmlpz&ext=xlsx&dentryKey=jaDqVZ0vCGP3ZYJB",
+        "dueAt": "2026-09-09"
       }
     ]
   }
