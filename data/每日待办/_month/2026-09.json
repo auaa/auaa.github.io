@@ -471,6 +471,14 @@
         "plannedAt": "2026-09-10 21:05:53",
         "priority": 2,
         "dueAt": "2026-09-11"
+      },
+      {
+        "id": "iaQnOWerIv",
+        "title": "190201柜内温度设置为-2，但是始终显示33.6摄氏度",
+        "status": "planned",
+        "plannedAt": "2026-09-10 23:41:05",
+        "priority": 2,
+        "dueAt": "2026-09-11"
       }
     ]
   }
