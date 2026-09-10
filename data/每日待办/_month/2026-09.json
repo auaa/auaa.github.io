@@ -447,8 +447,10 @@
       {
         "id": "8q6nwmdkPl",
         "title": "单商户新建商品模板时报错",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-09 23:15:51",
+        "startedAt": "2026-09-10 15:37:49",
+        "completedAt": "2026-09-10 15:37:49",
         "priority": 2,
         "detail": "新增 -> 点击“取消” ->重新点击“新增” -> 填写【模板名称】、【适用设备类型】",
         "dueAt": "2026-09-10"
