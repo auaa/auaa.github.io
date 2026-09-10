@@ -463,6 +463,14 @@
         "priority": 3,
         "detail": "持续观察海外设备离线原因。现在是断电状态",
         "dueAt": "2026-09-17"
+      },
+      {
+        "id": "0YHbYr0Yd1",
+        "title": "POS机版本发版计划",
+        "status": "planned",
+        "plannedAt": "2026-09-10 21:05:53",
+        "priority": 2,
+        "dueAt": "2026-09-11"
       }
     ]
   }
