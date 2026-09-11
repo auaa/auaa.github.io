@@ -535,6 +535,69 @@
         "detail": "鄂红娟",
         "dueAt": "2026-09-17"
       }
+    ],
+    "2026-09-12": [
+      {
+        "id": "FHurUt5nbM",
+        "title": "排查NFC订单生成的user表中的数据支付方式是否一致",
+        "status": "planned",
+        "plannedAt": "2026-09-08 14:38:59",
+        "priority": 2,
+        "dueAt": "2026-09-09"
+      },
+      {
+        "id": "38CBo1MFFw",
+        "title": "排查国内环境登录失败的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-09 18:22:21",
+        "priority": 3,
+        "detail": "15178002200",
+        "dueAt": "2026-09-10"
+      },
+      {
+        "id": "S3zIl7IIuY",
+        "title": "海外设备离线190130",
+        "status": "planned",
+        "plannedAt": "2026-09-10 01:00:01",
+        "priority": 3,
+        "detail": "持续观察海外设备离线原因。现在是断电状态",
+        "dueAt": "2026-09-17"
+      },
+      {
+        "id": "0YHbYr0Yd1",
+        "title": "POS机版本发版计划",
+        "status": "started",
+        "plannedAt": "2026-09-10 21:05:53",
+        "startedAt": "2026-09-11 14:08:27",
+        "priority": 2,
+        "detail": "预计0914发版",
+        "dueAt": "2026-09-11"
+      },
+      {
+        "id": "iaQnOWerIv",
+        "title": "190201柜内温度设置为-2，但是始终显示33.6摄氏度",
+        "status": "planned",
+        "plannedAt": "2026-09-10 23:41:05",
+        "priority": 2,
+        "dueAt": "2026-09-11"
+      },
+      {
+        "id": "S8i4fIKXyp",
+        "title": "排查易售后sim充值，没有流水的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-11 16:40:00",
+        "priority": 2,
+        "detail": "鄂红娟",
+        "dueAt": "2026-09-17"
+      },
+      {
+        "id": "LugQGic1Mr",
+        "title": "Strip授权卡失败",
+        "status": "planned",
+        "plannedAt": "2026-09-12 00:30:16",
+        "priority": 1,
+        "dueAt": "2026-09-15"
+      }
     ]
   }
 }
