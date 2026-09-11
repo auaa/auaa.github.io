@@ -525,6 +525,15 @@
         "plannedAt": "2026-09-10 23:41:05",
         "priority": 2,
         "dueAt": "2026-09-11"
+      },
+      {
+        "id": "S8i4fIKXyp",
+        "title": "排查易售后sim充值，没有流水的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-11 16:40:00",
+        "priority": 2,
+        "detail": "鄂红娟",
+        "dueAt": "2026-09-17"
       }
     ]
   }
