@@ -548,10 +548,12 @@
       {
         "id": "38CBo1MFFw",
         "title": "排查国内环境登录失败的原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-09 18:22:21",
+        "startedAt": "2026-09-12 00:31:36",
+        "completedAt": "2026-09-12 00:31:36",
         "priority": 3,
-        "detail": "15178002200",
+        "detail": "15178002200\n暂不处理",
         "dueAt": "2026-09-10"
       },
       {
