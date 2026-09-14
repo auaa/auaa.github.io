@@ -650,9 +650,12 @@
       {
         "id": "LugQGic1Mr",
         "title": "Strip授权卡失败",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-12 00:30:16",
+        "startedAt": "2026-09-14 14:55:08",
+        "completedAt": "2026-09-14 14:55:08",
         "priority": 1,
+        "detail": "Stripe上周五改了配置，未发版。导致配置是测试环境的",
         "dueAt": "2026-09-15"
       },
       {
