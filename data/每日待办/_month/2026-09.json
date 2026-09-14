@@ -632,10 +632,12 @@
       {
         "id": "iaQnOWerIv",
         "title": "190201柜内温度设置为-2，但是始终显示33.6摄氏度",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-10 23:41:05",
+        "startedAt": "2026-09-14 18:29:36",
+        "completedAt": "2026-09-14 18:29:36",
         "priority": 2,
-        "detail": "需要客户配合排查",
+        "detail": "需要客户配合排查。硬件问题，插头未插好",
         "dueAt": "2026-09-11"
       },
       {
