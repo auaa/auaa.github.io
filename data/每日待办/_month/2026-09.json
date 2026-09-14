@@ -635,6 +635,7 @@
         "status": "planned",
         "plannedAt": "2026-09-10 23:41:05",
         "priority": 2,
+        "detail": "需要客户配合排查",
         "dueAt": "2026-09-11"
       },
       {
