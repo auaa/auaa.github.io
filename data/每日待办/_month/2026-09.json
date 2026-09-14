@@ -670,6 +670,14 @@
         "plannedAt": "2026-09-14 14:00:42",
         "priority": 2,
         "dueAt": "2026-09-14"
+      },
+      {
+        "id": "fi6U1DHnKI",
+        "title": "丰宜设备预授权未开通",
+        "status": "planned",
+        "plannedAt": "2026-09-14 14:01:17",
+        "priority": 3,
+        "dueAt": "2026-09-14"
       }
     ]
   }
