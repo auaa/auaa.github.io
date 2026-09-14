@@ -661,10 +661,12 @@
       {
         "id": "IdbGvtHDrV",
         "title": "删除中信银行的进件",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-14 14:00:22",
+        "startedAt": "2026-09-14 16:17:10",
+        "completedAt": "2026-09-14 16:17:10",
         "priority": 2,
-        "detail": "彭小云",
+        "detail": "彭小云。已处理",
         "dueAt": "2026-09-14"
       },
       {
