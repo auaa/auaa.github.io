@@ -704,8 +704,10 @@
       {
         "id": "VeUvkQQty4",
         "title": "POS机未上报",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-14 23:00:53",
+        "startedAt": "2026-09-14 23:01:06",
+        "completedAt": "2026-09-14 23:01:06",
         "priority": 2,
         "detail": "190045",
         "dueAt": "2026-09-14"
