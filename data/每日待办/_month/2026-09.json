@@ -700,6 +700,15 @@
         "plannedAt": "2026-09-14 14:02:32",
         "priority": 2,
         "dueAt": "2026-09-15"
+      },
+      {
+        "id": "VeUvkQQty4",
+        "title": "POS机未上报",
+        "status": "planned",
+        "plannedAt": "2026-09-14 23:00:53",
+        "priority": 2,
+        "detail": "190045",
+        "dueAt": "2026-09-14"
       }
     ]
   }
