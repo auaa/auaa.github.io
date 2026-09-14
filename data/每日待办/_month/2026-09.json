@@ -670,9 +670,12 @@
       {
         "id": "U5IUGqsIIv",
         "title": "鄂红娟财务操作有问题，需要指导",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-14 14:00:42",
+        "startedAt": "2026-09-14 16:16:58",
+        "completedAt": "2026-09-14 16:16:58",
         "priority": 2,
+        "detail": "由财务人员自己做账单去补扣",
         "dueAt": "2026-09-14"
       },
       {
@@ -680,11 +683,11 @@
         "title": "丰宜设备预授权未开通",
         "status": "completed",
         "plannedAt": "2026-09-14 14:01:17",
+        "startedAt": "2026-09-14 14:51:02",
+        "completedAt": "2026-09-14 14:51:02",
         "priority": 3,
         "detail": "已全部处理",
-        "dueAt": "2026-09-14",
-        "startedAt": "2026-09-14 14:51:02",
-        "completedAt": "2026-09-14 14:51:02"
+        "dueAt": "2026-09-14"
       },
       {
         "id": "mr4QVVQKQd",
