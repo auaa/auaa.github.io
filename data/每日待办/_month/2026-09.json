@@ -712,6 +712,61 @@
         "detail": "190045",
         "dueAt": "2026-09-14"
       }
+    ],
+    "2026-09-15": [
+      {
+        "id": "FHurUt5nbM",
+        "title": "排查NFC订单生成的user表中的数据支付方式是否一致",
+        "status": "planned",
+        "plannedAt": "2026-09-08 14:38:59",
+        "priority": 2,
+        "dueAt": "2026-09-09"
+      },
+      {
+        "id": "S3zIl7IIuY",
+        "title": "海外设备离线190130",
+        "status": "planned",
+        "plannedAt": "2026-09-10 01:00:01",
+        "priority": 3,
+        "detail": "持续观察海外设备离线原因。现在是断电状态",
+        "dueAt": "2026-09-17"
+      },
+      {
+        "id": "0YHbYr0Yd1",
+        "title": "POS机版本发版计划",
+        "status": "started",
+        "plannedAt": "2026-09-10 21:05:53",
+        "startedAt": "2026-09-11 14:08:27",
+        "priority": 2,
+        "detail": "预计0914发版",
+        "dueAt": "2026-09-11"
+      },
+      {
+        "id": "S8i4fIKXyp",
+        "title": "排查易售后sim充值，没有流水的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-11 16:40:00",
+        "priority": 2,
+        "detail": "鄂红娟",
+        "dueAt": "2026-09-17"
+      },
+      {
+        "id": "mr4QVVQKQd",
+        "title": "海外设备通电后，较长时间未上线问题跟进",
+        "status": "planned",
+        "plannedAt": "2026-09-14 14:02:32",
+        "priority": 2,
+        "dueAt": "2026-09-15"
+      },
+      {
+        "id": "WtCp1uZV1W",
+        "title": "分账到账短信展示商户备注",
+        "status": "planned",
+        "plannedAt": "2026-09-15 00:45:55",
+        "priority": 2,
+        "detail": "需要和产品确认，部分商户是需要显示该备注的",
+        "dueAt": "2026-09-15"
+      }
     ]
   }
 }
