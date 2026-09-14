@@ -675,10 +675,13 @@
       {
         "id": "fi6U1DHnKI",
         "title": "丰宜设备预授权未开通",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-14 14:01:17",
         "priority": 3,
-        "dueAt": "2026-09-14"
+        "detail": "已全部处理",
+        "dueAt": "2026-09-14",
+        "startedAt": "2026-09-14 14:51:02",
+        "completedAt": "2026-09-14 14:51:02"
       },
       {
         "id": "mr4QVVQKQd",
