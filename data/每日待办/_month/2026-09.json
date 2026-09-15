@@ -757,6 +757,7 @@
         "status": "planned",
         "plannedAt": "2026-09-14 14:02:32",
         "priority": 2,
+        "detail": "190095 9.8启动较慢",
         "dueAt": "2026-09-15"
       },
       {
