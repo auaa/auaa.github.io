@@ -761,10 +761,12 @@
       {
         "id": "WtCp1uZV1W",
         "title": "分账到账短信展示商户备注",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-15 00:45:55",
+        "startedAt": "2026-09-15 15:13:51",
+        "completedAt": "2026-09-15 15:13:51",
         "priority": 2,
-        "detail": "需要和产品确认，部分商户是需要显示该备注的",
+        "detail": "需要和产品确认，部分商户是需要显示该备注的。\n交由产品规划",
         "dueAt": "2026-09-15"
       }
     ]
