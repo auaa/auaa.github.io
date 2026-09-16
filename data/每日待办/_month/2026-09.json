@@ -826,17 +826,19 @@
         "title": "1522644558741377024无法支付原因分析",
         "status": "completed",
         "plannedAt": "2026-09-16 18:26:21",
-        "priority": 2,
-        "detail": "由于原来的NFC配置无法收款导致",
         "startedAt": "2026-09-16 20:35:07",
-        "completedAt": "2026-09-16 20:35:07"
+        "completedAt": "2026-09-16 20:35:07",
+        "priority": 2,
+        "detail": "由于原来的NFC配置无法收款导致"
       },
       {
         "id": "OB5MytwrHr",
         "title": "海外线上代收商户问题跟进",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-09-16 18:26:41",
+        "startedAt": "2026-09-16 21:45:01",
         "priority": 2,
+        "detail": "9.16 pospay178956436666802xQ1u 正常",
         "dueAt": "2026-09-22"
       },
       {
