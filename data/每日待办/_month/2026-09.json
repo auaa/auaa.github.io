@@ -787,10 +787,12 @@
       {
         "id": "S3zIl7IIuY",
         "title": "海外设备离线190130",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-10 01:00:01",
+        "startedAt": "2026-09-16 22:54:01",
+        "completedAt": "2026-09-16 22:54:01",
         "priority": 3,
-        "detail": "持续观察海外设备离线原因。现在是断电状态",
+        "detail": "持续观察海外设备离线原因。现在是断电状态\n\n现在已在线，无需继续跟进",
         "dueAt": "2026-09-17"
       },
       {
