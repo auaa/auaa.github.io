@@ -851,10 +851,13 @@
       {
         "id": "UDIGYh7c22",
         "title": "位域因子，突然异常离线283台设备，后台筛选288，麻烦看下是系统异常吗",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-16 21:47:19",
         "priority": 3,
-        "dueAt": "2026-09-17"
+        "detail": "设备网络中断了20多分钟",
+        "dueAt": "2026-09-17",
+        "startedAt": "2026-09-16 22:53:39",
+        "completedAt": "2026-09-16 22:53:39"
       }
     ]
   }
