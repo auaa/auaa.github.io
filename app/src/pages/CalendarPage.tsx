@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import type { GithubClient, MonthArchive } from '../lib/github'
 import { todayYmd } from '../lib/date'
 import { sortTasksForCalendar } from '../lib/monthArchive'
+import { countByStatus, formatDayStatusCountsTitle } from '../lib/sidebarStats'
 import { TaskList } from '../components/TaskList'
 import { PRIORITY_LABEL, STATUS_LABEL, type Task } from '../types'
 import { statusColor, normalizeTaskForCategory } from '../lib/taskModel'
@@ -67,6 +68,11 @@ export function CalendarPage({ client, category }: Props) {
     const raw = (archive.days[dayOpen] ?? []).map((t) => normalizeTaskForCategory(t, category))
     return sortTasksForCalendar(raw)
   }, [archive, dayOpen, category])
+
+  const dayModalTitle = useMemo(() => {
+    if (!dayOpen) return '当日任务'
+    return formatDayStatusCountsTitle(dayOpen, countByStatus(dayTasks))
+  }, [dayOpen, dayTasks])
 
   function dayHasTasks(ymd: string) {
     return (archive?.days[ymd]?.length ?? 0) > 0
@@ -182,7 +188,7 @@ export function CalendarPage({ client, category }: Props) {
       </div>
 
       <Modal
-        title={dayOpen ?? '当日任务'}
+        title={dayModalTitle}
         open={!!dayOpen}
         onCancel={() => setDayOpen(null)}
         footer={null}

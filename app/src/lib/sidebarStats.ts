@@ -35,6 +35,11 @@ export function completionRate(counts: SidebarStatsCounts): number | null {
   return counts.completed / total
 }
 
+/** 日历日弹框等：`YYYY-MM-DD · 规划中 n · 进行中 n · 已完成 n` */
+export function formatDayStatusCountsTitle(ymd: string, counts: SidebarStatsCounts): string {
+  return `${ymd} · 规划中 ${counts.planned} · 进行中 ${counts.started} · 已完成 ${counts.completed}`
+}
+
 /**
  * 单分类「今日」任务：有当日 md 用 md；否则与 TodayPage 相同，继承前一日未完成（未落盘）。
  */
