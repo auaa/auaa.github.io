@@ -793,10 +793,12 @@
       {
         "id": "S8i4fIKXyp",
         "title": "排查易售后sim充值，没有流水的原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-11 16:40:00",
+        "startedAt": "2026-09-16 20:35:21",
+        "completedAt": "2026-09-16 20:35:21",
         "priority": 2,
-        "detail": "鄂红娟",
+        "detail": "鄂红娟 已确认",
         "dueAt": "2026-09-17"
       },
       {
