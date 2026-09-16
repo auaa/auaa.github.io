@@ -1,0 +1,27 @@
+app/src/pages/CalendarPage.tsx
+  s_8b9e10015dcada::t_f03d0236971d65 191
+  s_8b9e10015dcada::t_e690a24b6c005e 72-76
+  s_8b9e10015dcada::t_d4d366609c890f 8
+docs/index.html
+  s_8b9e10015dcada::t_c1b3dda0e09779 13
+docs/assets/index-BWwGU2zD.js
+  s_8b9e10015dcada::t_c1b3dda0e09779 1-337
+app/src/lib/sidebarStats.ts
+  s_8b9e10015dcada::t_5fafb95ba5c1b0 38-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "81d4d7dde56ba31220adb6aafcb389ce55fbe392",
+  "prompts": {},
+  "sessions": {
+    "s_8b9e10015dcada": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "b339d05d-fdd9-4203-bb7d-c9c942c65072",
+        "model": "default"
+      },
+      "human_author": "qiuyungang <qiuyg_yc@163.com>"
+    }
+  }
+}
