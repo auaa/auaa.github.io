@@ -875,11 +875,13 @@
       {
         "id": "XuUEfwXdXQ",
         "title": "修复海外设备190097的订单为代收订单",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-16 22:58:07",
         "priority": 2,
-        "detail": "190097共有29单订单，已全部修改",
-        "dueAt": "2026-09-16"
+        "detail": "190097共有29单订单，已全部修改。\n工单号：82615",
+        "dueAt": "2026-09-16",
+        "startedAt": "2026-09-16 22:58:35",
+        "completedAt": "2026-09-16 22:58:35"
       }
     ]
   }
