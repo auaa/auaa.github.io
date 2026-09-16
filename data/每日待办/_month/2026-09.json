@@ -819,9 +819,12 @@
       {
         "id": "uzEVDzrDZE",
         "title": "1522644558741377024无法支付原因分析",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-16 18:26:21",
-        "priority": 2
+        "priority": 2,
+        "detail": "由于原来的NFC配置无法收款导致",
+        "startedAt": "2026-09-16 20:35:07",
+        "completedAt": "2026-09-16 20:35:07"
       },
       {
         "id": "OB5MytwrHr",
