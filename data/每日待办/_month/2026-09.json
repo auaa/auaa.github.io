@@ -915,9 +915,12 @@
       {
         "id": "bRInDHyWo4",
         "title": "需求分配",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-16 18:36:18",
-        "priority": 2
+        "startedAt": "2026-09-17 20:53:34",
+        "completedAt": "2026-09-17 20:53:34",
+        "priority": 2,
+        "detail": "先按照预定的任务分配"
       },
       {
         "id": "vPbWUGR2R6",
