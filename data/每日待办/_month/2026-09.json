@@ -932,6 +932,14 @@
         "priority": 2,
         "detail": "已排查完成",
         "dueAt": "2026-09-17"
+      },
+      {
+        "id": "BjpTztauc9",
+        "title": "主系统重构需求梳理",
+        "status": "planned",
+        "plannedAt": "2026-09-17 23:53:31",
+        "priority": 2,
+        "dueAt": "2026-12-31"
       }
     ]
   }
