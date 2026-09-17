@@ -883,6 +883,42 @@
         "startedAt": "2026-09-16 22:58:35",
         "completedAt": "2026-09-16 22:58:35"
       }
+    ],
+    "2026-09-17": [
+      {
+        "id": "mr4QVVQKQd",
+        "title": "海外设备通电后，较长时间未上线问题跟进",
+        "status": "planned",
+        "plannedAt": "2026-09-14 14:02:32",
+        "priority": 2,
+        "detail": "190095 9.8启动较慢",
+        "dueAt": "2026-09-15"
+      },
+      {
+        "id": "9tNDyUn96Z",
+        "title": "AI自测流程宣讲整理",
+        "status": "planned",
+        "plannedAt": "2026-09-16 18:24:09",
+        "priority": 3,
+        "dueAt": "2026-09-17"
+      },
+      {
+        "id": "OB5MytwrHr",
+        "title": "海外线上代收商户问题跟进",
+        "status": "started",
+        "plannedAt": "2026-09-16 18:26:41",
+        "startedAt": "2026-09-16 21:45:01",
+        "priority": 2,
+        "detail": "9.16 pospay178956436666802xQ1u 正常\n9.17 已验证 结算正常",
+        "dueAt": "2026-09-22"
+      },
+      {
+        "id": "bRInDHyWo4",
+        "title": "需求分配",
+        "status": "planned",
+        "plannedAt": "2026-09-16 18:36:18",
+        "priority": 2
+      }
     ]
   }
 }
