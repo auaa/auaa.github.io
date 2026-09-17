@@ -925,9 +925,12 @@
       {
         "id": "vPbWUGR2R6",
         "title": "排查视重柜设备为什么没有拦截同一个用户多次下单",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-17 20:53:11",
+        "startedAt": "2026-09-17 22:27:51",
+        "completedAt": "2026-09-17 22:27:51",
         "priority": 2,
+        "detail": "已排查完成",
         "dueAt": "2026-09-17"
       }
     ]
