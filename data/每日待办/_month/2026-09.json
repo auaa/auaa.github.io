@@ -1005,6 +1005,14 @@
         "plannedAt": "2026-09-18 19:09:59",
         "priority": 1,
         "dueAt": "2026-09-21"
+      },
+      {
+        "id": "qyHh87A5c2",
+        "title": "整理主系统待翻译的云词",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:10:29",
+        "priority": 2,
+        "dueAt": "2026-09-22"
       }
     ]
   }
