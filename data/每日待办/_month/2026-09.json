@@ -981,8 +981,10 @@
       {
         "id": "vnKU3Av9Nr",
         "title": "新增一个商务政策",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-18 14:33:16",
+        "startedAt": "2026-09-18 19:01:32",
+        "completedAt": "2026-09-18 19:01:32",
         "priority": 2,
         "dueAt": "2026-09-18"
       },
