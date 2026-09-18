@@ -985,6 +985,14 @@
         "plannedAt": "2026-09-18 14:33:16",
         "priority": 2,
         "dueAt": "2026-09-18"
+      },
+      {
+        "id": "0egS2nXKRi",
+        "title": "整理API对接前置条件",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:01:20",
+        "priority": 2,
+        "dueAt": "2026-09-21"
       }
     ]
   }
