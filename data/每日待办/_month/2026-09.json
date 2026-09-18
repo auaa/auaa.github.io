@@ -955,8 +955,10 @@
       {
         "id": "9tNDyUn96Z",
         "title": "AI自测流程宣讲整理",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-16 18:24:09",
+        "startedAt": "2026-09-18 19:01:40",
+        "completedAt": "2026-09-18 19:01:40",
         "priority": 3,
         "dueAt": "2026-09-17"
       },
