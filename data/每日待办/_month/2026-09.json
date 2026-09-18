@@ -997,6 +997,14 @@
         "plannedAt": "2026-09-18 19:01:20",
         "priority": 2,
         "dueAt": "2026-09-21"
+      },
+      {
+        "id": "R58HJNA0oU",
+        "title": "微信掌纹绑定子商户",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:09:59",
+        "priority": 1,
+        "dueAt": "2026-09-21"
       }
     ]
   }
