@@ -1068,6 +1068,57 @@
         "priority": 2,
         "dueAt": "2026-09-22"
       }
+    ],
+    "2026-09-20": [
+      {
+        "id": "mr4QVVQKQd",
+        "title": "海外设备通电后，较长时间未上线问题跟进",
+        "status": "planned",
+        "plannedAt": "2026-09-14 14:02:32",
+        "priority": 2,
+        "detail": "190095 9.8启动较慢",
+        "dueAt": "2026-09-15"
+      },
+      {
+        "id": "BjpTztauc9",
+        "title": "主系统重构需求梳理",
+        "status": "planned",
+        "plannedAt": "2026-09-17 23:53:31",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "0egS2nXKRi",
+        "title": "整理API对接前置条件",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:01:20",
+        "priority": 2,
+        "dueAt": "2026-09-21"
+      },
+      {
+        "id": "R58HJNA0oU",
+        "title": "微信掌纹绑定子商户",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:09:59",
+        "priority": 1,
+        "dueAt": "2026-09-21"
+      },
+      {
+        "id": "qyHh87A5c2",
+        "title": "整理主系统待翻译的云词",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:10:29",
+        "priority": 2,
+        "dueAt": "2026-09-22"
+      },
+      {
+        "id": "NZSJLbSlOy",
+        "title": "排查百富刷卡失败的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-20 09:58:58",
+        "priority": 2,
+        "detail": "https://qa.xiaomai.info/issues/cmu7dt8crduwco70q7j58nwd5?returnTo=%2Fissues%3Ftab%3DinProgress%26page%3D1%26pageSize%3D50%26platform%3DOVERSEAS"
+      }
     ]
   }
 }
