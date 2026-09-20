@@ -1114,10 +1114,12 @@
       {
         "id": "NZSJLbSlOy",
         "title": "排查百富刷卡失败的原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-20 09:58:58",
+        "startedAt": "2026-09-20 18:54:29",
+        "completedAt": "2026-09-20 18:54:29",
         "priority": 2,
-        "detail": "https://qa.xiaomai.info/issues/cmu7dt8crduwco70q7j58nwd5?returnTo=%2Fissues%3Ftab%3DinProgress%26page%3D1%26pageSize%3D50%26platform%3DOVERSEAS"
+        "detail": "原因是：申请预授权与获取卡号之前不能有其他的指令\nhttps://qa.xiaomai.info/issues/cmu7dt8crduwco70q7j58nwd5?returnTo=%2Fissues%3Ftab%3DinProgress%26page%3D1%26pageSize%3D50%26platform%3DOVERSEAS"
       }
     ]
   }
