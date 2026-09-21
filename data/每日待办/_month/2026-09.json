@@ -1159,9 +1159,12 @@
       {
         "id": "qyHh87A5c2",
         "title": "整理主系统待翻译的云词",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-18 19:10:29",
+        "startedAt": "2026-09-21 20:15:23",
+        "completedAt": "2026-09-21 20:15:23",
         "priority": 2,
+        "detail": "交给桂礼显做",
         "dueAt": "2026-09-22"
       },
       {
