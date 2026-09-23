@@ -1231,10 +1231,12 @@
       {
         "id": "mr4QVVQKQd",
         "title": "海外设备通电后，较长时间未上线问题跟进",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-14 14:02:32",
+        "startedAt": "2026-09-23 18:21:53",
+        "completedAt": "2026-09-23 18:21:53",
         "priority": 2,
-        "detail": "190095 9.8启动较慢",
+        "detail": "190095 9.8启动较慢\n暂不跟进",
         "dueAt": "2026-09-15"
       },
       {
