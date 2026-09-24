@@ -1323,6 +1323,15 @@
         "plannedAt": "2026-09-24 09:37:36",
         "priority": 2,
         "dueAt": "2026-09-24"
+      },
+      {
+        "id": "xoJfmsE3Ai",
+        "title": "中信银行提现报错[P6000]SCRB001-交易异常,请联系中信银行",
+        "status": "planned",
+        "plannedAt": "2026-09-24 09:38:47",
+        "priority": 2,
+        "detail": "需要中信银行提供解决方案",
+        "dueAt": "2026-09-24"
       }
     ]
   }
