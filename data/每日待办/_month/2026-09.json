@@ -1322,9 +1322,12 @@
       {
         "id": "P3BhFLcTAB",
         "title": "设备190149升级后离线问题排查",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-24 09:37:36",
+        "startedAt": "2026-09-24 19:24:09",
+        "completedAt": "2026-09-24 19:24:09",
         "priority": 2,
+        "detail": "由于网卡没有网络",
         "dueAt": "2026-09-24"
       },
       {
