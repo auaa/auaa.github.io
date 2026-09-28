@@ -1396,9 +1396,12 @@
       {
         "id": "yjWC1i3DF0",
         "title": "取消微信支付分订单1552468153302196224",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-28 09:57:21",
+        "startedAt": "2026-09-28 17:22:37",
+        "completedAt": "2026-09-28 17:22:37",
         "priority": 2,
+        "detail": "调用接口取消",
         "dueAt": "2026-09-28"
       },
       {
@@ -1406,11 +1409,11 @@
         "title": "排查837106限制返厂的原因",
         "status": "completed",
         "plannedAt": "2026-09-28 09:57:55",
+        "startedAt": "2026-09-28 11:34:23",
+        "completedAt": "2026-09-28 11:34:23",
         "priority": 2,
         "detail": "已正常操作。用户应该是缓存",
-        "dueAt": "2026-09-28",
-        "startedAt": "2026-09-28 11:34:23",
-        "completedAt": "2026-09-28 11:34:23"
+        "dueAt": "2026-09-28"
       }
     ]
   }
