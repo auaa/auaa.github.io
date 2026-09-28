@@ -1400,6 +1400,14 @@
         "plannedAt": "2026-09-28 09:57:21",
         "priority": 2,
         "dueAt": "2026-09-28"
+      },
+      {
+        "id": "e3vggQ12aP",
+        "title": "排查837106限制返厂的原因",
+        "status": "planned",
+        "plannedAt": "2026-09-28 09:57:55",
+        "priority": 2,
+        "dueAt": "2026-09-28"
       }
     ]
   }
