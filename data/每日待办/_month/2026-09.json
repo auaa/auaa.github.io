@@ -1404,10 +1404,13 @@
       {
         "id": "e3vggQ12aP",
         "title": "排查837106限制返厂的原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-28 09:57:55",
         "priority": 2,
-        "dueAt": "2026-09-28"
+        "detail": "已正常操作。用户应该是缓存",
+        "dueAt": "2026-09-28",
+        "startedAt": "2026-09-28 11:34:23",
+        "completedAt": "2026-09-28 11:34:23"
       }
     ]
   }
