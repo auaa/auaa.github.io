@@ -1456,6 +1456,15 @@
         "plannedAt": "2026-09-29 20:30:43",
         "priority": 2,
         "dueAt": "2026-09-30"
+      },
+      {
+        "id": "XXhnL0VHyn",
+        "title": "190084设备日志分析",
+        "status": "planned",
+        "plannedAt": "2026-09-29 20:31:27",
+        "priority": 2,
+        "detail": "现在是断电状态",
+        "dueAt": "2026-10-31"
       }
     ]
   }
