@@ -1518,6 +1518,14 @@
         "priority": 2,
         "detail": "现在是断电状态\npos机版本是104，重启不会自动升级。其他都正常",
         "dueAt": "2026-10-31"
+      },
+      {
+        "id": "cJxmFC1YLv",
+        "title": "海外结算订单的定时任务暂不执行",
+        "status": "planned",
+        "plannedAt": "2026-09-30 12:48:09",
+        "priority": 1,
+        "dueAt": "2026-09-30"
       }
     ]
   }
