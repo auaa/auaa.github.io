@@ -1542,10 +1542,12 @@
       {
         "id": "DoX4JMUzzs",
         "title": "配置统一活动",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-30 16:04:44",
         "priority": 2,
-        "dueAt": "2026-09-30"
+        "dueAt": "2026-09-30",
+        "startedAt": "2026-09-30 16:14:37",
+        "completedAt": "2026-09-30 16:14:37"
       }
     ]
   }
