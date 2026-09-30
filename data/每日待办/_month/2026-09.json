@@ -1522,8 +1522,10 @@
       {
         "id": "cJxmFC1YLv",
         "title": "海外结算订单的定时任务暂不执行",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-30 12:48:09",
+        "startedAt": "2026-09-30 16:04:24",
+        "completedAt": "2026-09-30 16:04:24",
         "priority": 1,
         "dueAt": "2026-09-30"
       },
@@ -1534,6 +1536,14 @@
         "plannedAt": "2026-09-30 12:48:29",
         "startedAt": "2026-09-30 16:04:21",
         "completedAt": "2026-09-30 16:04:21",
+        "priority": 2,
+        "dueAt": "2026-09-30"
+      },
+      {
+        "id": "DoX4JMUzzs",
+        "title": "配置统一活动",
+        "status": "planned",
+        "plannedAt": "2026-09-30 16:04:44",
         "priority": 2,
         "dueAt": "2026-09-30"
       }
