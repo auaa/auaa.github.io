@@ -1530,8 +1530,10 @@
       {
         "id": "qSeOEvrc0l",
         "title": "配置财务人员的权限",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-30 12:48:29",
+        "startedAt": "2026-09-30 16:04:21",
+        "completedAt": "2026-09-30 16:04:21",
         "priority": 2,
         "dueAt": "2026-09-30"
       }
