@@ -1466,6 +1466,59 @@
         "detail": "现在是断电状态",
         "dueAt": "2026-10-31"
       }
+    ],
+    "2026-09-30": [
+      {
+        "id": "BjpTztauc9",
+        "title": "主系统重构需求梳理",
+        "status": "planned",
+        "plannedAt": "2026-09-17 23:53:31",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "0egS2nXKRi",
+        "title": "整理API对接前置条件",
+        "status": "planned",
+        "plannedAt": "2026-09-18 19:01:20",
+        "priority": 2,
+        "dueAt": "2026-09-21"
+      },
+      {
+        "id": "hYnwB2SPE5",
+        "title": "排查190066购物混乱的问题",
+        "status": "planned",
+        "plannedAt": "2026-09-21 10:39:29",
+        "priority": 2,
+        "dueAt": "2026-09-21"
+      },
+      {
+        "id": "UsWKiga2a1",
+        "title": "海外环境PC端菜单整改",
+        "status": "planned",
+        "plannedAt": "2026-09-24 19:25:03",
+        "priority": 2,
+        "dueAt": "2026-09-29"
+      },
+      {
+        "id": "kjo5u4QzEm",
+        "title": "海外版本商品分类国际化",
+        "status": "planned",
+        "plannedAt": "2026-09-29 20:30:43",
+        "priority": 2,
+        "dueAt": "2026-09-30"
+      },
+      {
+        "id": "XXhnL0VHyn",
+        "title": "190084设备日志分析",
+        "status": "completed",
+        "plannedAt": "2026-09-29 20:31:27",
+        "startedAt": "2026-09-30 12:47:36",
+        "completedAt": "2026-09-30 12:47:36",
+        "priority": 2,
+        "detail": "现在是断电状态\npos机版本是104，重启不会自动升级。其他都正常",
+        "dueAt": "2026-10-31"
+      }
     ]
   }
 }
