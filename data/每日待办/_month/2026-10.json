@@ -59,8 +59,10 @@
       {
         "id": "0egS2nXKRi",
         "title": "整理API对接前置条件",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-18 19:01:20",
+        "startedAt": "2026-10-10 04:50:42",
+        "completedAt": "2026-10-10 04:50:42",
         "priority": 2,
         "dueAt": "2026-09-21"
       },
