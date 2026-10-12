@@ -93,6 +93,14 @@
     ],
     "2026-10-12": [
       {
+        "id": "LsObAc44w8",
+        "title": "【每日关注】线上待分配bug",
+        "status": "planned",
+        "plannedAt": "2026-10-12 14:07:52",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
         "id": "BjpTztauc9",
         "title": "主系统重构需求梳理",
         "status": "planned",
@@ -125,14 +133,6 @@
         "completedAt": "2026-10-12 14:08:19",
         "priority": 2,
         "detail": "现在是pos无法连接状态\n由于pax升级较慢导致"
-      },
-      {
-        "id": "LsObAc44w8",
-        "title": "线上待分配bug",
-        "status": "planned",
-        "plannedAt": "2026-10-12 14:07:52",
-        "priority": 2,
-        "dueAt": "2026-12-31"
       }
     ]
   }
