@@ -111,8 +111,10 @@
       {
         "id": "hYnwB2SPE5",
         "title": "排查190066购物混乱的问题",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-09-21 10:39:29",
+        "startedAt": "2026-10-12 14:09:08",
+        "completedAt": "2026-10-12 14:09:08",
         "priority": 2,
         "dueAt": "2026-09-21"
       },
