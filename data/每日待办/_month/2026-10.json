@@ -119,10 +119,12 @@
       {
         "id": "HFEi7uCy69",
         "title": "海外设备190130的POS购物程序版本没有升级",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-10-10 04:50:30",
+        "startedAt": "2026-10-12 14:08:19",
+        "completedAt": "2026-10-12 14:08:19",
         "priority": 2,
-        "detail": "现在是pos无法连接状态"
+        "detail": "现在是pos无法连接状态\n由于pax升级较慢导致"
       },
       {
         "id": "LsObAc44w8",
