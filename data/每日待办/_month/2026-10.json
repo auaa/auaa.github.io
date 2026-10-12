@@ -116,7 +116,8 @@
         "startedAt": "2026-10-12 14:09:08",
         "completedAt": "2026-10-12 14:09:08",
         "priority": 2,
-        "dueAt": "2026-09-21"
+        "dueAt": "2026-09-21",
+        "detail": "暂不处理"
       },
       {
         "id": "UsWKiga2a1",
