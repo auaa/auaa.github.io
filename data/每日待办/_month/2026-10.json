@@ -216,9 +216,12 @@
       {
         "id": "QplNwdLrCZ",
         "title": "对外提供一个跳转到微信小程序的接口",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-10-13 11:52:08",
+        "startedAt": "2026-10-14 15:14:09",
+        "completedAt": "2026-10-14 15:14:09",
         "priority": 2,
+        "detail": "安全问题，不处理",
         "dueAt": "2026-10-15"
       },
       {
