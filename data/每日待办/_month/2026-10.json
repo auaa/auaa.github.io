@@ -224,9 +224,12 @@
       {
         "id": "JrynGSTr65",
         "title": "POS机设备最低可用版本",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-10-14 12:03:53",
+        "startedAt": "2026-10-14 15:13:56",
+        "completedAt": "2026-10-14 15:13:56",
         "priority": 2,
+        "detail": "已确认，都是可以正常使用的",
         "dueAt": "2026-10-14"
       },
       {
