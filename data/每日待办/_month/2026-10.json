@@ -179,6 +179,56 @@
         "priority": 2,
         "dueAt": "2026-10-15"
       }
+    ],
+    "2026-10-14": [
+      {
+        "id": "LsObAc44w8",
+        "title": "【每日关注】线上待分配bug",
+        "status": "planned",
+        "plannedAt": "2026-10-12 14:07:52",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "BjpTztauc9",
+        "title": "主系统重构需求梳理",
+        "status": "planned",
+        "plannedAt": "2026-09-17 23:53:31",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "UsWKiga2a1",
+        "title": "海外环境PC端菜单整改",
+        "status": "planned",
+        "plannedAt": "2026-09-24 19:25:03",
+        "priority": 2,
+        "dueAt": "2026-09-29"
+      },
+      {
+        "id": "iGzNyWmulx",
+        "title": "生成海外环境的账单",
+        "status": "planned",
+        "plannedAt": "2026-10-13 08:42:20",
+        "priority": 1,
+        "dueAt": "2026-10-13"
+      },
+      {
+        "id": "QplNwdLrCZ",
+        "title": "对外提供一个跳转到微信小程序的接口",
+        "status": "planned",
+        "plannedAt": "2026-10-13 11:52:08",
+        "priority": 2,
+        "dueAt": "2026-10-15"
+      },
+      {
+        "id": "JrynGSTr65",
+        "title": "POS机设备最低可用版本",
+        "status": "planned",
+        "plannedAt": "2026-10-14 12:03:53",
+        "priority": 2,
+        "dueAt": "2026-10-14"
+      }
     ]
   }
 }
