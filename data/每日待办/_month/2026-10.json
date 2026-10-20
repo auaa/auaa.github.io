@@ -376,6 +376,50 @@
         "priority": 2,
         "dueAt": "2026-10-19"
       }
+    ],
+    "2026-10-20": [
+      {
+        "id": "LsObAc44w8",
+        "title": "【每日关注】线上待分配bug",
+        "status": "planned",
+        "plannedAt": "2026-10-12 14:07:52",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "BjpTztauc9",
+        "title": "主系统重构需求梳理",
+        "status": "planned",
+        "plannedAt": "2026-09-17 23:53:31",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "UsWKiga2a1",
+        "title": "海外环境PC端菜单整改",
+        "status": "planned",
+        "plannedAt": "2026-09-24 19:25:03",
+        "priority": 2,
+        "dueAt": "2026-09-29"
+      },
+      {
+        "id": "E8KSsFhUIL",
+        "title": "190086的10月份账单没有出，需要排查原因",
+        "status": "planned",
+        "plannedAt": "2026-10-16 08:41:12",
+        "priority": 3,
+        "dueAt": "2026-10-19"
+      },
+      {
+        "id": "GrbgMCtqCa",
+        "title": "齐犇网卡充值报错",
+        "status": "completed",
+        "plannedAt": "2026-10-19 09:11:53",
+        "startedAt": "2026-10-20 08:50:48",
+        "completedAt": "2026-10-20 08:50:48",
+        "priority": 2,
+        "dueAt": "2026-10-19"
+      }
     ]
   }
 }
