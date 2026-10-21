@@ -457,10 +457,12 @@
       {
         "id": "6cOVaCil4T",
         "title": "量讯物联网卡充值失败",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-10-21 11:01:35",
         "priority": 2,
-        "dueAt": "2026-10-21"
+        "dueAt": "2026-10-21",
+        "startedAt": "2026-10-21 11:01:52",
+        "completedAt": "2026-10-21 11:01:52"
       }
     ]
   }
