@@ -551,9 +551,12 @@
       {
         "id": "E8KSsFhUIL",
         "title": "190086的10月份账单没有出，需要排查原因",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-10-16 08:41:12",
+        "startedAt": "2026-10-26 09:19:21",
+        "completedAt": "2026-10-26 09:19:21",
         "priority": 3,
+        "detail": "应该是账单编号重复导致。已统一修复",
         "dueAt": "2026-10-19"
       },
       {
