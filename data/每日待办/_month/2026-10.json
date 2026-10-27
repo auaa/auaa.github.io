@@ -609,16 +609,19 @@
       {
         "id": "6wT69OTWNo",
         "title": "中信银行提现合规分析",
-        "status": "planned",
+        "status": "started",
         "plannedAt": "2026-10-27 09:52:18",
+        "startedAt": "2026-10-27 20:27:40",
         "priority": 2,
         "dueAt": "2026-10-28"
       },
       {
         "id": "7SEIhdvRUM",
         "title": "硬件录制超长视频分析",
-        "status": "planned",
+        "status": "completed",
         "plannedAt": "2026-10-27 09:55:23",
+        "startedAt": "2026-10-27 20:24:30",
+        "completedAt": "2026-10-27 20:24:30",
         "priority": 2,
         "dueAt": "2026-10-27"
       }
