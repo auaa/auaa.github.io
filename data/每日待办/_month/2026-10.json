@@ -611,6 +611,14 @@
         "plannedAt": "2026-10-27 09:52:18",
         "priority": 2,
         "dueAt": "2026-10-28"
+      },
+      {
+        "id": "7SEIhdvRUM",
+        "title": "硬件录制超长视频分析",
+        "status": "planned",
+        "plannedAt": "2026-10-27 09:55:23",
+        "priority": 2,
+        "dueAt": "2026-10-27"
       }
     ]
   }
