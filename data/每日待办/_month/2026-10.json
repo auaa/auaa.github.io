@@ -603,6 +603,14 @@
         "plannedAt": "2026-10-27 09:51:54",
         "priority": 2,
         "dueAt": "2026-10-31"
+      },
+      {
+        "id": "6wT69OTWNo",
+        "title": "中信银行提现合规分析",
+        "status": "planned",
+        "plannedAt": "2026-10-27 09:52:18",
+        "priority": 2,
+        "dueAt": "2026-10-28"
       }
     ]
   }
