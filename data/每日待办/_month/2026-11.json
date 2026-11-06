@@ -107,6 +107,41 @@
         "priority": 3,
         "dueAt": "2026-11-20"
       }
+    ],
+    "2026-11-06": [
+      {
+        "id": "LsObAc44w8",
+        "title": "【每日关注】线上待分配bug",
+        "status": "planned",
+        "plannedAt": "2026-10-12 14:07:52",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "BjpTztauc9",
+        "title": "主系统重构需求梳理",
+        "status": "planned",
+        "plannedAt": "2026-09-17 23:53:31",
+        "priority": 2,
+        "dueAt": "2026-12-31"
+      },
+      {
+        "id": "hu43jN7kOr",
+        "title": "海外若依验证费用中心的验证码发在测试群了",
+        "status": "completed",
+        "plannedAt": "2026-11-05 18:29:46",
+        "startedAt": "2026-11-06 11:57:38",
+        "completedAt": "2026-11-06 11:57:38",
+        "priority": 3
+      },
+      {
+        "id": "eNrWEglLyT",
+        "title": "国内的账单对账不准",
+        "status": "planned",
+        "plannedAt": "2026-11-05 18:30:05",
+        "priority": 3,
+        "dueAt": "2026-11-20"
+      }
     ]
   }
 }
