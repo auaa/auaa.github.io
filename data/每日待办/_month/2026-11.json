@@ -229,7 +229,7 @@
         "status": "planned",
         "plannedAt": "2026-11-09 13:53:59",
         "priority": 1,
-        "detail": "2026.11.09 adyen live环境的支付回调地址需要修改为测试环境的网址。"
+        "detail": "2026.11.09 adyen live环境的支付回调地址需要修改为测试环境的网址。\nhttps://ca-live.adyen.com/ca/ui/developers/webhooks/?tab=0"
       }
     ]
   }
