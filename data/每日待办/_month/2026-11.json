@@ -280,6 +280,14 @@
         "plannedAt": "2026-11-09 13:53:59",
         "priority": 1,
         "detail": "2026.11.09 adyen live环境的支付回调地址需要修改为测试环境的网址。\nhttps://ca-live.adyen.com/ca/ui/developers/webhooks/?tab=0"
+      },
+      {
+        "id": "YmjqtvR3wF",
+        "title": "前端传入特殊字符的通用处理方案",
+        "status": "planned",
+        "plannedAt": "2026-11-18 15:54:11",
+        "priority": 2,
+        "dueAt": "2026-11-19"
       }
     ]
   }
